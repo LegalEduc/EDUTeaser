@@ -52,20 +52,26 @@ export default function AdminDashboardPage() {
   return (
     <div className="min-h-screen bg-ink text-cream">
       {/* 헤더 */}
-      <header className="border-b border-white/[0.06] px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-6">
+      <header className="border-b border-white/[0.06] px-5 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="flex items-center justify-between">
           <h1 className="font-logo text-[18px] font-semibold">
             LegalCrew <span className="italic">Admin</span>
           </h1>
-          <nav className="flex gap-4 text-[13px]">
-            <Link href="/admin" className="text-gold">대시보드</Link>
-            <Link href="/admin/instructors" className="text-muted hover:text-cream transition-colors">강사 관리</Link>
-            <Link href="/admin/notices" className="text-muted hover:text-cream transition-colors">공지 관리</Link>
-          </nav>
+          <button
+            onClick={handleLogout}
+            className="sm:hidden text-[13px] text-muted hover:text-cream transition-colors"
+          >
+            로그아웃
+          </button>
         </div>
+        <nav className="flex gap-3 text-[13px] overflow-x-auto">
+          <Link href="/admin" className="text-gold whitespace-nowrap">대시보드</Link>
+          <Link href="/admin/instructors" className="text-muted hover:text-cream transition-colors whitespace-nowrap">강사 관리</Link>
+          <Link href="/admin/notices" className="text-muted hover:text-cream transition-colors whitespace-nowrap">공지 관리</Link>
+        </nav>
         <button
           onClick={handleLogout}
-          className="text-[13px] text-muted hover:text-cream transition-colors"
+          className="hidden sm:block text-[13px] text-muted hover:text-cream transition-colors"
         >
           로그아웃
         </button>
@@ -82,7 +88,7 @@ export default function AdminDashboardPage() {
         )}
 
         {data ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             {cards.map((card) => (
               <div
                 key={card.label}

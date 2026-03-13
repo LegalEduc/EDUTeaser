@@ -149,7 +149,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="bg-ink-mid border border-white/[0.06] max-w-[640px] w-full p-8 md:p-14 relative my-10">
+      <div className="bg-ink-mid border border-white/[0.06] max-w-[640px] w-full p-5 sm:p-8 md:p-14 relative my-10">
         {/* 닫기 버튼 */}
         <button
           onClick={onClose}

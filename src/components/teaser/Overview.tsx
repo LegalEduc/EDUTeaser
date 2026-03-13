@@ -28,7 +28,7 @@ export default function Overview() {
     <div className="bg-cream py-20 md:py-24 px-6 md:px-12 border-t border-b border-ink/[0.06]">
       <div
         ref={ref}
-        className="reveal max-w-[1100px] mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-10 md:gap-12 text-center"
+        className="reveal max-w-[1100px] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-8 md:gap-12 text-center"
       >
         {items.map((item) => (
           <div key={item.label}>

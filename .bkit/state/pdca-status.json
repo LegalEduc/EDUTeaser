@@ -1,8 +1,16 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-03-13T13:00:00.000Z",
-  "activeFeatures": [],
-  "primaryFeature": null,
+  "lastUpdated": "2026-03-13T14:40:47.416Z",
+  "activeFeatures": [
+    "legalcrew-phase9",
+    "teaser",
+    "EDUTeaser",
+    "admin",
+    "instructors",
+    "notices",
+    "[token]"
+  ],
+  "primaryFeature": "legalcrew-phase9",
   "features": {
     "legalcrew-academy": {
       "phase": "archived",
@@ -19,17 +27,111 @@
       "startedAt": "2026-03-13T12:30:00.000Z",
       "archivedAt": "2026-03-13T13:00:00.000Z",
       "archivedTo": "docs/archive/2026-03/legalcrew-phase7-8/"
+    },
+    "legalcrew-phase9": {
+      "phase": "completed",
+      "matchRate": 93,
+      "iterationCount": 0,
+      "startedAt": "2026-03-13T13:15:00.000Z"
+    },
+    "teaser": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-13T14:38:47.389Z",
+        "lastUpdated": "2026-03-13T14:39:07.643Z"
+      },
+      "lastFile": "/home/yebro/projects/EDUTeaser/src/components/teaser/FooterCTA.tsx"
+    },
+    "EDUTeaser": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-13T14:39:18.873Z",
+        "lastUpdated": "2026-03-13T14:40:47.416Z"
+      },
+      "lastFile": "/home/yebro/projects/EDUTeaser/src/components/ConsentForm.tsx"
+    },
+    "admin": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-13T14:39:29.195Z",
+        "lastUpdated": "2026-03-13T14:39:32.914Z"
+      },
+      "lastFile": "/home/yebro/projects/EDUTeaser/src/app/admin/page.tsx"
+    },
+    "instructors": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-13T14:39:49.222Z",
+        "lastUpdated": "2026-03-13T14:39:58.041Z"
+      },
+      "lastFile": "/home/yebro/projects/EDUTeaser/src/app/admin/instructors/page.tsx"
+    },
+    "notices": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-13T14:40:13.063Z",
+        "lastUpdated": "2026-03-13T14:40:13.063Z"
+      },
+      "lastFile": "/home/yebro/projects/EDUTeaser/src/app/admin/notices/page.tsx"
+    },
+    "[token]": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-13T14:40:20.483Z",
+        "lastUpdated": "2026-03-13T14:40:32.449Z"
+      },
+      "lastFile": "/home/yebro/projects/EDUTeaser/src/app/consent/[token]/page.tsx"
     }
   },
   "pipeline": {
-    "currentPhase": 8,
+    "currentPhase": 9,
     "level": "Dynamic",
-    "phaseHistory": [1, 2, 3, 4, 5, 6, 7, 8]
+    "phaseHistory": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
   },
   "session": {
     "startedAt": "2026-03-13T07:09:45.737Z",
     "onboardingCompleted": true,
-    "lastActivity": "2026-03-13T13:00:00.000Z"
+    "lastActivity": "2026-03-13T14:40:47.416Z"
   },
   "history": [
     {
@@ -43,6 +145,108 @@
       "feature": "legalcrew-phase7-8",
       "phase": "archived",
       "action": "archived_with_summary"
+    },
+    {
+      "timestamp": "2026-03-13T14:38:47.389Z",
+      "feature": "teaser",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T14:38:49.665Z",
+      "feature": "teaser",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T14:38:51.036Z",
+      "feature": "teaser",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T14:38:57.319Z",
+      "feature": "teaser",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T14:38:59.408Z",
+      "feature": "teaser",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T14:39:07.643Z",
+      "feature": "teaser",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T14:39:18.873Z",
+      "feature": "EDUTeaser",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T14:39:29.195Z",
+      "feature": "admin",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T14:39:32.914Z",
+      "feature": "admin",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T14:39:49.222Z",
+      "feature": "instructors",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T14:39:53.939Z",
+      "feature": "instructors",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T14:39:58.041Z",
+      "feature": "instructors",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T14:40:13.063Z",
+      "feature": "notices",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T14:40:20.483Z",
+      "feature": "[token]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T14:40:32.449Z",
+      "feature": "[token]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T14:40:41.961Z",
+      "feature": "EDUTeaser",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T14:40:47.416Z",
+      "feature": "EDUTeaser",
+      "phase": "do",
+      "action": "updated"
     }
   ]
 }

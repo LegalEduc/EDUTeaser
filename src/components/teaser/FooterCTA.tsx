@@ -2,7 +2,7 @@
 
 export default function FooterCTA({ onApplyClick }: { onApplyClick: () => void }) {
   return (
-    <section className="bg-cream py-36 md:py-44 px-6 md:px-12 text-center border-t border-ink/[0.06]">
+    <section className="bg-cream py-20 sm:py-36 md:py-44 px-5 sm:px-6 md:px-12 text-center border-t border-ink/[0.06]">
       <h2 className="font-heading text-ink text-[clamp(26px,5vw,50px)] font-bold mb-10 leading-snug">
         함께 만들어갈
         <br />

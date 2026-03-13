@@ -116,7 +116,7 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
         <h3 className="text-[12px] tracking-[3px] uppercase text-gold-dark mb-4 font-medium">
           동의 항목
         </h3>
-        <label className="flex items-start gap-3 cursor-pointer">
+        <label className="flex items-start gap-3 cursor-pointer min-h-[44px] py-1">
           <input
             type="checkbox"
             checked={topicConfirmed}
@@ -128,7 +128,7 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
             <span className="text-[11px] text-gold/60 ml-1">필수</span>
           </span>
         </label>
-        <label className="flex items-start gap-3 cursor-pointer">
+        <label className="flex items-start gap-3 cursor-pointer min-h-[44px] py-1">
           <input
             type="checkbox"
             checked={feeAgreed}
@@ -140,7 +140,7 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
             <span className="text-[11px] text-gold/60 ml-1">필수</span>
           </span>
         </label>
-        <label className="flex items-start gap-3 cursor-pointer">
+        <label className="flex items-start gap-3 cursor-pointer min-h-[44px] py-1">
           <input
             type="checkbox"
             checked={privacyAgreed}
@@ -152,7 +152,7 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
             <span className="text-[11px] text-gold/60 ml-1">필수</span>
           </span>
         </label>
-        <label className="flex items-start gap-3 cursor-pointer">
+        <label className="flex items-start gap-3 cursor-pointer min-h-[44px] py-1">
           <input
             type="checkbox"
             checked={residentIdAgreed}
@@ -164,7 +164,7 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
             <span className="text-[11px] text-gold/60 ml-1">필수</span>
           </span>
         </label>
-        <label className="flex items-start gap-3 cursor-pointer">
+        <label className="flex items-start gap-3 cursor-pointer min-h-[44px] py-1">
           <input
             type="checkbox"
             checked={portraitAgreed}
@@ -191,7 +191,7 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
           value={signedName}
           onChange={(e) => setSignedName(e.target.value)}
           placeholder="홍길동"
-          className="w-full md:w-1/2 bg-ink border border-white/[0.08] px-4 py-3 text-[14px] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
+          className="w-full sm:w-1/2 bg-ink border border-white/[0.08] px-4 py-3 text-[14px] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
         />
       </div>
 

@@ -57,16 +57,16 @@ export default function ConsentPage({
 
   return (
     <div className="min-h-screen bg-ink text-cream">
-      <div className="max-w-[640px] mx-auto px-6 py-12">
+      <div className="max-w-[640px] mx-auto px-4 sm:px-6 py-8 sm:py-12">
         {/* 헤더 */}
-        <div className="text-center mb-10">
+        <div className="text-center mb-8 sm:mb-10">
           <p className="font-logo text-[16px] mb-6">
             LegalCrew <span className="italic">Academy</span>
           </p>
           <p className="text-[13px] tracking-[5px] uppercase text-gold-dark mb-4">
             Consent
           </p>
-          <h1 className="font-heading text-[26px] font-bold mb-3">
+          <h1 className="font-heading text-[22px] sm:text-[26px] font-bold mb-3">
             강의 동의서
           </h1>
           <p className="text-[14px] text-muted font-light">

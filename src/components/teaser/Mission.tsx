@@ -52,8 +52,8 @@ export default function Mission() {
           {missions.map((m) => (
             <div
               key={m.num}
-              className="group grid grid-cols-1 md:grid-cols-[64px_200px_1fr] items-center gap-4 md:gap-8
-                         bg-white/[0.02] border border-white/[0.04] px-6 md:px-12 py-8 md:py-10
+              className="group grid grid-cols-1 md:grid-cols-[64px_200px_1fr] items-start md:items-center gap-2 md:gap-8
+                         bg-white/[0.02] border border-white/[0.04] px-5 sm:px-6 md:px-12 py-6 sm:py-8 md:py-10
                          hover:bg-white/[0.04] hover:border-gold/10 hover:translate-x-1
                          transition-all duration-400"
             >
