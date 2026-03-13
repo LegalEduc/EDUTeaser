@@ -1,12 +1,8 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-03-13T12:44:58.291Z",
-  "activeFeatures": [
-    "legalcrew-phase7-8",
-    "EDUTeaser",
-    "notices"
-  ],
-  "primaryFeature": "legalcrew-phase7-8",
+  "lastUpdated": "2026-03-13T13:00:00.000Z",
+  "activeFeatures": [],
+  "primaryFeature": null,
   "features": {
     "legalcrew-academy": {
       "phase": "archived",
@@ -17,55 +13,23 @@
       "archivedTo": "docs/archive/2026-03/legalcrew-academy/"
     },
     "legalcrew-phase7-8": {
-      "phase": "completed",
+      "phase": "archived",
       "matchRate": 93,
       "iterationCount": 1,
-      "startedAt": "2026-03-13T12:30:00.000Z"
-    },
-    "EDUTeaser": {
-      "phase": "do",
-      "phaseNumber": 3,
-      "matchRate": null,
-      "iterationCount": 0,
-      "requirements": [],
-      "documents": {},
-      "timestamps": {
-        "started": "2026-03-13T12:38:07.322Z",
-        "lastUpdated": "2026-03-13T12:44:58.291Z"
-      },
-      "lastFile": "/home/yebro/projects/EDUTeaser/src/app/layout.tsx"
-    },
-    "notices": {
-      "phase": "do",
-      "phaseNumber": 3,
-      "matchRate": null,
-      "iterationCount": 0,
-      "requirements": [],
-      "documents": {},
-      "timestamps": {
-        "started": "2026-03-13T12:38:35.193Z",
-        "lastUpdated": "2026-03-13T12:44:24.524Z"
-      },
-      "lastFile": "/home/yebro/projects/EDUTeaser/src/app/api/admin/notices/route.ts"
+      "startedAt": "2026-03-13T12:30:00.000Z",
+      "archivedAt": "2026-03-13T13:00:00.000Z",
+      "archivedTo": "docs/archive/2026-03/legalcrew-phase7-8/"
     }
   },
   "pipeline": {
-    "currentPhase": 7,
+    "currentPhase": 8,
     "level": "Dynamic",
-    "phaseHistory": [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7
-    ]
+    "phaseHistory": [1, 2, 3, 4, 5, 6, 7, 8]
   },
   "session": {
     "startedAt": "2026-03-13T07:09:45.737Z",
     "onboardingCompleted": true,
-    "lastActivity": "2026-03-13T12:44:58.291Z"
+    "lastActivity": "2026-03-13T13:00:00.000Z"
   },
   "history": [
     {
@@ -75,70 +39,10 @@
       "action": "archived_with_summary"
     },
     {
-      "timestamp": "2026-03-13T12:30:00.000Z",
+      "timestamp": "2026-03-13T13:00:00.000Z",
       "feature": "legalcrew-phase7-8",
-      "phase": "plan",
-      "action": "plan_created"
-    },
-    {
-      "timestamp": "2026-03-13T12:45:00.000Z",
-      "feature": "legalcrew-phase7-8",
-      "phase": "design",
-      "action": "design_created"
-    },
-    {
-      "timestamp": "2026-03-13T12:38:07.322Z",
-      "feature": "EDUTeaser",
-      "phase": "do",
-      "action": "updated"
-    },
-    {
-      "timestamp": "2026-03-13T12:38:08.727Z",
-      "feature": "EDUTeaser",
-      "phase": "do",
-      "action": "updated"
-    },
-    {
-      "timestamp": "2026-03-13T12:38:16.303Z",
-      "feature": "EDUTeaser",
-      "phase": "do",
-      "action": "updated"
-    },
-    {
-      "timestamp": "2026-03-13T12:38:26.680Z",
-      "feature": "EDUTeaser",
-      "phase": "do",
-      "action": "updated"
-    },
-    {
-      "timestamp": "2026-03-13T12:38:35.193Z",
-      "feature": "notices",
-      "phase": "do",
-      "action": "updated"
-    },
-    {
-      "timestamp": "2026-03-13T12:38:42.466Z",
-      "feature": "notices",
-      "phase": "do",
-      "action": "updated"
-    },
-    {
-      "timestamp": "2026-03-13T12:44:24.524Z",
-      "feature": "notices",
-      "phase": "do",
-      "action": "updated"
-    },
-    {
-      "timestamp": "2026-03-13T12:44:47.846Z",
-      "feature": "EDUTeaser",
-      "phase": "do",
-      "action": "updated"
-    },
-    {
-      "timestamp": "2026-03-13T12:44:58.291Z",
-      "feature": "EDUTeaser",
-      "phase": "do",
-      "action": "updated"
+      "phase": "archived",
+      "action": "archived_with_summary"
     }
   ]
 }
