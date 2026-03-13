@@ -5,6 +5,22 @@ import { desc, eq } from "drizzle-orm";
 import { sendNotice } from "@/lib/email";
 import { getTokenFromRequest, verifyToken } from "@/lib/auth";
 
+/** HTML 태그 제거 — XSS 방지용 서버사이드 sanitize */
+function stripHtmlTags(input: string): string {
+  return input
+    .replace(/<script[\s\S]*?<\/script>/gi, "")
+    .replace(/<style[\s\S]*?<\/style>/gi, "")
+    .replace(/<[^>]*>/g, "")
+    // 이스케이프된 HTML 엔티티 디코드 후 2차 태그 제거
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#x27;/g, "'")
+    .replace(/<[^>]*>/g, "")
+    .trim();
+}
+
 export async function GET(request: NextRequest) {
   const token = getTokenFromRequest(request);
   if (!token || !(await verifyToken(token))) {
@@ -61,19 +77,22 @@ export async function POST(request: NextRequest) {
     const targets = await targetQuery;
     const emails = targets.map((t) => t.email);
 
-    // DB 저장
+    // HTML sanitize + DB 저장
+    const safeTitle = stripHtmlTags(body.title);
+    const safeBody = stripHtmlTags(body.body);
+
     const [inserted] = await db
       .insert(notices)
       .values({
-        title: body.title.trim(),
-        body: body.body.trim(),
+        title: safeTitle,
+        body: safeBody,
         target: body.target,
         sentCount: 0,
       })
       .returning({ id: notices.id });
 
     // 이메일 발송 (비동기, 발송 수 업데이트)
-    sendNotice(emails, body.title.trim(), body.body.trim())
+    sendNotice(emails, safeTitle, safeBody)
       .then(async (sentCount) => {
         await db
           .update(notices)
