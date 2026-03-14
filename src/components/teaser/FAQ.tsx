@@ -25,60 +25,80 @@ export default function FAQ() {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) el.classList.add("visible"); },
-      { threshold: 0.2 }
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add("visible");
+        });
+      },
+      { threshold: 0.15 }
     );
-    obs.observe(el);
+    el.querySelectorAll(".reveal").forEach((child) => obs.observe(child));
     return () => obs.disconnect();
   }, []);
 
   return (
-    <section className="py-28 md:py-36 px-6 md:px-12 border-t border-white/[0.04]">
-      <div ref={ref} className="reveal max-w-[640px] mx-auto">
-        <div className="text-center mb-16">
-          <p className="text-[13px] tracking-[5px] uppercase text-gold-dark mb-5">
+    <section className="bg-cream-mid py-[clamp(100px,12vw,160px)]">
+      <div ref={ref} className="max-w-[1080px] mx-auto px-[clamp(24px,5vw,64px)]">
+        {/* 헤더 */}
+        <div className="reveal text-center mb-[72px]">
+          <span className="inline-flex items-center gap-2 text-[10px] font-medium tracking-[4px] uppercase text-gold mb-3">
+            <span className="w-[5px] h-[5px] rounded-full bg-gold shrink-0" />
             FAQ
-          </p>
-          <h2 className="font-heading text-[clamp(24px,4vw,36px)] font-bold">
+          </span>
+          <h2 className="text-[clamp(28px,3.5vw,44px)] font-bold text-ink tracking-[-0.03em] leading-[1.25] mt-3">
             자주 묻는 질문
           </h2>
         </div>
 
-        <div>
+        {/* FAQ 리스트 */}
+        <div className="max-w-[680px] mx-auto">
           {faqs.map((faq, i) => (
-            <div key={i} className="border-b border-white/[0.05]">
+            <div
+              key={i}
+              className={`reveal ${i > 0 ? `reveal-delay-${i}` : ""} border-b border-cream-dark ${
+                i === 0 ? "border-t border-t-cream-dark" : ""
+              }`}
+            >
               <button
                 onClick={() => setOpenIdx(openIdx === i ? null : i)}
-                className="flex items-center justify-between w-full py-6 text-left"
+                className="flex items-start justify-between w-full py-[26px] bg-transparent border-none cursor-pointer text-left gap-5"
               >
-                <span className="text-base font-medium pr-4">{faq.q}</span>
+                <span className="text-[16px] font-medium text-ink leading-[1.5] tracking-[-0.01em]">
+                  {faq.q}
+                </span>
                 <span
-                  className={`text-lg text-gold-dark shrink-0 transition-transform duration-300 ${
-                    openIdx === i ? "rotate-45" : ""
+                  className={`w-7 h-7 rounded-full flex items-center justify-center text-[13px] shrink-0 mt-0.5 transition-all duration-350 ${
+                    openIdx === i
+                      ? "rotate-45 bg-gold text-white"
+                      : "bg-cream-dark text-slate"
                   }`}
                 >
                   +
                 </span>
               </button>
-              <div className={`accordion-body ${openIdx === i ? "open" : ""}`}>
-                <div>
-                  <p className="pb-6 text-[14px] text-muted leading-relaxed font-light">
-                    {faq.a}
-                  </p>
-                </div>
+              <div
+                className="overflow-hidden transition-all duration-400"
+                style={{ maxHeight: openIdx === i ? "400px" : "0px" }}
+              >
+                <p className="text-[14px] text-slate leading-[1.9] pb-6 font-light">
+                  {faq.a}
+                </p>
               </div>
             </div>
           ))}
-        </div>
 
-        {/* 문의처 */}
-        <div className="mt-16 text-center p-10 border border-white/[0.05]">
-          <h4 className="font-heading text-lg mb-5">문의처</h4>
-          <p className="text-[14px] text-muted font-light mb-1.5">담당자: 강선민 이사</p>
-          <p className="text-[14px] text-muted font-light mb-1.5">
-            이메일: cs@legalcrew.co.kr
-          </p>
-          <p className="text-[14px] text-muted font-light">전화: 010-0000-0000</p>
+          {/* 문의처 */}
+          <div className="mt-12 pt-10 border-t border-cream-dark">
+            <p className="text-[11px] font-medium tracking-[3px] uppercase text-gold mb-3.5">
+              Contact
+            </p>
+            <p className="text-[15px] font-medium text-ink mb-1">강선민 이사</p>
+            <p className="text-[14px] text-slate font-light leading-[1.8]">
+              cs@legalcrew.co.kr
+              <br />
+              010-0000-0000
+            </p>
+          </div>
         </div>
       </div>
     </section>

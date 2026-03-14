@@ -1,59 +1,116 @@
 @import "tailwindcss";
 
+/* Pretendard Variable Font */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css');
+
 @theme {
-  --color-ink: #0f0f1e;
-  --color-ink-mid: #1a1a2e;
-  --color-ink-light: #2a2a44;
+  /* Core Colors */
+  --color-white: #ffffff;
   --color-cream: #faf8f5;
+  --color-cream-mid: #f3f0eb;
+  --color-cream-dark: #e8e3da;
+
+  --color-ink: #111827;
+  --color-ink-mid: #1f2937;
+  --color-slate: #5c6480;
+  --color-slate-light: #8b92a8;
+
+  /* Brand */
   --color-gold: #c4993c;
-  --color-gold-light: #e8d5a3;
+  --color-gold-light: #d4af62;
   --color-gold-dark: #a07d2e;
+
+  /* Dark */
+  --color-navy: #1a2744;
+  --color-navy-mid: #243360;
+  --color-dark: #0f0f1a;
+  --color-dark-mid: #161624;
+
   --color-muted: #6b6b8a;
 
+  --font-sans: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-logo: 'Cormorant Garamond', serif;
-  --font-heading: 'Noto Serif KR', serif;
-  --font-body: 'Noto Sans KR', sans-serif;
-  --font-number: 'Playfair Display', serif;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: var(--font-body);
-  background: var(--color-ink);
-  color: var(--color-cream);
+  font-family: var(--font-sans);
+  background: var(--color-cream);
+  color: var(--color-ink);
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  font-weight: 300;
 }
 
-/* scroll reveal */
+/* =====================================================
+   SCROLL PROGRESS BAR
+===================================================== */
+#progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(to right, var(--color-gold-dark), var(--color-gold-light));
+  z-index: 9999;
+  transition: width 0.1s linear;
+  pointer-events: none;
+}
+
+/* =====================================================
+   SCROLL REVEAL
+===================================================== */
 .reveal {
   opacity: 0;
-  transform: translateY(50px);
-  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(28px);
+  transition: opacity 0.75s cubic-bezier(0.22,1,0.36,1), transform 0.75s cubic-bezier(0.22,1,0.36,1);
 }
 .reveal.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.33s; }
+.reveal-delay-4 { transition-delay: 0.48s; }
 
-/* hero animations */
+/* =====================================================
+   HERO ANIMATIONS
+===================================================== */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
 }
 @keyframes lineGrow {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
+  from { transform: scaleX(0); opacity: 0; }
+  to { transform: scaleX(1); opacity: 1; }
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(1); }
+  50% { opacity: 0.8; transform: scaleY(1.15); }
 }
 
-/* FAQ / accordion transition */
+/* =====================================================
+   GOLD SECTION DIVIDER
+===================================================== */
+.section-divider {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(196,153,60,0.25) 20%, rgba(196,153,60,0.25) 80%, transparent);
+  opacity: 0.7;
+}
+
+/* =====================================================
+   ACCORDION (FAQ + Curriculum)
+===================================================== */
 .accordion-body {
   display: grid;
   grid-template-rows: 0fr;
@@ -64,4 +121,14 @@ body {
 }
 .accordion-body > div {
   overflow: hidden;
+}
+
+/* Part accordion (curriculum) */
+.part-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1);
+}
+.part-block.open .part-body {
+  max-height: 1000px;
 }

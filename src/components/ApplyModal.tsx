@@ -48,6 +48,15 @@ const BANKS = [
   "NH농협은행", "IBK기업은행", "카카오뱅크", "토스뱅크", "기타",
 ];
 
+// 공통 입력 스타일
+const inputClass =
+  "w-full py-3 px-4 text-[14px] font-light text-ink bg-cream border border-cream-dark rounded-[6px] outline-none transition-colors duration-200 focus:border-gold focus:bg-white placeholder:text-ink/30";
+const selectClass =
+  "w-full py-3 px-4 text-[14px] font-light text-ink bg-cream border border-cream-dark rounded-[6px] outline-none transition-colors duration-200 focus:border-gold focus:bg-white";
+const labelClass = "block text-[12px] font-medium text-ink tracking-[0.5px] mb-2";
+const sectionLabelClass =
+  "text-[10px] font-semibold tracking-[3px] uppercase text-gold mb-4";
+
 export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
   const [form, setForm] = useState<FormData>(initialForm);
   const [step, setStep] = useState<"form" | "success">("form");
@@ -144,72 +153,68 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-[200] bg-black/70 backdrop-blur-sm flex items-start justify-center overflow-y-auto p-6 md:p-10"
+      className="fixed inset-0 z-[500] bg-dark/70 backdrop-blur-[6px] flex items-center justify-center overflow-y-auto p-6"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="bg-ink-mid border border-white/[0.06] max-w-[640px] w-full p-5 sm:p-8 md:p-14 relative my-10">
+      <div className="bg-white rounded-[20px] max-w-[560px] w-full p-8 md:p-12 relative max-h-[90vh] overflow-y-auto my-6">
         {/* 닫기 버튼 */}
         <button
           onClick={onClose}
-          className="absolute top-6 right-6 text-muted hover:text-cream text-2xl w-10 h-10 flex items-center justify-center transition-colors"
+          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-cream-mid border-none cursor-pointer flex items-center justify-center text-[16px] text-slate hover:bg-cream-dark transition-colors"
         >
-          &times;
+          &#10005;
         </button>
 
         {step === "success" ? (
-          /* ─── 성공 화면 ─── */
+          /* --- 성공 화면 --- */
           <div className="text-center py-12">
             <div className="text-5xl mb-6">&#10003;</div>
-            <h3 className="font-heading text-[24px] font-bold mb-4">
+            <h3 className="text-[24px] font-bold text-ink mb-4">
               신청이 접수되었습니다
             </h3>
-            <p className="text-[14px] text-muted font-light leading-relaxed">
+            <p className="text-[14px] text-slate font-light leading-relaxed">
               검토 후 강의 조건이 포함된 동의서 링크를
               <br />
               이메일로 보내드리겠습니다.
             </p>
             <button
               onClick={onClose}
-              className="mt-10 px-8 py-3 border border-gold/30 text-gold hover:bg-gold/10 transition-colors text-[14px] rounded-full"
+              className="mt-10 px-8 py-3 border border-gold/30 text-gold hover:bg-gold/10 transition-colors text-[14px] rounded-full cursor-pointer"
             >
               닫기
             </button>
           </div>
         ) : (
-          /* ─── 신청 폼 ─── */
+          /* --- 신청 폼 --- */
           <>
-            <div className="text-center mb-10">
-              <p className="text-[13px] tracking-[5px] uppercase text-gold-dark mb-4">
-                Apply
+            <div className="mb-8">
+              <p className="text-[10px] font-medium tracking-[4px] uppercase text-gold mb-3.5">
+                Mentor Application
               </p>
-              <h2 className="font-heading text-[28px] font-bold mb-3">
+              <h2 className="text-[26px] font-bold text-ink tracking-[-0.03em] leading-[1.25] mb-2">
                 멘토 참여 신청
               </h2>
-              <p className="text-[14px] text-muted font-light leading-relaxed">
-                검토 후 강의 조건이 포함된 동의서 링크를
-                <br />
-                이메일로 보내드립니다.
+              <p className="text-[14px] text-slate font-light leading-[1.75]">
+                기본 정보를 남겨주시면 담당자가 2영업일 내 연락드립니다.
               </p>
             </div>
 
             {error && (
-              <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-400 text-[13px] rounded">
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-600 text-[13px] rounded-[6px]">
                 {error}
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-8">
+            <form onSubmit={handleSubmit} className="space-y-6">
               {/* 기본 정보 */}
               <fieldset className="space-y-4">
-                <legend className="text-[12px] tracking-[3px] uppercase text-gold-dark mb-4 font-medium">
-                  기본 정보
-                </legend>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <legend className={sectionLabelClass}>기본 정보</legend>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-md:!grid-cols-1">
                   <div>
-                    <label className="block text-[13px] text-cream/70 mb-2">
-                      이름 <span className="text-gold">*</span>
+                    <label className={labelClass}>
+                      이름 <span className="text-gold ml-0.5">*</span>
                     </label>
                     <input
                       type="text"
@@ -217,12 +222,12 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                       onChange={(e) => updateField("name", e.target.value)}
                       placeholder="홍길동"
                       required
-                      className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[14px] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
+                      className={inputClass}
                     />
                   </div>
                   <div>
-                    <label className="block text-[13px] text-cream/70 mb-2">
-                      주민등록번호 <span className="text-gold">*</span>
+                    <label className={labelClass}>
+                      주민등록번호 <span className="text-gold ml-0.5">*</span>
                     </label>
                     <input
                       type="text"
@@ -230,9 +235,9 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                       onChange={(e) => updateField("residentNumber", e.target.value)}
                       placeholder="000000-0000000"
                       required
-                      className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[14px] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
+                      className={inputClass}
                     />
-                    <p className="text-[11px] text-muted mt-1">
+                    <p className="text-[11px] text-slate-light mt-1.5 font-light">
                       원천징수 신고용 &middot; 암호화 저장
                     </p>
                   </div>
@@ -241,15 +246,13 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
 
               {/* 변호사 자격 */}
               <fieldset className="space-y-4">
-                <legend className="text-[12px] tracking-[3px] uppercase text-gold-dark mb-4 font-medium">
-                  변호사 자격
-                </legend>
+                <legend className={sectionLabelClass}>변호사 자격</legend>
                 <div>
-                  <label className="block text-[13px] text-cream/70 mb-3">
-                    자격시험 구분 <span className="text-gold">*</span>
+                  <label className={labelClass}>
+                    자격시험 구분 <span className="text-gold ml-0.5">*</span>
                   </label>
-                  <div className="flex gap-6">
-                    <label className="flex items-center gap-2 text-[14px] cursor-pointer">
+                  <div className="flex gap-6 mt-1">
+                    <label className="flex items-center gap-2 text-[14px] font-light text-ink cursor-pointer">
                       <input
                         type="radio"
                         name="barExamType"
@@ -259,7 +262,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                       />
                       사법시험
                     </label>
-                    <label className="flex items-center gap-2 text-[14px] cursor-pointer">
+                    <label className="flex items-center gap-2 text-[14px] font-light text-ink cursor-pointer">
                       <input
                         type="radio"
                         name="barExamType"
@@ -273,8 +276,8 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                 </div>
                 {form.barExamType && (
                   <div>
-                    <label className="block text-[13px] text-cream/70 mb-2">
-                      {barDetailLabel} <span className="text-gold">*</span>
+                    <label className={labelClass}>
+                      {barDetailLabel} <span className="text-gold ml-0.5">*</span>
                     </label>
                     <input
                       type="text"
@@ -282,7 +285,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                       onChange={(e) => updateField("barExamDetail", e.target.value)}
                       placeholder={barDetailPlaceholder}
                       required
-                      className="w-full md:w-1/2 bg-ink border border-white/[0.08] px-4 py-3 text-[14px] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
+                      className={`${inputClass} md:w-1/2`}
                     />
                   </div>
                 )}
@@ -290,12 +293,10 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
 
               {/* 주요 이력 */}
               <fieldset className="space-y-4">
-                <legend className="text-[12px] tracking-[3px] uppercase text-gold-dark mb-4 font-medium">
-                  주요 이력
-                </legend>
+                <legend className={sectionLabelClass}>주요 이력</legend>
                 <div>
-                  <label className="block text-[13px] text-cream/70 mb-2">
-                    이력 사항 <span className="text-gold">*</span>
+                  <label className={labelClass}>
+                    이력 사항 <span className="text-gold ml-0.5">*</span>
                   </label>
                   <textarea
                     value={form.bio}
@@ -303,9 +304,9 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                     placeholder={`소속, 주요 경력, 전문분야 등을 자유롭게 기재해 주세요.\n\n예시)\n법무법인 ○○ 파트너 변호사 (2018~현재)\n서울중앙지방법원 조정위원\n전문분야: 기업소송, M&A, 건설분쟁`}
                     required
                     rows={6}
-                    className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[14px] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors resize-y"
+                    className={`${inputClass} resize-y min-h-[120px]`}
                   />
-                  <p className="text-[11px] text-muted mt-1">
+                  <p className="text-[11px] text-slate-light mt-1.5 font-light">
                     홍보 자료 및 수강생 안내에 활용됩니다 &middot; 10줄 내외
                   </p>
                 </div>
@@ -313,13 +314,11 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
 
               {/* 연락처 */}
               <fieldset className="space-y-4">
-                <legend className="text-[12px] tracking-[3px] uppercase text-gold-dark mb-4 font-medium">
-                  연락처
-                </legend>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <legend className={sectionLabelClass}>연락처</legend>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-md:!grid-cols-1">
                   <div>
-                    <label className="block text-[13px] text-cream/70 mb-2">
-                      휴대폰 번호 <span className="text-gold">*</span>
+                    <label className={labelClass}>
+                      휴대폰 번호 <span className="text-gold ml-0.5">*</span>
                     </label>
                     <input
                       type="tel"
@@ -327,12 +326,12 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                       onChange={(e) => updateField("phone", e.target.value)}
                       placeholder="010-0000-0000"
                       required
-                      className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[14px] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
+                      className={inputClass}
                     />
                   </div>
                   <div>
-                    <label className="block text-[13px] text-cream/70 mb-2">
-                      이메일 주소 <span className="text-gold">*</span>
+                    <label className={labelClass}>
+                      이메일 주소 <span className="text-gold ml-0.5">*</span>
                     </label>
                     <input
                       type="email"
@@ -340,9 +339,9 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                       onChange={(e) => updateField("email", e.target.value)}
                       placeholder="master@lawfirm.com"
                       required
-                      className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[14px] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
+                      className={inputClass}
                     />
-                    <p className="text-[11px] text-muted mt-1">
+                    <p className="text-[11px] text-slate-light mt-1.5 font-light">
                       동의서 링크 발송용
                     </p>
                   </div>
@@ -351,19 +350,17 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
 
               {/* 계좌 정보 */}
               <fieldset className="space-y-4">
-                <legend className="text-[12px] tracking-[3px] uppercase text-gold-dark mb-4 font-medium">
-                  계좌 정보
-                </legend>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <legend className={sectionLabelClass}>계좌 정보</legend>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-md:!grid-cols-1">
                   <div>
-                    <label className="block text-[13px] text-cream/70 mb-2">
-                      은행명 <span className="text-gold">*</span>
+                    <label className={labelClass}>
+                      은행명 <span className="text-gold ml-0.5">*</span>
                     </label>
                     <select
                       value={form.bankName}
                       onChange={(e) => updateField("bankName", e.target.value)}
                       required
-                      className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[14px] text-cream focus:border-gold/40 focus:outline-none transition-colors"
+                      className={selectClass}
                     >
                       <option value="">선택</option>
                       {BANKS.map((bank) => (
@@ -374,8 +371,8 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-[13px] text-cream/70 mb-2">
-                      계좌번호 <span className="text-gold">*</span>
+                    <label className={labelClass}>
+                      계좌번호 <span className="text-gold ml-0.5">*</span>
                     </label>
                     <input
                       type="text"
@@ -383,14 +380,14 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                       onChange={(e) => updateField("accountNumber", e.target.value)}
                       placeholder="- 없이 입력"
                       required
-                      className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[14px] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
+                      className={inputClass}
                     />
                   </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-md:!grid-cols-1">
                   <div>
-                    <label className="block text-[13px] text-cream/70 mb-2">
-                      예금주 <span className="text-gold">*</span>
+                    <label className={labelClass}>
+                      예금주 <span className="text-gold ml-0.5">*</span>
                     </label>
                     <input
                       type="text"
@@ -398,7 +395,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                       onChange={(e) => updateField("accountHolder", e.target.value)}
                       placeholder="예금주명"
                       required
-                      className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[14px] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
+                      className={inputClass}
                     />
                   </div>
                 </div>
@@ -406,15 +403,13 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
 
               {/* 주차 안내 */}
               <fieldset className="space-y-4">
-                <legend className="text-[12px] tracking-[3px] uppercase text-gold-dark mb-4 font-medium">
-                  주차 안내
-                </legend>
+                <legend className={sectionLabelClass}>주차 안내</legend>
                 <div>
-                  <label className="block text-[13px] text-cream/70 mb-3">
-                    주차 필요 여부 <span className="text-gold">*</span>
+                  <label className={labelClass}>
+                    주차 필요 여부 <span className="text-gold ml-0.5">*</span>
                   </label>
-                  <div className="flex gap-6">
-                    <label className="flex items-center gap-2 text-[14px] cursor-pointer">
+                  <div className="flex gap-6 mt-1">
+                    <label className="flex items-center gap-2 text-[14px] font-light text-ink cursor-pointer">
                       <input
                         type="radio"
                         name="parkingNeeded"
@@ -424,7 +419,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                       />
                       필요
                     </label>
-                    <label className="flex items-center gap-2 text-[14px] cursor-pointer">
+                    <label className="flex items-center gap-2 text-[14px] font-light text-ink cursor-pointer">
                       <input
                         type="radio"
                         name="parkingNeeded"
@@ -438,8 +433,8 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                 </div>
                 {form.parkingNeeded === "yes" && (
                   <div>
-                    <label className="block text-[13px] text-cream/70 mb-2">
-                      차량번호 <span className="text-gold">*</span>
+                    <label className={labelClass}>
+                      차량번호 <span className="text-gold ml-0.5">*</span>
                     </label>
                     <input
                       type="text"
@@ -447,17 +442,15 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                       onChange={(e) => updateField("carNumber", e.target.value)}
                       placeholder="12가 3456"
                       required
-                      className="w-full md:w-1/2 bg-ink border border-white/[0.08] px-4 py-3 text-[14px] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
+                      className={`${inputClass} md:w-1/2`}
                     />
                   </div>
                 )}
               </fieldset>
 
               {/* 동의 사항 */}
-              <fieldset className="space-y-3 border-t border-white/[0.06] pt-8">
-                <legend className="text-[12px] tracking-[3px] uppercase text-gold-dark mb-4 font-medium">
-                  동의 사항
-                </legend>
+              <fieldset className="space-y-3 border-t border-cream-dark pt-6">
+                <legend className={sectionLabelClass}>동의 사항</legend>
                 <label className="flex items-start gap-3 cursor-pointer">
                   <input
                     type="checkbox"
@@ -465,7 +458,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                     onChange={(e) => updateField("privacyAgreed", e.target.checked)}
                     className="mt-0.5 accent-gold"
                   />
-                  <span className="text-[13px] text-cream/80">
+                  <span className="text-[13px] text-ink/80">
                     개인정보 수집&middot;이용에 동의합니다{" "}
                     <span className="text-[11px] text-gold/60 ml-1">필수</span>
                   </span>
@@ -477,7 +470,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                     onChange={(e) => updateField("residentIdAgreed", e.target.checked)}
                     className="mt-0.5 accent-gold"
                   />
-                  <span className="text-[13px] text-cream/80">
+                  <span className="text-[13px] text-ink/80">
                     고유식별정보(주민등록번호) 수집&middot;이용에 동의합니다{" "}
                     <span className="text-[11px] text-gold/60 ml-1">필수</span>
                   </span>
@@ -489,7 +482,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                     onChange={(e) => updateField("promotionAgreed", e.target.checked)}
                     className="mt-0.5 accent-gold"
                   />
-                  <span className="text-[13px] text-cream/80">
+                  <span className="text-[13px] text-ink/80">
                     이력 정보의 홍보 자료 활용에 동의합니다{" "}
                     <span className="text-[11px] text-gold/60 ml-1">필수</span>
                   </span>
@@ -500,7 +493,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-4 bg-gold text-ink font-semibold text-[15px] rounded-full hover:bg-gold-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-4 bg-gold text-white font-semibold text-[13px] tracking-[2px] uppercase rounded-full cursor-pointer transition-all duration-300 hover:bg-gold-dark hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? "처리 중..." : "멘토 참여 신청하기"}
               </button>

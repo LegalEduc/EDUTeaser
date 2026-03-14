@@ -11,37 +11,65 @@ const items = [
 ];
 
 export default function Overview() {
-  const ref = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
     const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) el.classList.add("visible"); },
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add("visible");
+        });
+      },
       { threshold: 0.3 }
     );
-    obs.observe(el);
+    if (headerRef.current) obs.observe(headerRef.current);
+    if (gridRef.current) obs.observe(gridRef.current);
     return () => obs.disconnect();
   }, []);
 
   return (
-    <div className="bg-cream py-20 md:py-24 px-6 md:px-12 border-t border-b border-ink/[0.06]">
-      <div
-        ref={ref}
-        className="reveal max-w-[1100px] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-8 md:gap-12 text-center"
-      >
-        {items.map((item) => (
-          <div key={item.label}>
-            <p className="text-[12px] tracking-[4px] uppercase text-ink/40 mb-3 font-medium">
-              {item.label}
-            </p>
-            <p className="font-heading text-[17px] font-semibold text-ink leading-relaxed">
-              {item.value}
-            </p>
-            <p className="text-[13px] text-ink/40 mt-1 font-light">{item.sub}</p>
-          </div>
-        ))}
+    <section className="bg-cream-mid py-[clamp(100px,12vw,160px)]">
+      <div className="max-w-[1080px] mx-auto px-[clamp(24px,5vw,64px)]">
+        {/* 헤더 */}
+        <div ref={headerRef} className="reveal text-center mb-[72px]">
+          <span className="inline-flex items-center gap-2 text-[10px] font-medium tracking-[4px] uppercase text-gold mb-5">
+            <span className="w-[5px] h-[5px] rounded-full bg-gold shrink-0" />
+            Program Overview
+          </span>
+          <h2 className="text-[clamp(30px,4vw,48px)] font-bold text-ink leading-[1.25] tracking-[-0.035em] mt-3">
+            프로그램 개요
+          </h2>
+          <p className="mt-4 text-[15px] text-slate font-light leading-[1.8]">
+            The Rookie Camp — 변호사 실전 압축 부트캠프
+          </p>
+        </div>
+
+        {/* 5개 카드 그리드 */}
+        <div
+          ref={gridRef}
+          className="reveal reveal-delay-1 grid grid-cols-2 md:grid-cols-5 gap-px bg-cream-dark border border-cream-dark rounded-[20px] overflow-hidden"
+        >
+          {items.map((item, idx) => (
+            <div
+              key={item.label}
+              className={`bg-cream-mid py-11 px-5 text-center transition-colors duration-300 hover:bg-white ${
+                idx === 4 ? "col-span-2 md:col-span-1" : ""
+              }`}
+            >
+              <p className="text-[9px] font-semibold tracking-[3.5px] uppercase text-gold mb-3.5">
+                {item.label}
+              </p>
+              <p className="text-[15px] font-semibold text-ink leading-[1.5] mb-1.5 tracking-[-0.01em]">
+                {item.value}
+              </p>
+              <p className="text-[11px] text-slate-light font-light">
+                {item.sub}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

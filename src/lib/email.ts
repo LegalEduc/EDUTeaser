@@ -1,24 +1,29 @@
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 
-function getResend() {
-  const key = process.env.RESEND_API_KEY;
-  if (!key) throw new Error("RESEND_API_KEY is not set");
-  return new Resend(key);
+function getTransporter() {
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
+  if (!user || !pass) throw new Error("SMTP_USER or SMTP_PASS is not set");
+
+  return nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: { user, pass },
+  });
 }
 
-function getFrom() {
-  return process.env.EMAIL_FROM || "LegalCrew Academy <noreply@legalcrew.co.kr>";
-}
-
+const EMAIL_FROM =
+  process.env.EMAIL_FROM || "LegalCrew Academy <cs@legalcrew.co.kr>";
 const ADMIN_EMAIL = "cs@legalcrew.co.kr";
 
 export async function sendApplyNotification(instructor: {
   name: string;
   email: string;
 }) {
-  const resend = getResend();
-  await resend.emails.send({
-    from: getFrom(),
+  const transporter = getTransporter();
+  await transporter.sendMail({
+    from: EMAIL_FROM,
     to: ADMIN_EMAIL,
     subject: `[멘토 신청] ${instructor.name}님이 참여를 신청했습니다`,
     html: `
@@ -35,12 +40,12 @@ export async function sendConsentLink(
   name: string,
   token: string
 ) {
-  const resend = getResend();
+  const transporter = getTransporter();
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:3000";
   const link = `${baseUrl}/consent/${token}`;
 
-  await resend.emails.send({
-    from: getFrom(),
+  await transporter.sendMail({
+    from: EMAIL_FROM,
     to,
     subject: "[리걸크루 아카데미] 강의 동의서 확인 요청",
     html: `
@@ -59,9 +64,9 @@ export async function sendConsentLink(
 }
 
 export async function sendConsentComplete(instructor: { name: string }) {
-  const resend = getResend();
-  await resend.emails.send({
-    from: getFrom(),
+  const transporter = getTransporter();
+  await transporter.sendMail({
+    from: EMAIL_FROM,
     to: ADMIN_EMAIL,
     subject: `[서명 완료] ${instructor.name}님이 동의서에 서명했습니다`,
     html: `
@@ -79,30 +84,25 @@ export async function sendNotice(
 ): Promise<number> {
   if (to.length === 0) return 0;
 
-  const resend = getResend();
+  const transporter = getTransporter();
   let sentCount = 0;
 
-  // 배치 발송 (최대 100건씩)
-  const batchSize = 100;
-  for (let i = 0; i < to.length; i += batchSize) {
-    const batch = to.slice(i, i + batchSize);
+  for (const email of to) {
     try {
-      await resend.batch.send(
-        batch.map((email) => ({
-          from: getFrom(),
-          to: email,
-          subject: `[리걸크루 아카데미] ${title}`,
-          html: `
-            <h2>${title}</h2>
-            <div style="white-space:pre-wrap;line-height:1.8;">${body}</div>
-            <hr style="margin:24px 0;border:none;border-top:1px solid #eee;">
-            <p style="color:#999;font-size:12px;">LegalCrew Academy | cs@legalcrew.co.kr</p>
-          `,
-        }))
-      );
-      sentCount += batch.length;
+      await transporter.sendMail({
+        from: EMAIL_FROM,
+        to: email,
+        subject: `[리걸크루 아카데미] ${title}`,
+        html: `
+          <h2>${title}</h2>
+          <div style="white-space:pre-wrap;line-height:1.8;">${body}</div>
+          <hr style="margin:24px 0;border:none;border-top:1px solid #eee;">
+          <p style="color:#999;font-size:12px;">LegalCrew Academy | cs@legalcrew.co.kr</p>
+        `,
+      });
+      sentCount++;
     } catch (err) {
-      console.error("Email batch error:", err);
+      console.error(`Email send error (${email}):`, err);
     }
   }
 
