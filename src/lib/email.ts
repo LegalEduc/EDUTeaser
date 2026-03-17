@@ -15,7 +15,7 @@ function getTransporter() {
 
 const EMAIL_FROM =
   process.env.EMAIL_FROM || "LegalCrew Academy <cs@legalcrew.co.kr>";
-const ADMIN_EMAIL = "cs@legalcrew.co.kr";
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "contact@legalcrew.co.kr";
 
 export async function sendApplyNotification(instructor: {
   name: string;
