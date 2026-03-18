@@ -67,7 +67,7 @@ export default function AdminDashboardPage() {
         <nav className="flex gap-3 text-[13px] overflow-x-auto">
           <Link href="/admin" className="text-gold whitespace-nowrap">대시보드</Link>
           <Link href="/admin/instructors" className="text-muted hover:text-cream transition-colors whitespace-nowrap">강사 관리</Link>
-          <Link href="/admin/notices" className="text-muted hover:text-cream transition-colors whitespace-nowrap">공지 관리</Link>
+          <Link href="/admin/notices" className="text-muted hover:text-cream transition-colors whitespace-nowrap">안내사항 전달</Link>
         </nav>
         <button
           onClick={handleLogout}

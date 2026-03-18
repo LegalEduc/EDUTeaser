@@ -27,7 +27,7 @@ export default function Hero({ onApplyClick }: { onApplyClick: () => void }) {
 
       <div className="relative z-10 max-w-[900px] px-[clamp(24px,5vw,64px)]">
         <p
-          className="text-[10px] font-medium tracking-[6px] uppercase text-gold mb-10"
+          className="text-[clamp(14px,1.6vw,18px)] font-light text-gold tracking-[1px] mb-10"
           style={{ animation: "fadeIn 0.8s ease 0.3s both" }}
         >
           초빙 안내

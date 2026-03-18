@@ -13,6 +13,8 @@ interface Instructor {
   barExamDetail: string;
   status: "applied" | "consent_sent" | "consented";
   appliedAt: string;
+  sentAt: string | null;
+  signedAt: string | null;
 }
 
 const STATUS_LABEL: Record<string, { text: string; color: string }> = {
@@ -25,6 +27,11 @@ const BAR_LABEL: Record<string, string> = {
   judicial_exam: "사법시험",
   bar_exam: "변호사시험",
 };
+
+function formatDate(dateStr: string | null) {
+  if (!dateStr) return null;
+  return new Date(dateStr).toLocaleDateString("ko-KR");
+}
 
 export default function InstructorsPage() {
   const router = useRouter();
@@ -50,7 +57,7 @@ export default function InstructorsPage() {
         return res.json();
       })
       .then((d) => {
-        if (d) setInstructors(d.instructors);
+        if (d?.instructors) setInstructors(d.instructors);
       })
       .catch(() => {})
       .finally(() => setLoading(false));
@@ -76,7 +83,7 @@ export default function InstructorsPage() {
         <nav className="flex gap-3 text-[13px] overflow-x-auto">
           <Link href="/admin" className="text-muted hover:text-cream transition-colors whitespace-nowrap">대시보드</Link>
           <Link href="/admin/instructors" className="text-gold whitespace-nowrap">강사 관리</Link>
-          <Link href="/admin/notices" className="text-muted hover:text-cream transition-colors whitespace-nowrap">공지 관리</Link>
+          <Link href="/admin/notices" className="text-muted hover:text-cream transition-colors whitespace-nowrap">안내사항 전달</Link>
         </nav>
         <button
           onClick={() => {
@@ -135,14 +142,27 @@ export default function InstructorsPage() {
                         {statusInfo.text}
                       </span>
                     </div>
-                    <span className="text-[12px] text-muted">
-                      {new Date(inst.appliedAt).toLocaleDateString("ko-KR")}
-                    </span>
                   </div>
                   <div className="mt-2 flex flex-col sm:flex-row gap-1 sm:gap-4 text-[12px] text-muted">
                     <span>{BAR_LABEL[inst.barExamType]} {inst.barExamDetail}</span>
                     <span>{inst.email}</span>
                     <span>{inst.phone}</span>
+                  </div>
+                  {/* 날짜 타임라인 */}
+                  <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-[11px]">
+                    <span className="text-gold/70">
+                      신청 {formatDate(inst.appliedAt)}
+                    </span>
+                    {inst.sentAt && (
+                      <span className="text-blue-400/70">
+                        발송 {formatDate(inst.sentAt)}
+                      </span>
+                    )}
+                    {inst.signedAt && (
+                      <span className="text-green-400/70">
+                        서명 {formatDate(inst.signedAt)}
+                      </span>
+                    )}
                   </div>
                 </Link>
               );

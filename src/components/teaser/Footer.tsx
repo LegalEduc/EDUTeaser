@@ -23,8 +23,8 @@ export default function Footer() {
             </p>
             <p className="text-[14px] font-medium text-white mb-1">강선민 이사</p>
             <div className="text-[13px] text-white/35 font-light leading-[1.7]">
-              <a href="mailto:cs@legalcrew.co.kr" className="text-white/35 no-underline hover:text-gold transition-colors">
-                cs@legalcrew.co.kr
+              <a href="mailto:contact@legalcrew.co.kr" className="text-white/35 no-underline hover:text-gold transition-colors">
+                contact@legalcrew.co.kr
               </a>
               <br />
               010-0000-0000

@@ -46,7 +46,7 @@ export default function NoticesPage() {
         return res.json();
       })
       .then((d) => {
-        if (d) setNoticesList(d.notices);
+        if (d?.notices) setNoticesList(d.notices);
       })
       .catch(() => {})
       .finally(() => setLoading(false));
@@ -113,7 +113,7 @@ export default function NoticesPage() {
         <nav className="flex gap-3 text-[13px] overflow-x-auto">
           <Link href="/admin" className="text-muted hover:text-cream transition-colors whitespace-nowrap">대시보드</Link>
           <Link href="/admin/instructors" className="text-muted hover:text-cream transition-colors whitespace-nowrap">강사 관리</Link>
-          <Link href="/admin/notices" className="text-gold whitespace-nowrap">공지 관리</Link>
+          <Link href="/admin/notices" className="text-gold whitespace-nowrap">안내사항 전달</Link>
         </nav>
         <button
           onClick={() => {
@@ -127,7 +127,7 @@ export default function NoticesPage() {
       </header>
 
       <main className="max-w-[960px] mx-auto px-6 py-10">
-        <h2 className="font-heading text-[24px] font-bold mb-8">공지 관리</h2>
+        <h2 className="font-heading text-[24px] font-bold mb-8">안내사항 전달</h2>
 
         {/* 작성 폼 */}
         <div className="bg-ink-mid border border-white/[0.06] p-6 rounded mb-8">

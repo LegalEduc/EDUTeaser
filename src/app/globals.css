@@ -103,7 +103,7 @@
     overflow: hidden;
     transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1);
   }
-  .part-block.open .part-body {
+  .part-body.open {
     max-height: 1000px;
   }
 }

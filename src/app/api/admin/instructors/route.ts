@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
-import { instructors } from "@/lib/schema";
+import { instructors, consentSettings, consentSignatures } from "@/lib/schema";
 import { eq, desc } from "drizzle-orm";
 import { getTokenFromRequest, verifyToken } from "@/lib/auth";
 
@@ -25,8 +25,12 @@ export async function GET(request: NextRequest) {
         barExamDetail: instructors.barExamDetail,
         status: instructors.status,
         appliedAt: instructors.appliedAt,
+        sentAt: consentSettings.sentAt,
+        signedAt: consentSignatures.signedAt,
       })
       .from(instructors)
+      .leftJoin(consentSettings, eq(consentSettings.instructorId, instructors.id))
+      .leftJoin(consentSignatures, eq(consentSignatures.instructorId, instructors.id))
       .orderBy(desc(instructors.appliedAt))
       .$dynamic();
 

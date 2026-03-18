@@ -94,7 +94,7 @@ export default function FAQ() {
             </p>
             <p className="text-[15px] font-medium text-ink mb-1">강선민 이사</p>
             <p className="text-[14px] text-slate font-light leading-[1.8]">
-              cs@legalcrew.co.kr
+              contact@legalcrew.co.kr
               <br />
               010-0000-0000
             </p>

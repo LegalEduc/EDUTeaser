@@ -27,6 +27,7 @@ interface ConsentSetting {
   feeAmount: number;
   specialTerms: string | null;
   token: string;
+  sentAt: string;
 }
 
 interface ConsentSignature {
@@ -129,6 +130,7 @@ export default function InstructorDetailPage({
         feeAmount: Number(feeAmount),
         specialTerms: specialTerms || null,
         token: data.token,
+        sentAt: new Date().toISOString(),
       });
       if (instructor) {
         setInstructor({ ...instructor, status: "consent_sent" });
@@ -166,7 +168,7 @@ export default function InstructorDetailPage({
           <nav className="flex gap-4 text-[13px]">
             <Link href="/admin" className="text-muted hover:text-cream transition-colors">대시보드</Link>
             <Link href="/admin/instructors" className="text-gold">강사 관리</Link>
-            <Link href="/admin/notices" className="text-muted hover:text-cream transition-colors">공지 관리</Link>
+            <Link href="/admin/notices" className="text-muted hover:text-cream transition-colors">안내사항 전달</Link>
           </nav>
         </div>
       </header>
@@ -208,10 +210,25 @@ export default function InstructorDetailPage({
               <span className="text-muted">주차:</span>{" "}
               {instructor.parkingNeeded ? `필요 (${instructor.carNumber})` : "불필요"}
             </div>
+          </div>
+          {/* 진행 날짜 */}
+          <div className="mt-4 pt-4 border-t border-white/[0.06] flex flex-wrap gap-x-6 gap-y-2 text-[13px]">
             <div>
               <span className="text-muted">신청일:</span>{" "}
-              {new Date(instructor.appliedAt).toLocaleDateString("ko-KR")}
+              <span className="text-gold">{new Date(instructor.appliedAt).toLocaleDateString("ko-KR")}</span>
             </div>
+            {consentSetting && (
+              <div>
+                <span className="text-muted">동의서 발송일:</span>{" "}
+                <span className="text-blue-400">{new Date(consentSetting.sentAt).toLocaleDateString("ko-KR")}</span>
+              </div>
+            )}
+            {consentSignature && (
+              <div>
+                <span className="text-muted">최종 서명일:</span>{" "}
+                <span className="text-green-400">{new Date(consentSignature.signedAt).toLocaleDateString("ko-KR")}</span>
+              </div>
+            )}
           </div>
           {instructor.bio && (
             <div className="mt-4 pt-4 border-t border-white/[0.06]">
