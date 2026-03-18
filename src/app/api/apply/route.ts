@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 
 // IP 기반 Rate Limiting (인메모리, 서버리스 인스턴스 단위)
 const RATE_LIMIT_WINDOW = 60 * 1000; // 1분
-const RATE_LIMIT_MAX = 3; // 1분에 최대 3회
+const RATE_LIMIT_MAX = 10; // 1분에 최대 10회
 const ipRequests = new Map<string, { count: number; resetAt: number }>();
 
 function checkRateLimit(ip: string): boolean {
