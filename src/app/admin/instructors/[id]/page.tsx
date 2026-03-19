@@ -65,6 +65,9 @@ export default function InstructorDetailPage({
   const [specialTerms, setSpecialTerms] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [sendResult, setSendResult] = useState("");
+  const [isResending, setIsResending] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
+  const [actionResult, setActionResult] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("admin_token");
@@ -139,6 +142,55 @@ export default function InstructorDetailPage({
       setSendResult("네트워크 오류가 발생했습니다.");
     } finally {
       setIsSending(false);
+    }
+  };
+
+  const handleResend = async () => {
+    setIsResending(true);
+    setActionResult("");
+    const token = localStorage.getItem("admin_token");
+    if (!token) return;
+
+    try {
+      const res = await fetch(`/api/admin/instructors/${id}/consent`, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      setActionResult(data.message || (data.success ? "이메일이 재발송되었습니다." : "오류가 발생했습니다."));
+    } catch {
+      setActionResult("네트워크 오류가 발생했습니다.");
+    } finally {
+      setIsResending(false);
+    }
+  };
+
+  const handleReset = async () => {
+    if (!window.confirm("동의서 세팅을 초기화하시겠습니까? 처음부터 다시 세팅해야 합니다.")) return;
+
+    setIsResetting(true);
+    setActionResult("");
+    const token = localStorage.getItem("admin_token");
+    if (!token) return;
+
+    try {
+      const res = await fetch(`/api/admin/instructors/${id}/consent`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (data.success) {
+        setConsentSetting(null);
+        setConsentSignature(null);
+        if (instructor) setInstructor({ ...instructor, status: "applied" });
+        setActionResult("초기화되었습니다. 동의서를 다시 세팅해 주세요.");
+      } else {
+        setActionResult(data.message || "오류가 발생했습니다.");
+      }
+    } catch {
+      setActionResult("네트워크 오류가 발생했습니다.");
+    } finally {
+      setIsResetting(false);
     }
   };
 
@@ -263,7 +315,7 @@ export default function InstructorDetailPage({
               </div>
             </div>
 
-            {consentSignature && (
+            {consentSignature ? (
               <div className="mt-4 pt-4 border-t border-white/[0.06] flex items-center justify-between">
                 <p className="text-green-400 text-[13px]">
                   서명 완료: {consentSignature.signedName} ({new Date(consentSignature.signedAt).toLocaleDateString("ko-KR")})
@@ -290,6 +342,34 @@ export default function InstructorDetailPage({
                 >
                   PDF 다운로드
                 </a>
+              </div>
+            ) : (
+              <div className="mt-4 pt-4 border-t border-white/[0.06]">
+                {actionResult && (
+                  <div className={`mb-4 p-3 text-[13px] rounded border ${
+                    actionResult.includes("재발송") || actionResult.includes("초기화")
+                      ? "bg-green-500/10 border-green-500/20 text-green-400"
+                      : "bg-red-500/10 border-red-500/20 text-red-400"
+                  }`}>
+                    {actionResult}
+                  </div>
+                )}
+                <div className="flex gap-3">
+                  <button
+                    onClick={handleResend}
+                    disabled={isResending || isResetting}
+                    className="px-5 py-2 bg-blue-600 text-cream font-semibold text-[13px] rounded-full hover:bg-blue-500 transition-colors disabled:opacity-50"
+                  >
+                    {isResending ? "발송 중..." : "이메일 재발송"}
+                  </button>
+                  <button
+                    onClick={handleReset}
+                    disabled={isResending || isResetting}
+                    className="px-5 py-2 border border-red-500/30 text-red-400 text-[13px] rounded-full hover:bg-red-500/10 transition-colors disabled:opacity-50"
+                  >
+                    {isResetting ? "처리 중..." : "초기화"}
+                  </button>
+                </div>
               </div>
             )}
           </div>
