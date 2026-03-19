@@ -20,6 +20,8 @@ interface FormData {
   accountHolder: string;
   parkingNeeded: "" | "yes" | "no";
   carNumber: string;
+  feeLimit: string;
+  feeDocNeeded: "" | "yes" | "no";
   privacyAgreed: boolean;
   residentIdAgreed: boolean;
   promotionAgreed: boolean;
@@ -38,6 +40,8 @@ const initialForm: FormData = {
   accountHolder: "",
   parkingNeeded: "",
   carNumber: "",
+  feeLimit: "",
+  feeDocNeeded: "",
   privacyAgreed: false,
   residentIdAgreed: false,
   promotionAgreed: false,
@@ -70,6 +74,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [toast, setToast] = useState("");
+  const [consentPopup, setConsentPopup] = useState<string | null>(null);
 
   // ESC 키로 닫기
   useEffect(() => {
@@ -125,6 +130,8 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
           accountHolder: form.accountHolder,
           parkingNeeded: form.parkingNeeded === "yes",
           carNumber: form.carNumber || undefined,
+          feeLimit: form.feeLimit || undefined,
+          feeDocNeeded: form.feeDocNeeded === "yes" ? true : form.feeDocNeeded === "no" ? false : undefined,
           privacyAgreed: form.privacyAgreed,
           residentIdAgreed: form.residentIdAgreed,
           promotionAgreed: form.promotionAgreed,
@@ -161,6 +168,18 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
       return;
     }
     updateField("barExamDetail", value);
+  };
+
+  const handleFeeLimitChange = (value: string) => {
+    if (value === "") {
+      updateField("feeLimit", "");
+      return;
+    }
+    if (!/^\d*$/.test(value)) {
+      showToast("숫자만 입력해주세요");
+      return;
+    }
+    updateField("feeLimit", value);
   };
 
   const barDetailLabel =
@@ -482,46 +501,184 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                 )}
               </fieldset>
 
+              {/* 강사료 및 정산 관련 확인 */}
+              <fieldset className="space-y-4">
+                <legend className={sectionLabelClass}>강사료 및 정산 관련 확인</legend>
+                <p className="text-[0.95rem] text-slate font-light leading-relaxed -mt-1">
+                  공공기관 재직자 등 내부 규정상 강사료 한도 확인이 필요한 경우에만 작성해 주시기 바랍니다. 세부 규정이 없는 경우 총금액만 작성하셔도 됩니다.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-md:!grid-cols-1">
+                  <div>
+                    <label className={labelClass}>강사료 한도</label>
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      value={form.feeLimit}
+                      onChange={(e) => handleFeeLimitChange(e.target.value)}
+                      placeholder="00만원 (1회당)"
+                      className={inputClass}
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>강사료 내역 공문</label>
+                    <div className="flex gap-6 mt-1">
+                      <label className="flex items-center gap-2 text-[1.05rem] font-light text-ink cursor-pointer">
+                        <input
+                          type="radio"
+                          name="feeDocNeeded"
+                          checked={form.feeDocNeeded === "yes"}
+                          onChange={() => updateField("feeDocNeeded", "yes")}
+                          className="accent-gold"
+                        />
+                        필요
+                      </label>
+                      <label className="flex items-center gap-2 text-[1.05rem] font-light text-ink cursor-pointer">
+                        <input
+                          type="radio"
+                          name="feeDocNeeded"
+                          checked={form.feeDocNeeded === "no"}
+                          onChange={() => updateField("feeDocNeeded", "no")}
+                          className="accent-gold"
+                        />
+                        불필요
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
               {/* 동의 사항 */}
               <fieldset className="space-y-3 border-t border-cream-dark pt-6">
                 <legend className={sectionLabelClass}>동의 사항</legend>
-                <label className="flex items-start gap-3 cursor-pointer">
+                <div className="flex items-start gap-3">
                   <input
                     type="checkbox"
                     checked={form.privacyAgreed}
                     onChange={(e) => updateField("privacyAgreed", e.target.checked)}
-                    className="mt-0.5 accent-gold"
+                    className="mt-0.5 accent-gold cursor-pointer"
                   />
                   <span className="text-[1rem] text-ink/80">
-                    개인정보 수집&middot;이용에 동의합니다{" "}
+                    개인정보 수집&middot;이용 및 제3자 제공에 동의합니다{" "}
                     <span className="text-[1rem] text-gold/60 ml-1">필수</span>
+                    <button
+                      type="button"
+                      onClick={() => setConsentPopup("privacy")}
+                      className="text-[0.9rem] text-gold underline underline-offset-2 ml-2 cursor-pointer hover:text-gold-dark"
+                    >
+                      내용보기
+                    </button>
                   </span>
-                </label>
-                <label className="flex items-start gap-3 cursor-pointer">
+                </div>
+                <div className="flex items-start gap-3">
                   <input
                     type="checkbox"
                     checked={form.residentIdAgreed}
                     onChange={(e) => updateField("residentIdAgreed", e.target.checked)}
-                    className="mt-0.5 accent-gold"
+                    className="mt-0.5 accent-gold cursor-pointer"
                   />
                   <span className="text-[1rem] text-ink/80">
-                    고유식별정보(주민등록번호) 수집&middot;이용에 동의합니다{" "}
+                    홍보 및 자료제공 활용에 동의합니다{" "}
                     <span className="text-[1rem] text-gold/60 ml-1">필수</span>
+                    <button
+                      type="button"
+                      onClick={() => setConsentPopup("residentId")}
+                      className="text-[0.9rem] text-gold underline underline-offset-2 ml-2 cursor-pointer hover:text-gold-dark"
+                    >
+                      내용보기
+                    </button>
                   </span>
-                </label>
-                <label className="flex items-start gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={form.promotionAgreed}
-                    onChange={(e) => updateField("promotionAgreed", e.target.checked)}
-                    className="mt-0.5 accent-gold"
-                  />
-                  <span className="text-[1rem] text-ink/80">
-                    이력 정보의 홍보 자료 활용에 동의합니다{" "}
-                    <span className="text-[1rem] text-gold/60 ml-1">필수</span>
-                  </span>
-                </label>
+                </div>
               </fieldset>
+
+              {/* 동의 내용 팝업 */}
+              {consentPopup && (
+                <div
+                  className="fixed inset-0 z-[700] bg-dark/60 backdrop-blur-[4px] flex items-center justify-center p-6"
+                  onClick={() => setConsentPopup(null)}
+                >
+                  <div
+                    className="bg-white rounded-[16px] max-w-[600px] w-full p-8 relative max-h-[80vh] overflow-y-auto"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setConsentPopup(null)}
+                      className="absolute top-4 right-4 w-8 h-8 rounded-full bg-cream-mid border-none cursor-pointer flex items-center justify-center text-[1.15rem] text-slate hover:bg-cream-dark transition-colors"
+                    >
+                      &#10005;
+                    </button>
+
+                    {consentPopup === "privacy" && (
+                      <>
+                        <h3 className="text-[1.2rem] font-bold text-ink mb-6 pr-8">
+                          개인정보 수집&middot;이용 및 제3자 제공 동의
+                        </h3>
+                        <div className="space-y-4 text-[0.95rem] text-ink/80 leading-relaxed">
+                          <div className="p-4 bg-cream rounded-[8px]">
+                            <p className="font-semibold text-ink mb-1">1. 수집/이용 목적</p>
+                            <p>리걸크루 변호사 실전 압축 부트캠프 운영, 강사료 지급, 원천징수 등 세무 처리, 수강생 공지 및 행정 업무</p>
+                          </div>
+                          <div className="p-4 bg-cream rounded-[8px]">
+                            <p className="font-semibold text-ink mb-1">2. 수집 항목</p>
+                            <p>성명, 연락처, 이메일, 주소, 주민등록번호, 계좌번호, 소속 및 경력 정보</p>
+                          </div>
+                          <div className="p-4 bg-cream rounded-[8px]">
+                            <p className="font-semibold text-ink mb-1">3. 보유/이용 기간</p>
+                            <p>수집&middot;이용 동의일로부터 관련 법령상 보관 의무 종료 시까지</p>
+                          </div>
+                          <div className="p-4 bg-cream rounded-[8px]">
+                            <p className="font-semibold text-ink mb-1">4. 고유식별정보</p>
+                            <p>주민등록번호</p>
+                          </div>
+                          <div className="p-4 bg-cream rounded-[8px]">
+                            <p className="font-semibold text-ink mb-1">5. 제3자 제공 대상</p>
+                            <p>리걸크루가 프로그램 운영을 위하여 위탁 또는 지정하는 운영업체(필요한 경우에 한함)</p>
+                          </div>
+                          <div className="p-4 bg-cream rounded-[8px]">
+                            <p className="font-semibold text-ink mb-1">6. 제3자 제공 목적</p>
+                            <p>온라인 강의 운영, 촬영 편집, 정산 및 관련 행정 처리</p>
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+                    {consentPopup === "residentId" && (
+                      <>
+                        <h3 className="text-[1.2rem] font-bold text-ink mb-6 pr-8">
+                          홍보 및 자료제공 활용 동의
+                        </h3>
+                        <div className="space-y-4 text-[0.95rem] text-ink/80 leading-relaxed">
+                          <div className="p-4 bg-cream rounded-[8px]">
+                            <p className="font-semibold text-ink mb-1">1. 홍보 콘텐츠 게재</p>
+                            <p>강의 내용 일부를 리걸크루의 기사, 블로그, 홈페이지, SNS, 브로슈어 등 프로그램 안내&middot;홍보 콘텐츠에 게재</p>
+                          </div>
+                          <div className="p-4 bg-cream rounded-[8px]">
+                            <p className="font-semibold text-ink mb-1">2. 강의 촬영 및 온라인 제공</p>
+                            <p>본인의 강의를 촬영하여 수강생 및 리걸크루가 승인한 대상자에게 제공되는 온라인 강의&middot;복습 자료&middot;아카이브 용도로 사용</p>
+                          </div>
+                          <div className="p-4 bg-cream rounded-[8px]">
+                            <p className="font-semibold text-ink mb-1">3. 교재/자료집 제작 및 배부</p>
+                            <p>본 프로그램을 목적으로 본인이 작성한 강의안과 다른 강의안을 함께 교재 또는 자료집으로 제작하여 수강생에게 배부하고, 잔여 수량은 프로그램 운영 범위 내에서 활용</p>
+                          </div>
+                          <div className="p-4 bg-cream rounded-[8px]">
+                            <p className="font-semibold text-ink mb-1">4. 발표 자료 공유</p>
+                            <p>강의 시 사용한 PPT 또는 발표 자료를 요청 수강생에게 PDF 형태로 공유</p>
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+
+                    <button
+                      type="button"
+                      onClick={() => setConsentPopup(null)}
+                      className="mt-6 w-full py-3 border border-gold/30 text-gold hover:bg-gold/10 transition-colors text-[1rem] rounded-full cursor-pointer"
+                    >
+                      확인
+                    </button>
+                  </div>
+                </div>
+              )}
 
               {/* 제출 버튼 */}
               <button

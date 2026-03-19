@@ -40,6 +40,8 @@ export const instructors = pgTable("instructors", {
   accountHolder: varchar("account_holder", { length: 50 }).notNull(),
   parkingNeeded: boolean("parking_needed").notNull().default(false),
   carNumber: varchar("car_number", { length: 20 }),
+  feeLimit: varchar("fee_limit", { length: 20 }),
+  feeDocNeeded: boolean("fee_doc_needed"),
   status: instructorStatusEnum("status").notNull().default("applied"),
   appliedAt: timestamp("applied_at").notNull().defaultNow(),
   createdAt: timestamp("created_at").notNull().defaultNow(),

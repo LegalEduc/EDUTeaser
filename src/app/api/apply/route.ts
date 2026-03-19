@@ -39,9 +39,10 @@ interface ApplyBody {
   accountHolder: string;
   parkingNeeded: boolean;
   carNumber?: string;
+  feeLimit?: string;
+  feeDocNeeded?: boolean;
   privacyAgreed: boolean;
   residentIdAgreed: boolean;
-  promotionAgreed: boolean;
 }
 
 function validateBody(body: ApplyBody): string | null {
@@ -63,8 +64,7 @@ function validateBody(body: ApplyBody): string | null {
     return "주차가 필요한 경우 차량번호를 입력해 주세요.";
   if (!body.privacyAgreed) return "개인정보 수집·이용에 동의해 주세요.";
   if (!body.residentIdAgreed)
-    return "고유식별정보 수집·이용에 동의해 주세요.";
-  if (!body.promotionAgreed) return "이력 정보 활용에 동의해 주세요.";
+    return "홍보 및 자료제공 활용에 동의해 주세요.";
   return null;
 }
 
@@ -124,6 +124,8 @@ export async function POST(request: NextRequest) {
       accountHolder: body.accountHolder.trim(),
       parkingNeeded: body.parkingNeeded,
       carNumber: body.parkingNeeded ? body.carNumber?.trim() : null,
+      feeLimit: body.feeLimit?.trim() || null,
+      feeDocNeeded: body.feeDocNeeded ?? null,
     });
 
     // 어드민에게 신규 신청 알림 (비동기, 실패해도 신청은 성공)
