@@ -1,3 +1,27 @@
+### 2026-03-19 세션 #3
+
+**완료:**
+- 동의 항목에 '내용보기' 팝업 추가 (개인정보 6항목, 홍보/자료제공 4항목)
+- 첫번째 동의 → '개인정보 수집·이용 및 제3자 제공 동의'로 명칭 변경
+- 두번째 동의 → '홍보 및 자료제공 활용 동의'로 명칭 변경
+- 세번째 동의(이력 정보 활용) 삭제
+- '강사료 및 정산 관련 확인' 섹션 추가 (선택사항)
+- DB 스키마/API에 fee_limit, fee_doc_needed 반영
+
+**미완료/이슈:**
+- DB 마이그레이션 미실행 (program_name, fee_limit, fee_doc_needed 컬럼)
+
+**다음 작업:**
+- DB 마이그레이션 실행
+- 추가 기능 요청에 따라 진행
+
+**변경된 파일:**
+- src/components/ApplyModal.tsx (동의 팝업, 강사료 섹션 추가)
+- src/app/api/apply/route.ts (feeLimit, feeDocNeeded 수신/저장)
+- src/lib/schema.ts (fee_limit, fee_doc_needed 컬럼 추가)
+
+---
+
 ### 2026-03-19 세션 #2
 
 **완료:**
