@@ -27,6 +27,7 @@ export const noticeTargetEnum = pgEnum("notice_target", [
 // instructors
 export const instructors = pgTable("instructors", {
   id: uuid("id").defaultRandom().primaryKey(),
+  programName: varchar("program_name", { length: 200 }).notNull().default("리걸크루 변호사 실전 압축 부트캠프-The Rookie Camp 1회차"),
   name: varchar("name", { length: 50 }).notNull(),
   residentNumber: varchar("resident_number", { length: 255 }).notNull(),
   barExamType: barExamTypeEnum("bar_exam_type").notNull(),

@@ -43,6 +43,17 @@ const initialForm: FormData = {
   promotionAgreed: false,
 };
 
+const PROGRAM_NAME = "리걸크루 변호사 실전 압축 부트캠프-The Rookie Camp 1회차";
+
+const PROGRAM_INFO = [
+  { label: "프로그램명", value: PROGRAM_NAME },
+  { label: "연수 기간", value: "2026. 5. 12.(화) ~ 2026. 7. 30.(목) 19:00 - 21:00" },
+  { label: "교육 시간", value: "매주 화·목, 회당 2시간, 총 24강" },
+  { label: "강의 방식", value: "오프라인 교육 및 실무 워크숍" },
+  { label: "강의 장소", value: "드림플러스 강남 (서울특별시 서초구 강남대로 311)" },
+  { label: "관련문의", value: "contact@legalcrew.co.kr" },
+];
+
 const BANKS = [
   "KB국민은행", "신한은행", "우리은행", "하나은행",
   "NH농협은행", "IBK기업은행", "카카오뱅크", "토스뱅크", "기타",
@@ -104,6 +115,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          programName: PROGRAM_NAME,
           name: form.name,
           residentNumber: form.residentNumber,
           barExamType: form.barExamType,
@@ -199,6 +211,19 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
               <p className="text-[1.05rem] text-slate font-light leading-[1.75]">
                 기본 정보를 남겨주시면 담당자가 2영업일 내 연락드립니다.
               </p>
+            </div>
+
+            {/* 프로그램 기본 정보 (읽기전용) */}
+            <div className="mb-8 p-5 bg-cream border border-cream-dark rounded-[10px]">
+              <p className={sectionLabelClass}>프로그램 정보</p>
+              <dl className="space-y-2 text-[0.95rem]">
+                {PROGRAM_INFO.map(({ label, value }) => (
+                  <div key={label} className="flex gap-3">
+                    <dt className="text-ink/50 font-medium whitespace-nowrap min-w-[80px]">{label}</dt>
+                    <dd className="text-ink font-light">{value}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
 
             {error && (
