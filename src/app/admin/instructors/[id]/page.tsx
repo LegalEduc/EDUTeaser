@@ -240,7 +240,7 @@ export default function InstructorDetailPage({
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-ink flex items-center justify-center font-pretendard">
+      <div className="min-h-screen bg-ink flex items-center justify-center">
         <p className="text-muted text-[1.05rem]">불러오는 중...</p>
       </div>
     );
@@ -248,14 +248,14 @@ export default function InstructorDetailPage({
 
   if (error || !instructor) {
     return (
-      <div className="min-h-screen bg-ink flex items-center justify-center font-pretendard">
+      <div className="min-h-screen bg-ink flex items-center justify-center">
         <p className="text-red-400 text-[1.05rem]">{error || "강사 정보를 찾을 수 없습니다."}</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-ink text-cream font-pretendard">
+    <div className="min-h-screen bg-ink text-cream">
       <header className="border-b border-white/[0.06] px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <h1 className="font-logo text-[18px] font-semibold">

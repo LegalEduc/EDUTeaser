@@ -50,7 +50,7 @@ export default function AdminDashboardPage() {
     : [];
 
   return (
-    <div className="min-h-screen bg-ink text-cream font-pretendard">
+    <div className="min-h-screen bg-ink text-cream ">
       {/* 헤더 */}
       <header className="border-b border-white/[0.06] px-5 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="flex items-center justify-between">
