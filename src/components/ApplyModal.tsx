@@ -64,9 +64,9 @@ const inputClass =
   "w-full py-3 px-4 text-[1.05rem] font-light text-ink bg-cream border border-cream-dark rounded-[6px] outline-none transition-colors duration-200 focus:border-gold focus:bg-white placeholder:text-ink/30";
 const selectClass =
   "w-full py-3 px-4 text-[1.05rem] font-light text-ink bg-cream border border-cream-dark rounded-[6px] outline-none transition-colors duration-200 focus:border-gold focus:bg-white";
-const labelClass = "block text-[1rem] font-medium text-ink tracking-[0.5px] mb-2";
+const labelClass = "block text-[1rem] font-medium text-ink tracking-[0.35px] mb-2";
 const sectionLabelClass =
-  "text-[1rem] font-semibold tracking-[3px] uppercase text-gold mb-4";
+  "text-[1rem] font-semibold tracking-[2px] uppercase text-gold mb-4";
 
 export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
   const [form, setForm] = useState<FormData>(initialForm);
@@ -206,7 +206,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
           {toast}
         </div>
       )}
-      <div className="bg-white rounded-[20px] max-w-[840px] w-full p-8 md:p-12 relative max-h-[90vh] overflow-y-auto my-6" style={{ fontFamily: "'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif" }}>
+      <div className="bg-white rounded-[20px] max-w-[840px] w-full p-8 md:p-12 relative max-h-[90vh] overflow-y-auto my-6" style={{ fontFamily: "'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif", letterSpacing: '-0.01em' }}>
         {/* 닫기 버튼 */}
         <button
           onClick={onClose}
@@ -238,7 +238,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
           /* --- 신청 폼 --- */
           <>
             <div className="mb-8">
-              <p className="text-[1rem] font-medium tracking-[4px] uppercase text-gold mb-3.5">
+              <p className="text-[1rem] font-medium tracking-[2.8px] uppercase text-gold mb-3.5">
                 Mentor Application
               </p>
               <h2 className="text-[26px] font-bold text-ink tracking-[-0.03em] leading-[1.25] mb-2">
@@ -268,9 +268,9 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-9">
               {/* 기본 정보 */}
-              <fieldset className="space-y-4">
+              <fieldset className="space-y-6">
                 <legend className={sectionLabelClass}>기본 정보</legend>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-md:!grid-cols-1">
                   <div>
@@ -337,7 +337,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
               </fieldset>
 
               {/* 변호사 자격 */}
-              <fieldset className="space-y-4">
+              <fieldset className="space-y-6">
                 <legend className={sectionLabelClass}>변호사 자격</legend>
                 <div>
                   <label className={labelClass}>
@@ -385,7 +385,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
               </fieldset>
 
               {/* 주요 이력 */}
-              <fieldset className="space-y-4">
+              <fieldset className="space-y-6">
                 <legend className={sectionLabelClass}>주요 이력</legend>
                 <div>
                   <label className={labelClass}>
@@ -407,7 +407,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
 
 
               {/* 계좌 정보 */}
-              <fieldset className="space-y-4">
+              <fieldset className="space-y-6">
                 <legend className={sectionLabelClass}>계좌 정보</legend>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-md:!grid-cols-1">
                   <div>
@@ -455,7 +455,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
               </fieldset>
 
               {/* 주차 안내 */}
-              <fieldset className="space-y-4">
+              <fieldset className="space-y-6">
                 <legend className={sectionLabelClass}>주차 안내</legend>
                 <div>
                   <label className={labelClass}>
@@ -502,7 +502,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
               </fieldset>
 
               {/* 강사료 및 정산 관련 확인 */}
-              <fieldset className="space-y-4">
+              <fieldset className="space-y-6">
                 <legend className={sectionLabelClass}>강사료 및 정산 관련 확인</legend>
                 <p className="text-[0.95rem] text-slate font-light leading-relaxed -mt-1">
                   공공기관 재직자 등 내부 규정상 강사료 한도 확인이 필요한 경우에만 작성해 주시기 바랍니다. 세부 규정이 없는 경우 총금액만 작성하셔도 됩니다.
@@ -548,7 +548,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
               </fieldset>
 
               {/* 동의 사항 */}
-              <fieldset className="space-y-3 border-t border-cream-dark pt-6">
+              <fieldset className="space-y-5 border-t border-cream-dark pt-9">
                 <legend className={sectionLabelClass}>동의 사항</legend>
                 <div className="flex items-start gap-3">
                   <input
