@@ -54,10 +54,6 @@ const PROGRAM_INFO = [
   { label: "관련문의", value: "contact@legalcrew.co.kr" },
 ];
 
-const BANKS = [
-  "KB국민은행", "신한은행", "우리은행", "하나은행",
-  "NH농협은행", "IBK기업은행", "카카오뱅크", "토스뱅크", "기타",
-];
 
 // 공통 입력 스타일
 const inputClass =
@@ -73,6 +69,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
   const [step, setStep] = useState<"form" | "success">("form");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [toast, setToast] = useState("");
 
   // ESC 키로 닫기
   useEffect(() => {
@@ -149,28 +146,48 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
     }
   };
 
+  const showToast = (msg: string) => {
+    setToast(msg);
+    setTimeout(() => setToast(""), 2000);
+  };
+
+  const handleBarExamDetailChange = (value: string) => {
+    if (value === "") {
+      updateField("barExamDetail", "");
+      return;
+    }
+    if (!/^\d*$/.test(value)) {
+      showToast("숫자만 입력해주세요");
+      return;
+    }
+    updateField("barExamDetail", value);
+  };
+
   const barDetailLabel =
     form.barExamType === "judicial_exam"
-      ? "사법시험 기수"
+      ? "연수원 기수"
       : form.barExamType === "bar_exam"
         ? "변호사시험 회차"
         : "상세";
 
   const barDetailPlaceholder =
     form.barExamType === "judicial_exam"
-      ? "예: 50회"
+      ? "예시: 00기"
       : form.barExamType === "bar_exam"
-        ? "예: 12회"
+        ? "예시: 00회"
         : "";
 
   return (
     <div
       className="fixed inset-0 z-[500] bg-dark/70 backdrop-blur-[6px] flex items-center justify-center overflow-y-auto p-6"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
     >
-      <div className="bg-white rounded-[20px] max-w-[560px] w-full p-8 md:p-12 relative max-h-[90vh] overflow-y-auto my-6">
+      {/* 토스트 메시지 */}
+      {toast && (
+        <div className="fixed top-8 left-1/2 -translate-x-1/2 z-[600] bg-dark/90 text-white px-6 py-3 rounded-full text-[0.95rem] font-medium shadow-lg animate-fade-in">
+          {toast}
+        </div>
+      )}
+      <div className="bg-white rounded-[20px] max-w-[840px] w-full p-8 md:p-12 relative max-h-[90vh] overflow-y-auto my-6">
         {/* 닫기 버튼 */}
         <button
           onClick={onClose}
@@ -267,6 +284,37 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                     </p>
                   </div>
                 </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-md:!grid-cols-1">
+                  <div>
+                    <label className={labelClass}>
+                      휴대폰 번호 <span className="text-gold ml-0.5">*</span>
+                    </label>
+                    <input
+                      type="tel"
+                      value={form.phone}
+                      onChange={(e) => updateField("phone", e.target.value)}
+                      placeholder="010-0000-0000"
+                      required
+                      className={inputClass}
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>
+                      이메일 주소 <span className="text-gold ml-0.5">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      value={form.email}
+                      onChange={(e) => updateField("email", e.target.value)}
+                      placeholder="master@lawfirm.com"
+                      required
+                      className={inputClass}
+                    />
+                    <p className="text-[1rem] text-slate-light mt-1.5 font-light">
+                      동의서 링크 발송용
+                    </p>
+                  </div>
+                </div>
               </fieldset>
 
               {/* 변호사 자격 */}
@@ -306,8 +354,9 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                     </label>
                     <input
                       type="text"
+                      inputMode="numeric"
                       value={form.barExamDetail}
-                      onChange={(e) => updateField("barExamDetail", e.target.value)}
+                      onChange={(e) => handleBarExamDetailChange(e.target.value)}
                       placeholder={barDetailPlaceholder}
                       required
                       className={`${inputClass} md:w-1/2`}
@@ -337,41 +386,6 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                 </div>
               </fieldset>
 
-              {/* 연락처 */}
-              <fieldset className="space-y-4">
-                <legend className={sectionLabelClass}>연락처</legend>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-md:!grid-cols-1">
-                  <div>
-                    <label className={labelClass}>
-                      휴대폰 번호 <span className="text-gold ml-0.5">*</span>
-                    </label>
-                    <input
-                      type="tel"
-                      value={form.phone}
-                      onChange={(e) => updateField("phone", e.target.value)}
-                      placeholder="010-0000-0000"
-                      required
-                      className={inputClass}
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>
-                      이메일 주소 <span className="text-gold ml-0.5">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      value={form.email}
-                      onChange={(e) => updateField("email", e.target.value)}
-                      placeholder="master@lawfirm.com"
-                      required
-                      className={inputClass}
-                    />
-                    <p className="text-[1rem] text-slate-light mt-1.5 font-light">
-                      동의서 링크 발송용
-                    </p>
-                  </div>
-                </div>
-              </fieldset>
 
               {/* 계좌 정보 */}
               <fieldset className="space-y-4">
@@ -381,19 +395,14 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                     <label className={labelClass}>
                       은행명 <span className="text-gold ml-0.5">*</span>
                     </label>
-                    <select
+                    <input
+                      type="text"
                       value={form.bankName}
                       onChange={(e) => updateField("bankName", e.target.value)}
+                      placeholder="예: KB국민은행"
                       required
-                      className={selectClass}
-                    >
-                      <option value="">선택</option>
-                      {BANKS.map((bank) => (
-                        <option key={bank} value={bank}>
-                          {bank}
-                        </option>
-                      ))}
-                    </select>
+                      className={inputClass}
+                    />
                   </div>
                   <div>
                     <label className={labelClass}>
