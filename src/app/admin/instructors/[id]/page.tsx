@@ -24,7 +24,9 @@ interface InstructorDetail {
 
 interface ConsentSetting {
   lectureTopic: string;
+  lectureCount: number;
   feeAmount: number;
+  totalFee: number;
   specialTerms: string | null;
   token: string;
   sentAt: string;
@@ -39,6 +41,7 @@ const STATUS_TEXT: Record<string, string> = {
   applied: "신청 완료",
   consent_sent: "동의서 발송됨",
   consented: "서명 완료",
+  rejected: "거절됨",
 };
 
 const BAR_LABEL: Record<string, string> = {
@@ -61,12 +64,18 @@ export default function InstructorDetailPage({
 
   // 동의서 세팅 폼
   const [lectureTopic, setLectureTopic] = useState("");
+  const [lectureCount, setLectureCount] = useState("");
   const [feeAmount, setFeeAmount] = useState("");
   const [specialTerms, setSpecialTerms] = useState("");
+
+  const totalFee = Number(lectureCount) > 0 && Number(feeAmount) > 0
+    ? Number(lectureCount) * Number(feeAmount)
+    : 0;
   const [isSending, setIsSending] = useState(false);
   const [sendResult, setSendResult] = useState("");
   const [isResending, setIsResending] = useState(false);
   const [isResetting, setIsResetting] = useState(false);
+  const [isRejecting, setIsRejecting] = useState(false);
   const [actionResult, setActionResult] = useState("");
 
   useEffect(() => {
@@ -114,7 +123,9 @@ export default function InstructorDetailPage({
         },
         body: JSON.stringify({
           lectureTopic,
+          lectureCount: Number(lectureCount),
           feeAmount: Number(feeAmount),
+          totalFee,
           specialTerms: specialTerms || undefined,
         }),
       });
@@ -130,7 +141,9 @@ export default function InstructorDetailPage({
       setSendResult(`동의서 링크가 생성되었습니다: ${baseUrl}/consent/${data.token}`);
       setConsentSetting({
         lectureTopic,
+        lectureCount: Number(lectureCount),
         feeAmount: Number(feeAmount),
+        totalFee,
         specialTerms: specialTerms || null,
         token: data.token,
         sentAt: new Date().toISOString(),
@@ -194,9 +207,40 @@ export default function InstructorDetailPage({
     }
   };
 
+  const handleReject = async () => {
+    if (!window.confirm("이 강사의 신청을 거절하시겠습니까?")) return;
+
+    setIsRejecting(true);
+    setActionResult("");
+    const token = localStorage.getItem("admin_token");
+    if (!token) return;
+
+    try {
+      const res = await fetch(`/api/admin/instructors/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ status: "rejected" }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        if (instructor) setInstructor({ ...instructor, status: "rejected" });
+        setActionResult("거절 처리되었습니다.");
+      } else {
+        setActionResult(data.message || "오류가 발생했습니다.");
+      }
+    } catch {
+      setActionResult("네트워크 오류가 발생했습니다.");
+    } finally {
+      setIsRejecting(false);
+    }
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-ink flex items-center justify-center">
+      <div className="min-h-screen bg-ink flex items-center justify-center font-pretendard">
         <p className="text-muted text-[1.05rem]">불러오는 중...</p>
       </div>
     );
@@ -204,14 +248,14 @@ export default function InstructorDetailPage({
 
   if (error || !instructor) {
     return (
-      <div className="min-h-screen bg-ink flex items-center justify-center">
+      <div className="min-h-screen bg-ink flex items-center justify-center font-pretendard">
         <p className="text-red-400 text-[1.05rem]">{error || "강사 정보를 찾을 수 없습니다."}</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-ink text-cream">
+    <div className="min-h-screen bg-ink text-cream font-pretendard">
       <header className="border-b border-white/[0.06] px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <h1 className="font-logo text-[18px] font-semibold">
@@ -288,6 +332,31 @@ export default function InstructorDetailPage({
               <p className="text-[1rem] whitespace-pre-wrap leading-relaxed">{instructor.bio}</p>
             </div>
           )}
+          {instructor.status === "applied" && (
+            <div className="mt-4 pt-4 border-t border-white/[0.06]">
+              {actionResult && (
+                <div className={`mb-4 p-3 text-[13px] rounded border ${
+                  actionResult.includes("거절")
+                    ? "bg-red-500/10 border-red-500/20 text-red-400"
+                    : "bg-red-500/10 border-red-500/20 text-red-400"
+                }`}>
+                  {actionResult}
+                </div>
+              )}
+              <button
+                onClick={handleReject}
+                disabled={isRejecting}
+                className="px-5 py-2 border border-red-500/30 text-red-400 text-[1rem] rounded-full hover:bg-red-500/10 transition-colors disabled:opacity-50"
+              >
+                {isRejecting ? "처리 중..." : "신청 거절"}
+              </button>
+            </div>
+          )}
+          {instructor.status === "rejected" && (
+            <div className="mt-4 pt-4 border-t border-white/[0.06]">
+              <p className="text-red-400 text-[1rem]">이 강사의 신청은 거절되었습니다.</p>
+            </div>
+          )}
         </div>
 
         {/* 동의서 세팅 */}
@@ -299,8 +368,15 @@ export default function InstructorDetailPage({
                 <span className="text-muted">강의 주제:</span> {consentSetting.lectureTopic}
               </div>
               <div>
-                <span className="text-muted">강사료:</span>{" "}
+                <span className="text-muted">총 강의횟수:</span> {consentSetting.lectureCount}회
+              </div>
+              <div>
+                <span className="text-muted">강사료(1회당):</span>{" "}
                 {consentSetting.feeAmount.toLocaleString()}원
+              </div>
+              <div>
+                <span className="text-muted">총 강사료:</span>{" "}
+                {consentSetting.totalFee.toLocaleString()}원
               </div>
               {consentSetting.specialTerms && (
                 <div className="md:col-span-2">
@@ -396,24 +472,48 @@ export default function InstructorDetailPage({
                   type="text"
                   value={lectureTopic}
                   onChange={(e) => setLectureTopic(e.target.value)}
-                  placeholder="예: 형사 수사 대응 실무"
+                  placeholder="예시: 형사 수사 대응 실무 등"
                   required
                   className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
                 />
               </div>
               <div>
                 <label className="block text-[1rem] text-cream/70 mb-2">
-                  강사료 (원) <span className="text-gold">*</span>
+                  총 강의횟수 <span className="text-gold">*</span>
                 </label>
                 <input
                   type="number"
-                  value={feeAmount}
-                  onChange={(e) => setFeeAmount(e.target.value)}
-                  placeholder="500000"
+                  value={lectureCount}
+                  onChange={(e) => setLectureCount(e.target.value)}
+                  placeholder="예: 2"
                   required
                   min="1"
-                  className="w-full md:w-1/2 bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
+                  className="w-full md:w-1/4 bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
                 />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[1rem] text-cream/70 mb-2">
+                    강사료 (원/1회당) <span className="text-gold">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    value={feeAmount}
+                    onChange={(e) => setFeeAmount(e.target.value)}
+                    placeholder="500000"
+                    required
+                    min="1"
+                    className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[1rem] text-cream/70 mb-2">
+                    총 강사료
+                  </label>
+                  <div className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream/60">
+                    {totalFee > 0 ? `${totalFee.toLocaleString()}원` : "-"}
+                  </div>
+                </div>
               </div>
               <div>
                 <label className="block text-[1rem] text-cream/70 mb-2">

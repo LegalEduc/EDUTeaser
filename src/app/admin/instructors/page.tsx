@@ -21,6 +21,7 @@ const STATUS_LABEL: Record<string, { text: string; color: string }> = {
   applied: { text: "신청", color: "bg-gold/20 text-gold" },
   consent_sent: { text: "발송", color: "bg-blue-500/20 text-blue-400" },
   consented: { text: "완료", color: "bg-green-500/20 text-green-400" },
+  rejected: { text: "거절", color: "bg-red-500/20 text-red-400" },
 };
 
 const BAR_LABEL: Record<string, string> = {
@@ -64,7 +65,7 @@ export default function InstructorsPage() {
   }, [filter, router]);
 
   return (
-    <div className="min-h-screen bg-ink text-cream">
+    <div className="min-h-screen bg-ink text-cream font-pretendard">
       <header className="border-b border-white/[0.06] px-5 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="flex items-center justify-between">
           <h1 className="font-logo text-[18px] font-semibold">

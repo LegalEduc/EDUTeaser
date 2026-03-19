@@ -18,6 +18,7 @@ export const instructorStatusEnum = pgEnum("instructor_status", [
   "applied",
   "consent_sent",
   "consented",
+  "rejected",
 ]);
 export const noticeTargetEnum = pgEnum("notice_target", [
   "all",
@@ -54,7 +55,9 @@ export const consentSettings = pgTable("consent_settings", {
     .notNull()
     .references(() => instructors.id),
   lectureTopic: varchar("lecture_topic", { length: 200 }).notNull(),
+  lectureCount: integer("lecture_count").notNull().default(1),
   feeAmount: integer("fee_amount").notNull(),
+  totalFee: integer("total_fee").notNull().default(0),
   specialTerms: text("special_terms"),
   token: varchar("token", { length: 36 }).notNull().unique(),
   sentAt: timestamp("sent_at").notNull().defaultNow(),

@@ -63,3 +63,54 @@ export async function GET(
     );
   }
 }
+
+// PATCH: 강사 상태 변경 (거절 등)
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const token = getTokenFromRequest(request);
+  if (!token || !(await verifyToken(token))) {
+    return NextResponse.json({ message: "인증이 필요합니다." }, { status: 401 });
+  }
+
+  try {
+    const { id } = await params;
+    const db = getDb();
+    const body = await request.json();
+
+    if (body.status === "rejected") {
+      const [instructor] = await db
+        .select({ id: instructors.id, status: instructors.status })
+        .from(instructors)
+        .where(eq(instructors.id, id))
+        .limit(1);
+
+      if (!instructor) {
+        return NextResponse.json({ message: "강사를 찾을 수 없습니다." }, { status: 404 });
+      }
+
+      if (instructor.status !== "applied") {
+        return NextResponse.json(
+          { message: "신청 상태의 강사만 거절할 수 있습니다." },
+          { status: 400 }
+        );
+      }
+
+      await db
+        .update(instructors)
+        .set({ status: "rejected" })
+        .where(eq(instructors.id, id));
+
+      return NextResponse.json({ success: true, message: "거절 처리되었습니다." });
+    }
+
+    return NextResponse.json({ message: "유효하지 않은 요청입니다." }, { status: 400 });
+  } catch (err) {
+    console.error("Instructor update error:", err);
+    return NextResponse.json(
+      { message: "서버 오류가 발생했습니다." },
+      { status: 500 }
+    );
+  }
+}

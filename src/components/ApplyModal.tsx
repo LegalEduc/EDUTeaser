@@ -206,7 +206,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
           {toast}
         </div>
       )}
-      <div className="bg-white rounded-[20px] max-w-[840px] w-full p-8 md:p-12 relative max-h-[90vh] overflow-y-auto my-6">
+      <div className="bg-white rounded-[20px] max-w-[840px] w-full p-8 md:p-12 relative max-h-[90vh] overflow-y-auto my-6" style={{ fontFamily: "'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif" }}>
         {/* 닫기 버튼 */}
         <button
           onClick={onClose}
