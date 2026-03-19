@@ -1,0 +1,14 @@
+<svg width="220" height="72" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="220" height="72" rx="12" fill="#0A0A0A"/>
+  <g transform="translate(16 14)">
+    <polygon points="24,0 36,7 36,21 24,28 12,21 12,7" fill="#2B5CFF"/>
+    <polygon points="42,10 54,17 54,31 42,38 30,31 30,17" fill="#1E3FAF"/>
+    <polygon points="24,20 36,27 36,41 24,48 12,41 12,27" fill="#5F8BFF"/>
+  </g>
+  <text x="84" y="34" fill="#EAF0FF" font-size="15" font-family="'Noto Sans KR', Arial, sans-serif" font-weight="700">
+    LegalCrew
+  </text>
+  <text x="84" y="53" fill="#9EB3FF" font-size="11" font-family="'Noto Sans KR', Arial, sans-serif" font-weight="500">
+    CI Placeholder (SVG)
+  </text>
+</svg>

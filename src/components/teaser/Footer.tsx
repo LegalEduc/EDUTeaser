@@ -9,32 +9,41 @@ export default function Footer() {
           <div>
             <a
               href="#"
-              className="font-logo text-[20px] font-normal tracking-[2px] text-white no-underline"
+              className="inline-flex items-center no-underline"
+              aria-label="LegalCrew 홈"
             >
-              LegalCrew <em className="italic font-light">Academy</em>
+              <img
+                src="/legalcrew-ci.svg"
+                alt="LegalCrew CI"
+                className="h-11 w-auto"
+              />
             </a>
-            <p className="text-[12px] text-white/30 font-light tracking-[0.5px] mt-2">
+            <p className="text-[1rem] text-white/30 font-light tracking-[0.5px] mt-2">
               변호사 실전 압축 부트캠프 — The Rookie Camp
             </p>
           </div>
           <div className="md:text-right">
-            <p className="text-[10px] font-medium tracking-[3px] uppercase text-gold mb-2.5">
+            <p className="text-[1rem] font-medium tracking-[3px] uppercase text-gold mb-2.5">
               Contact
             </p>
-            <p className="text-[14px] font-medium text-white mb-1">강선민 이사</p>
-            <div className="text-[13px] text-white/35 font-light leading-[1.7]">
+            <p className="text-[1.05rem] font-medium text-white mb-1">채다은 변호사 / 강사 관련</p>
+            <div className="text-[1rem] text-white/35 font-light leading-[1.7]">
               <a href="mailto:contact@legalcrew.co.kr" className="text-white/35 no-underline hover:text-gold transition-colors">
                 contact@legalcrew.co.kr
               </a>
               <br />
-              010-0000-0000
+              010-4635-2159
+              <br />
+              강선민 기획이사 / 교육 관련
+              <br />
+              010-9131-4827
             </div>
           </div>
         </div>
 
         {/* 하단: 카피라이트 */}
         <div className="flex items-center justify-between pt-7 flex-wrap gap-4">
-          <p className="text-[12px] text-white/20 font-light">
+          <p className="text-[1rem] text-white/20 font-light">
             &copy; 2026{" "}
             <a
               href="https://www.legalcrew.co.kr"

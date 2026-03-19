@@ -27,7 +27,7 @@ export default function Hero({ onApplyClick }: { onApplyClick: () => void }) {
 
       <div className="relative z-10 max-w-[900px] px-[clamp(24px,5vw,64px)]">
         <p
-          className="text-[clamp(14px,1.6vw,18px)] font-light text-gold tracking-[1px] mb-10"
+          className="text-[clamp(1rem,1.6vw,1.15rem)] font-light text-gold tracking-[1px] mb-10"
           style={{ animation: "fadeIn 0.8s ease 0.3s both" }}
         >
           초빙 안내
@@ -54,7 +54,7 @@ export default function Hero({ onApplyClick }: { onApplyClick: () => void }) {
         />
 
         <p
-          className="text-[clamp(14px,1.6vw,18px)] font-light text-white/45 tracking-[1px] mb-13 leading-[1.7]"
+          className="text-[clamp(1rem,1.6vw,1.15rem)] font-light text-white/45 tracking-[1px] mb-13 leading-[1.7]"
           style={{ animation: "fadeUp 0.9s ease 1.2s both" }}
         >
           리걸크루 변호사 실전 압축 부트캠프 — The Rookie Camp
@@ -73,7 +73,7 @@ export default function Hero({ onApplyClick }: { onApplyClick: () => void }) {
           ].map((chip, i) => (
             <span
               key={i}
-              className="text-[12px] font-light text-white/45 border border-white/10 rounded-full py-[7px] px-[18px] tracking-[0.5px] transition-all duration-300 hover:border-gold/40 hover:text-white/75"
+              className="text-[1rem] font-light text-white/45 border border-white/10 rounded-full py-[7px] px-[18px] tracking-[0.5px] transition-all duration-300 hover:border-gold/40 hover:text-white/75"
             >
               {chip.strong && (
                 <strong className="text-white/80 font-medium">{chip.strong} </strong>
@@ -90,16 +90,16 @@ export default function Hero({ onApplyClick }: { onApplyClick: () => void }) {
         >
           <button
             onClick={onApplyClick}
-            className="inline-flex items-center gap-2.5 text-[12px] font-medium tracking-[2px] uppercase px-8 py-4 rounded-full bg-gold text-white border-none cursor-pointer transition-all duration-300 hover:bg-gold-dark hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(196,153,60,0.3)]"
+            className="inline-flex items-center gap-2.5 text-[1rem] font-medium tracking-[2px] uppercase px-8 py-4 rounded-full bg-gold text-white border-none cursor-pointer transition-all duration-300 hover:bg-gold-dark hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(196,153,60,0.3)]"
           >
             <span>멘토 참여 신청하기</span>
-            <span className="w-[26px] h-[26px] rounded-full bg-white/18 flex items-center justify-center text-[13px]">
+            <span className="w-[26px] h-[26px] rounded-full bg-white/18 flex items-center justify-center text-[1rem]">
               &rarr;
             </span>
           </button>
           <a
             href="#curriculum"
-            className="inline-flex items-center gap-2.5 text-[12px] font-medium tracking-[2px] uppercase px-8 py-4 rounded-full bg-transparent text-white border-[1.5px] border-white/40 no-underline cursor-pointer transition-all duration-300 hover:bg-white/12 hover:border-white/70"
+            className="inline-flex items-center gap-2.5 text-[1rem] font-medium tracking-[2px] uppercase px-8 py-4 rounded-full bg-transparent text-white border-[1.5px] border-white/40 no-underline cursor-pointer transition-all duration-300 hover:bg-white/12 hover:border-white/70"
           >
             커리큘럼 보기
           </a>
@@ -111,7 +111,7 @@ export default function Hero({ onApplyClick }: { onApplyClick: () => void }) {
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2.5 text-white/18"
         style={{ animation: "fadeIn 1s ease 2s both" }}
       >
-        <span className="text-[9px] tracking-[4px] uppercase font-normal">Scroll</span>
+        <span className="text-[1rem] tracking-[4px] uppercase font-normal">Scroll</span>
         <div
           className="w-px h-10"
           style={{

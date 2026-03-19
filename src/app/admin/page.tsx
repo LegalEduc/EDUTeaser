@@ -59,19 +59,19 @@ export default function AdminDashboardPage() {
           </h1>
           <button
             onClick={handleLogout}
-            className="sm:hidden text-[13px] text-muted hover:text-cream transition-colors"
+            className="sm:hidden text-[1rem] text-muted hover:text-cream transition-colors"
           >
             로그아웃
           </button>
         </div>
-        <nav className="flex gap-3 text-[13px] overflow-x-auto">
+        <nav className="flex gap-3 text-[1rem] overflow-x-auto">
           <Link href="/admin" className="text-gold whitespace-nowrap">대시보드</Link>
           <Link href="/admin/instructors" className="text-muted hover:text-cream transition-colors whitespace-nowrap">강사 관리</Link>
           <Link href="/admin/notices" className="text-muted hover:text-cream transition-colors whitespace-nowrap">안내사항 전달</Link>
         </nav>
         <button
           onClick={handleLogout}
-          className="hidden sm:block text-[13px] text-muted hover:text-cream transition-colors"
+          className="hidden sm:block text-[1rem] text-muted hover:text-cream transition-colors"
         >
           로그아웃
         </button>
@@ -82,7 +82,7 @@ export default function AdminDashboardPage() {
         <h2 className="font-heading text-[24px] font-bold mb-8">대시보드</h2>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-400 text-[13px] rounded">
+          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-400 text-[1rem] rounded">
             {error}
           </div>
         )}
@@ -94,7 +94,7 @@ export default function AdminDashboardPage() {
                 key={card.label}
                 className="bg-ink-mid border border-white/[0.06] p-6 rounded"
               >
-                <p className="text-[13px] text-muted mb-2">{card.label}</p>
+                <p className="text-[1rem] text-muted mb-2">{card.label}</p>
                 <p className={`font-number text-[36px] font-bold ${card.color}`}>
                   {card.value}
                 </p>
@@ -102,13 +102,13 @@ export default function AdminDashboardPage() {
             ))}
           </div>
         ) : (
-          !error && <p className="text-muted text-[14px]">불러오는 중...</p>
+          !error && <p className="text-muted text-[1.05rem]">불러오는 중...</p>
         )}
 
         <div className="mt-10">
           <Link
             href="/admin/instructors"
-            className="inline-block px-6 py-3 border border-gold/30 text-gold hover:bg-gold/10 transition-colors text-[14px] rounded-full"
+            className="inline-block px-6 py-3 border border-gold/30 text-gold hover:bg-gold/10 transition-colors text-[1.05rem] rounded-full"
           >
             강사 목록 보기 &rarr;
           </Link>

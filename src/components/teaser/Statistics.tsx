@@ -35,7 +35,7 @@ export default function Statistics() {
       <div ref={ref} className="max-w-[1080px] mx-auto px-[clamp(24px,5vw,64px)]">
         {/* 헤더 */}
         <div className="reveal mb-20">
-          <p className="text-[10px] font-medium tracking-[4px] uppercase text-white/40 mb-5">
+          <p className="text-[1rem] font-medium tracking-[4px] uppercase text-white/40 mb-5">
             Numbers That Matter
           </p>
           <h2 className="text-[clamp(36px,5vw,64px)] font-extrabold text-white leading-[1.12] tracking-[-0.04em]">
@@ -60,7 +60,7 @@ export default function Statistics() {
                   {s.unit}
                 </span>
               </div>
-              <p className="text-[13px] font-light text-white/45 tracking-[0.5px] leading-[1.6]">
+              <p className="text-[1rem] font-light text-white/45 tracking-[0.5px] leading-[1.6]">
                 {s.label}
               </p>
               {/* 하단 골드 바 */}

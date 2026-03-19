@@ -57,7 +57,7 @@ export default function Mission() {
             <br />
             변호사 양성
           </h2>
-          <p className="text-[15px] font-light text-white/72 max-w-[300px] leading-[1.85] md:text-right">
+          <p className="text-[1.1rem] font-light text-white/72 max-w-[300px] leading-[1.85] md:text-right">
             시험형 사고를 넘어
             <br />
             실무 현장을 주도하는
@@ -73,7 +73,7 @@ export default function Mission() {
               key={m.num}
               className={`reveal reveal-delay-${i + 1} bg-white/12 border border-white/22 rounded-[20px] p-10 px-8 transition-all duration-300 backdrop-blur-[4px] hover:bg-white/22 hover:-translate-y-1`}
             >
-              <p className="text-[11px] font-medium tracking-[3px] text-white/40 uppercase mb-5">
+              <p className="text-[1rem] font-medium tracking-[3px] text-white/40 uppercase mb-5">
                 {m.num}
               </p>
               <div className="text-[28px] mb-4">
@@ -82,7 +82,7 @@ export default function Mission() {
               <h3 className="text-[20px] font-bold text-white mb-3 tracking-[-0.02em] leading-[1.35] whitespace-pre-line">
                 {m.title}
               </h3>
-              <p className="text-[14px] font-light text-white/72 leading-[1.85]">
+              <p className="text-[1.05rem] font-light text-white/72 leading-[1.85]">
                 {m.desc}
               </p>
             </div>

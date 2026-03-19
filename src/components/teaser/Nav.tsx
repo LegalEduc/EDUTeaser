@@ -21,15 +21,18 @@ export default function Nav({ onApplyClick }: { onApplyClick: () => void }) {
     >
       <a
         href="#"
-        className={`font-logo text-[19px] font-normal tracking-[2px] no-underline transition-colors duration-400 ${
-          scrolled ? "text-ink" : "text-white"
-        }`}
+        className="inline-flex items-center no-underline"
+        aria-label="LegalCrew 홈"
       >
-        LegalCrew <em className="italic font-light">Academy</em>
+        <img
+          src="/legalcrew-ci.svg"
+          alt="LegalCrew CI"
+          className="h-10 w-auto"
+        />
       </a>
       <button
         onClick={onApplyClick}
-        className={`text-[11px] font-medium tracking-[1.5px] uppercase px-[22px] py-[10px] rounded-full border-[1.5px] cursor-pointer transition-all duration-300 ${
+        className={`text-[1rem] font-medium tracking-[1.5px] uppercase px-[22px] py-[10px] rounded-full border-[1.5px] cursor-pointer transition-all duration-300 ${
           scrolled
             ? "text-ink border-black/20 hover:bg-ink hover:text-white hover:border-ink"
             : "text-white border-white/35 hover:bg-white/12 hover:border-white/65"

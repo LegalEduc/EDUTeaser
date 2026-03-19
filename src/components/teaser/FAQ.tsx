@@ -41,7 +41,7 @@ export default function FAQ() {
       <div ref={ref} className="max-w-[1080px] mx-auto px-[clamp(24px,5vw,64px)]">
         {/* 헤더 */}
         <div className="reveal text-center mb-[72px]">
-          <span className="inline-flex items-center gap-2 text-[10px] font-medium tracking-[4px] uppercase text-gold mb-3">
+          <span className="inline-flex items-center gap-2 text-[1rem] font-medium tracking-[4px] uppercase text-gold mb-3">
             <span className="w-[5px] h-[5px] rounded-full bg-gold shrink-0" />
             FAQ
           </span>
@@ -63,11 +63,11 @@ export default function FAQ() {
                 onClick={() => setOpenIdx(openIdx === i ? null : i)}
                 className="flex items-start justify-between w-full py-[26px] bg-transparent border-none cursor-pointer text-left gap-5"
               >
-                <span className="text-[16px] font-medium text-ink leading-[1.5] tracking-[-0.01em]">
+                <span className="text-[1.15rem] font-medium text-ink leading-[1.5] tracking-[-0.01em]">
                   {faq.q}
                 </span>
                 <span
-                  className={`w-7 h-7 rounded-full flex items-center justify-center text-[13px] shrink-0 mt-0.5 transition-all duration-350 ${
+                  className={`w-7 h-7 rounded-full flex items-center justify-center text-[1rem] shrink-0 mt-0.5 transition-all duration-350 ${
                     openIdx === i
                       ? "rotate-45 bg-gold text-white"
                       : "bg-cream-dark text-slate"
@@ -80,7 +80,7 @@ export default function FAQ() {
                 className="overflow-hidden transition-all duration-400"
                 style={{ maxHeight: openIdx === i ? "400px" : "0px" }}
               >
-                <p className="text-[14px] text-slate leading-[1.9] pb-6 font-light">
+                <p className="text-[1.05rem] text-slate leading-[1.9] pb-6 font-light">
                   {faq.a}
                 </p>
               </div>
@@ -89,14 +89,18 @@ export default function FAQ() {
 
           {/* 문의처 */}
           <div className="mt-12 pt-10 border-t border-cream-dark">
-            <p className="text-[11px] font-medium tracking-[3px] uppercase text-gold mb-3.5">
+            <p className="text-[1rem] font-medium tracking-[3px] uppercase text-gold mb-3.5">
               Contact
             </p>
-            <p className="text-[15px] font-medium text-ink mb-1">강선민 이사</p>
-            <p className="text-[14px] text-slate font-light leading-[1.8]">
+            <p className="text-[1.1rem] font-medium text-ink mb-1">채다은 변호사 / 강사 관련</p>
+            <p className="text-[1.05rem] text-slate font-light leading-[1.8]">
               contact@legalcrew.co.kr
               <br />
-              010-0000-0000
+              010-4635-2159
+              <br />
+              강선민 기획이사 / 교육 관련
+              <br />
+              010-9131-4827
             </p>
           </div>
         </div>

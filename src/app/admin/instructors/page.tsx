@@ -75,12 +75,12 @@ export default function InstructorsPage() {
               localStorage.removeItem("admin_token");
               router.replace("/admin/login");
             }}
-            className="sm:hidden text-[13px] text-muted hover:text-cream transition-colors"
+            className="sm:hidden text-[1rem] text-muted hover:text-cream transition-colors"
           >
             로그아웃
           </button>
         </div>
-        <nav className="flex gap-3 text-[13px] overflow-x-auto">
+        <nav className="flex gap-3 text-[1rem] overflow-x-auto">
           <Link href="/admin" className="text-muted hover:text-cream transition-colors whitespace-nowrap">대시보드</Link>
           <Link href="/admin/instructors" className="text-gold whitespace-nowrap">강사 관리</Link>
           <Link href="/admin/notices" className="text-muted hover:text-cream transition-colors whitespace-nowrap">안내사항 전달</Link>
@@ -90,7 +90,7 @@ export default function InstructorsPage() {
             localStorage.removeItem("admin_token");
             router.replace("/admin/login");
           }}
-          className="hidden sm:block text-[13px] text-muted hover:text-cream transition-colors"
+          className="hidden sm:block text-[1rem] text-muted hover:text-cream transition-colors"
         >
           로그아웃
         </button>
@@ -109,7 +109,7 @@ export default function InstructorsPage() {
               <button
                 key={f.value}
                 onClick={() => setFilter(f.value)}
-                className={`px-4 py-1.5 text-[12px] rounded-full border transition-colors ${
+                className={`px-4 py-1.5 text-[1rem] rounded-full border transition-colors ${
                   filter === f.value
                     ? "border-gold text-gold bg-gold/10"
                     : "border-white/10 text-muted hover:text-cream"
@@ -122,9 +122,9 @@ export default function InstructorsPage() {
         </div>
 
         {loading ? (
-          <p className="text-muted text-[14px]">불러오는 중...</p>
+          <p className="text-muted text-[1.05rem]">불러오는 중...</p>
         ) : instructors.length === 0 ? (
-          <p className="text-muted text-[14px]">등록된 강사가 없습니다.</p>
+          <p className="text-muted text-[1.05rem]">등록된 강사가 없습니다.</p>
         ) : (
           <div className="space-y-3">
             {instructors.map((inst) => {
@@ -137,19 +137,19 @@ export default function InstructorsPage() {
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <span className="font-semibold text-[15px]">{inst.name}</span>
-                      <span className={`text-[11px] px-2 py-0.5 rounded-full ${statusInfo.color}`}>
+                      <span className="font-semibold text-[1.1rem]">{inst.name}</span>
+                      <span className={`text-[1rem] px-2 py-0.5 rounded-full ${statusInfo.color}`}>
                         {statusInfo.text}
                       </span>
                     </div>
                   </div>
-                  <div className="mt-2 flex flex-col sm:flex-row gap-1 sm:gap-4 text-[12px] text-muted">
+                  <div className="mt-2 flex flex-col sm:flex-row gap-1 sm:gap-4 text-[1rem] text-muted">
                     <span>{BAR_LABEL[inst.barExamType]} {inst.barExamDetail}</span>
                     <span>{inst.email}</span>
                     <span>{inst.phone}</span>
                   </div>
                   {/* 날짜 타임라인 */}
-                  <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-[11px]">
+                  <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-[1rem]">
                     <span className="text-gold/70">
                       신청 {formatDate(inst.appliedAt)}
                     </span>

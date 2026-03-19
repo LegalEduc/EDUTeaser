@@ -67,12 +67,12 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
         <h2 className="font-heading text-[24px] font-bold mb-4">
           서명이 완료되었습니다
         </h2>
-        <p className="text-[14px] text-muted font-light leading-relaxed mb-8">
+        <p className="text-[1.05rem] text-muted font-light leading-relaxed mb-8">
           동의서 서명이 정상적으로 접수되었습니다.
         </p>
         <a
           href={`/api/consent/${token}/pdf`}
-          className="inline-block px-8 py-3 bg-gold text-ink font-semibold text-[14px] rounded-full hover:bg-gold-light transition-colors"
+          className="inline-block px-8 py-3 bg-gold text-ink font-semibold text-[1.05rem] rounded-full hover:bg-gold-light transition-colors"
         >
           동의서 PDF 다운로드
         </a>
@@ -84,10 +84,10 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
     <form onSubmit={handleSubmit} className="space-y-8">
       {/* 강의 조건 표시 */}
       <div className="bg-ink-mid border border-white/[0.06] p-6 rounded">
-        <h3 className="text-[12px] tracking-[3px] uppercase text-gold-dark mb-4 font-medium">
+        <h3 className="text-[1rem] tracking-[3px] uppercase text-gold-dark mb-4 font-medium">
           강의 조건
         </h3>
-        <div className="space-y-3 text-[14px]">
+        <div className="space-y-3 text-[1.05rem]">
           <div className="flex justify-between">
             <span className="text-muted">강사명</span>
             <span className="font-semibold">{instructor.name}</span>
@@ -104,8 +104,8 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
           </div>
           {setting.specialTerms && (
             <div className="pt-3 border-t border-white/[0.06]">
-              <p className="text-muted text-[12px] mb-1">특약사항</p>
-              <p className="text-[13px] whitespace-pre-wrap">{setting.specialTerms}</p>
+              <p className="text-muted text-[1rem] mb-1">특약사항</p>
+              <p className="text-[1rem] whitespace-pre-wrap">{setting.specialTerms}</p>
             </div>
           )}
         </div>
@@ -113,7 +113,7 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
 
       {/* 동의 항목 */}
       <div className="space-y-3">
-        <h3 className="text-[12px] tracking-[3px] uppercase text-gold-dark mb-4 font-medium">
+        <h3 className="text-[1rem] tracking-[3px] uppercase text-gold-dark mb-4 font-medium">
           동의 항목
         </h3>
         <label className="flex items-start gap-3 cursor-pointer min-h-[44px] py-1">
@@ -123,9 +123,9 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
             onChange={(e) => setTopicConfirmed(e.target.checked)}
             className="mt-0.5 accent-gold"
           />
-          <span className="text-[13px] text-cream/80">
+          <span className="text-[1rem] text-cream/80">
             위 강의 주제 및 일정을 확인하였습니다{" "}
-            <span className="text-[11px] text-gold/60 ml-1">필수</span>
+            <span className="text-[1rem] text-gold/60 ml-1">필수</span>
           </span>
         </label>
         <label className="flex items-start gap-3 cursor-pointer min-h-[44px] py-1">
@@ -135,9 +135,9 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
             onChange={(e) => setFeeAgreed(e.target.checked)}
             className="mt-0.5 accent-gold"
           />
-          <span className="text-[13px] text-cream/80">
+          <span className="text-[1rem] text-cream/80">
             위 강사료 조건에 동의합니다{" "}
-            <span className="text-[11px] text-gold/60 ml-1">필수</span>
+            <span className="text-[1rem] text-gold/60 ml-1">필수</span>
           </span>
         </label>
         <label className="flex items-start gap-3 cursor-pointer min-h-[44px] py-1">
@@ -147,9 +147,9 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
             onChange={(e) => setPrivacyAgreed(e.target.checked)}
             className="mt-0.5 accent-gold"
           />
-          <span className="text-[13px] text-cream/80">
+          <span className="text-[1rem] text-cream/80">
             개인정보 수집&middot;이용에 동의합니다{" "}
-            <span className="text-[11px] text-gold/60 ml-1">필수</span>
+            <span className="text-[1rem] text-gold/60 ml-1">필수</span>
           </span>
         </label>
         <label className="flex items-start gap-3 cursor-pointer min-h-[44px] py-1">
@@ -159,9 +159,9 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
             onChange={(e) => setResidentIdAgreed(e.target.checked)}
             className="mt-0.5 accent-gold"
           />
-          <span className="text-[13px] text-cream/80">
+          <span className="text-[1rem] text-cream/80">
             고유식별정보(주민등록번호) 수집&middot;이용에 동의합니다{" "}
-            <span className="text-[11px] text-gold/60 ml-1">필수</span>
+            <span className="text-[1rem] text-gold/60 ml-1">필수</span>
           </span>
         </label>
         <label className="flex items-start gap-3 cursor-pointer min-h-[44px] py-1">
@@ -171,19 +171,19 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
             onChange={(e) => setPortraitAgreed(e.target.checked)}
             className="mt-0.5 accent-gold"
           />
-          <span className="text-[13px] text-cream/80">
+          <span className="text-[1rem] text-cream/80">
             초상권 활용에 동의합니다{" "}
-            <span className="text-[11px] text-cream/30 ml-1">선택</span>
+            <span className="text-[1rem] text-cream/30 ml-1">선택</span>
           </span>
         </label>
       </div>
 
       {/* 서명 */}
       <div>
-        <h3 className="text-[12px] tracking-[3px] uppercase text-gold-dark mb-4 font-medium">
+        <h3 className="text-[1rem] tracking-[3px] uppercase text-gold-dark mb-4 font-medium">
           서명
         </h3>
-        <label className="block text-[13px] text-cream/70 mb-2">
+        <label className="block text-[1rem] text-cream/70 mb-2">
           본인 이름 (신청 시 이름과 동일하게 입력)
         </label>
         <input
@@ -191,12 +191,12 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
           value={signedName}
           onChange={(e) => setSignedName(e.target.value)}
           placeholder="홍길동"
-          className="w-full sm:w-1/2 bg-ink border border-white/[0.08] px-4 py-3 text-[14px] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
+          className="w-full sm:w-1/2 bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
         />
       </div>
 
       {error && (
-        <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 text-[13px] rounded">
+        <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 text-[1rem] rounded">
           {error}
         </div>
       )}
@@ -204,7 +204,7 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
       <button
         type="submit"
         disabled={!canSubmit || isSubmitting}
-        className="w-full py-4 bg-gold text-ink font-semibold text-[15px] rounded-full hover:bg-gold-light transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+        className="w-full py-4 bg-gold text-ink font-semibold text-[1.1rem] rounded-full hover:bg-gold-light transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
       >
         {isSubmitting ? "처리 중..." : "동의서 서명하기"}
       </button>

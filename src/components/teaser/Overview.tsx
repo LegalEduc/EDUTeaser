@@ -33,14 +33,14 @@ export default function Overview() {
       <div className="max-w-[1080px] mx-auto px-[clamp(24px,5vw,64px)]">
         {/* 헤더 */}
         <div ref={headerRef} className="reveal text-center mb-[72px]">
-          <span className="inline-flex items-center gap-2 text-[10px] font-medium tracking-[4px] uppercase text-gold mb-5">
+          <span className="inline-flex items-center gap-2 text-[1rem] font-medium tracking-[4px] uppercase text-gold mb-5">
             <span className="w-[5px] h-[5px] rounded-full bg-gold shrink-0" />
             Program Overview
           </span>
           <h2 className="text-[clamp(30px,4vw,48px)] font-bold text-ink leading-[1.25] tracking-[-0.035em] mt-3">
             프로그램 개요
           </h2>
-          <p className="mt-4 text-[15px] text-slate font-light leading-[1.8]">
+          <p className="mt-4 text-[1.1rem] text-slate font-light leading-[1.8]">
             The Rookie Camp — 변호사 실전 압축 부트캠프
           </p>
         </div>
@@ -57,13 +57,13 @@ export default function Overview() {
                 idx === 4 ? "col-span-2 md:col-span-1" : ""
               }`}
             >
-              <p className="text-[9px] font-semibold tracking-[3.5px] uppercase text-gold mb-3.5">
+              <p className="text-[1rem] font-semibold tracking-[3.5px] uppercase text-gold mb-3.5">
                 {item.label}
               </p>
-              <p className="text-[15px] font-semibold text-ink leading-[1.5] mb-1.5 tracking-[-0.01em]">
+              <p className="text-[1.1rem] font-semibold text-ink leading-[1.5] mb-1.5 tracking-[-0.01em]">
                 {item.value}
               </p>
-              <p className="text-[11px] text-slate-light font-light">
+              <p className="text-[1rem] text-slate-light font-light">
                 {item.sub}
               </p>
             </div>
