@@ -1,3 +1,14 @@
+### 2026-03-19 세션 #6
+
+**완료:**
+- 신청 모달 및 어드민 전체 폰트 Noto Sans KR로 통일
+
+**변경된 파일:**
+- src/components/ApplyModal.tsx (Pretendard → Noto Sans KR)
+- src/app/admin/**/page.tsx (font-pretendard 클래스 제거)
+
+---
+
 ### 2026-03-19 세션 #5
 
 **완료:**
