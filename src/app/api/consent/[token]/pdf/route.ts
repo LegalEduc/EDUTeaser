@@ -85,7 +85,7 @@ export async function GET(
     return new NextResponse(Buffer.from(pdfBytes), {
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="consent-${instructor.name}.pdf"`,
+        "Content-Disposition": `attachment; filename="consent.pdf"; filename*=UTF-8''${encodeURIComponent(`consent-${instructor.name}.pdf`)}`,
       },
     });
   } catch (err) {
