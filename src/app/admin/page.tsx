@@ -108,7 +108,7 @@ export default function AdminDashboardPage() {
         <div className="mt-10">
           <Link
             href="/admin/instructors"
-            className="inline-block px-6 py-3 border border-gold/30 text-gold hover:bg-gold/10 transition-colors text-[1.05rem] rounded-full"
+            className="inline-block px-6 py-3 border border-gold/30 text-gold hover:bg-gold/10 transition-colors text-[1.05rem] rounded-[12px] font-medium tracking-[0.08px]"
           >
             강사 목록 보기 &rarr;
           </Link>

@@ -61,12 +61,12 @@ const PROGRAM_INFO = [
 
 // 공통 입력 스타일
 const inputClass =
-  "w-full py-3 px-4 text-[1.05rem] font-light text-ink bg-cream border border-cream-dark rounded-[6px] outline-none transition-colors duration-200 focus:border-gold focus:bg-white placeholder:text-ink/30";
+  "w-full py-3 px-4 text-[1.05rem] font-normal text-ink bg-cream border border-cream-dark rounded-[12px] outline-none transition-colors duration-200 focus:border-gold focus:bg-white placeholder:text-slate-light";
 const selectClass =
-  "w-full py-3 px-4 text-[1.05rem] font-light text-ink bg-cream border border-cream-dark rounded-[6px] outline-none transition-colors duration-200 focus:border-gold focus:bg-white";
-const labelClass = "block text-[1rem] font-medium text-ink tracking-[0.35px] mb-2";
+  "w-full py-3 px-4 text-[1.05rem] font-normal text-ink bg-cream border border-cream-dark rounded-[12px] outline-none transition-colors duration-200 focus:border-gold focus:bg-white";
+const labelClass = "block text-[1rem] font-medium text-ink tracking-[0.08px] mb-2";
 const sectionLabelClass =
-  "text-[1rem] font-semibold tracking-[2px] uppercase text-gold mb-4";
+  "text-[1rem] font-semibold tracking-[0.12px] uppercase text-gold mb-4";
 
 export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
   const [form, setForm] = useState<FormData>(initialForm);
@@ -202,15 +202,15 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
     >
       {/* 토스트 메시지 */}
       {toast && (
-        <div className="fixed top-8 left-1/2 -translate-x-1/2 z-[600] bg-dark/90 text-white px-6 py-3 rounded-full text-[0.95rem] font-medium shadow-lg animate-fade-in">
+        <div className="fixed top-8 left-1/2 -translate-x-1/2 z-[600] bg-ink text-white px-6 py-3 rounded-[12px] text-[0.95rem] font-medium shadow-airtable animate-fade-in">
           {toast}
         </div>
       )}
-      <div className="bg-white rounded-[20px] max-w-[840px] w-full p-8 md:p-12 relative max-h-[90vh] overflow-y-auto my-6" style={{ fontFamily: "'Noto Sans KR', -apple-system, BlinkMacSystemFont, system-ui, sans-serif", letterSpacing: '-0.01em' }}>
+      <div className="bg-white rounded-3xl max-w-[840px] w-full p-8 md:p-12 relative max-h-[90vh] overflow-y-auto my-6 shadow-airtable-soft border border-cream-dark">
         {/* 닫기 버튼 */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-cream-mid border-none cursor-pointer flex items-center justify-center text-[1.15rem] text-slate hover:bg-cream-dark transition-colors"
+          className="absolute top-5 right-5 w-9 h-9 rounded-[12px] bg-cream-mid border border-cream-dark cursor-pointer flex items-center justify-center text-[1.15rem] text-slate hover:bg-cream-dark transition-colors"
         >
           &#10005;
         </button>
@@ -229,7 +229,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
             </p>
             <button
               onClick={onClose}
-              className="mt-10 px-8 py-3 border border-gold/30 text-gold hover:bg-gold/10 transition-colors text-[1.05rem] rounded-full cursor-pointer"
+              className="mt-10 px-8 py-3 border border-gold/30 text-gold hover:bg-gold/10 transition-colors text-[1.05rem] rounded-[12px] cursor-pointer font-medium tracking-[0.08px]"
             >
               닫기
             </button>
@@ -238,7 +238,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
           /* --- 신청 폼 --- */
           <>
             <div className="mb-8">
-              <p className="text-[1rem] font-medium tracking-[2.8px] uppercase text-gold mb-3.5">
+              <p className="text-[1rem] font-medium tracking-[0.12px] uppercase text-gold mb-3.5">
                 Mentor Application
               </p>
               <h2 className="text-[26px] font-bold text-ink tracking-[-0.03em] leading-[1.25] mb-2">
@@ -250,7 +250,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
             </div>
 
             {/* 프로그램 기본 정보 (읽기전용) */}
-            <div className="mb-8 p-5 bg-cream border border-cream-dark rounded-[10px]">
+            <div className="mb-8 p-5 bg-cream-mid border border-cream-dark rounded-2xl">
               <p className={sectionLabelClass}>프로그램 정보</p>
               <dl className="space-y-2 text-[0.95rem]">
                 {PROGRAM_INFO.map(({ label, value }) => (
@@ -263,7 +263,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
             </div>
 
             {error && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-600 text-[1rem] rounded-[6px]">
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-600 text-[1rem] rounded-[12px]">
                 {error}
               </div>
             )}
@@ -603,7 +603,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                     <button
                       type="button"
                       onClick={() => setConsentPopup(null)}
-                      className="absolute top-4 right-4 w-8 h-8 rounded-full bg-cream-mid border-none cursor-pointer flex items-center justify-center text-[1.15rem] text-slate hover:bg-cream-dark transition-colors"
+                      className="absolute top-4 right-4 w-9 h-9 rounded-[12px] bg-cream-mid border border-cream-dark cursor-pointer flex items-center justify-center text-[1.15rem] text-slate hover:bg-cream-dark transition-colors"
                     >
                       &#10005;
                     </button>
@@ -614,27 +614,27 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                           개인정보 수집&middot;이용 및 제3자 제공 동의
                         </h3>
                         <div className="space-y-4 text-[0.95rem] text-ink/80 leading-relaxed">
-                          <div className="p-4 bg-cream rounded-[8px]">
+                          <div className="p-4 bg-cream rounded-2xl border border-cream-dark/60">
                             <p className="font-semibold text-ink mb-1">1. 수집/이용 목적</p>
                             <p>리걸크루 변호사 실전 압축 부트캠프 운영, 강사료 지급, 원천징수 등 세무 처리, 수강생 공지 및 행정 업무</p>
                           </div>
-                          <div className="p-4 bg-cream rounded-[8px]">
+                          <div className="p-4 bg-cream rounded-2xl border border-cream-dark/60">
                             <p className="font-semibold text-ink mb-1">2. 수집 항목</p>
                             <p>성명, 연락처, 이메일, 주소, 주민등록번호, 계좌번호, 소속 및 경력 정보</p>
                           </div>
-                          <div className="p-4 bg-cream rounded-[8px]">
+                          <div className="p-4 bg-cream rounded-2xl border border-cream-dark/60">
                             <p className="font-semibold text-ink mb-1">3. 보유/이용 기간</p>
                             <p>수집&middot;이용 동의일로부터 관련 법령상 보관 의무 종료 시까지</p>
                           </div>
-                          <div className="p-4 bg-cream rounded-[8px]">
+                          <div className="p-4 bg-cream rounded-2xl border border-cream-dark/60">
                             <p className="font-semibold text-ink mb-1">4. 고유식별정보</p>
                             <p>주민등록번호</p>
                           </div>
-                          <div className="p-4 bg-cream rounded-[8px]">
+                          <div className="p-4 bg-cream rounded-2xl border border-cream-dark/60">
                             <p className="font-semibold text-ink mb-1">5. 제3자 제공 대상</p>
                             <p>리걸크루가 프로그램 운영을 위하여 위탁 또는 지정하는 운영업체(필요한 경우에 한함)</p>
                           </div>
-                          <div className="p-4 bg-cream rounded-[8px]">
+                          <div className="p-4 bg-cream rounded-2xl border border-cream-dark/60">
                             <p className="font-semibold text-ink mb-1">6. 제3자 제공 목적</p>
                             <p>온라인 강의 운영, 촬영 편집, 정산 및 관련 행정 처리</p>
                           </div>
@@ -648,19 +648,19 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                           홍보 및 자료제공 활용 동의
                         </h3>
                         <div className="space-y-4 text-[0.95rem] text-ink/80 leading-relaxed">
-                          <div className="p-4 bg-cream rounded-[8px]">
+                          <div className="p-4 bg-cream rounded-2xl border border-cream-dark/60">
                             <p className="font-semibold text-ink mb-1">1. 홍보 콘텐츠 게재</p>
                             <p>강의 내용 일부를 리걸크루의 기사, 블로그, 홈페이지, SNS, 브로슈어 등 프로그램 안내&middot;홍보 콘텐츠에 게재</p>
                           </div>
-                          <div className="p-4 bg-cream rounded-[8px]">
+                          <div className="p-4 bg-cream rounded-2xl border border-cream-dark/60">
                             <p className="font-semibold text-ink mb-1">2. 강의 촬영 및 온라인 제공</p>
                             <p>본인의 강의를 촬영하여 수강생 및 리걸크루가 승인한 대상자에게 제공되는 온라인 강의&middot;복습 자료&middot;아카이브 용도로 사용</p>
                           </div>
-                          <div className="p-4 bg-cream rounded-[8px]">
+                          <div className="p-4 bg-cream rounded-2xl border border-cream-dark/60">
                             <p className="font-semibold text-ink mb-1">3. 교재/자료집 제작 및 배부</p>
                             <p>본 프로그램을 목적으로 본인이 작성한 강의안과 다른 강의안을 함께 교재 또는 자료집으로 제작하여 수강생에게 배부하고, 잔여 수량은 프로그램 운영 범위 내에서 활용</p>
                           </div>
-                          <div className="p-4 bg-cream rounded-[8px]">
+                          <div className="p-4 bg-cream rounded-2xl border border-cream-dark/60">
                             <p className="font-semibold text-ink mb-1">4. 발표 자료 공유</p>
                             <p>강의 시 사용한 PPT 또는 발표 자료를 요청 수강생에게 PDF 형태로 공유</p>
                           </div>
@@ -672,7 +672,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                     <button
                       type="button"
                       onClick={() => setConsentPopup(null)}
-                      className="mt-6 w-full py-3 border border-gold/30 text-gold hover:bg-gold/10 transition-colors text-[1rem] rounded-full cursor-pointer"
+                      className="mt-6 w-full py-3 border border-gold/30 text-gold hover:bg-gold/10 transition-colors text-[1rem] rounded-[12px] cursor-pointer font-medium tracking-[0.08px]"
                     >
                       확인
                     </button>
@@ -684,7 +684,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-4 bg-gold text-white font-semibold text-[1rem] tracking-[2px] uppercase rounded-full cursor-pointer transition-all duration-300 hover:bg-gold-dark hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-4 bg-gold text-white font-semibold text-[1rem] tracking-[0.08px] uppercase rounded-[12px] cursor-pointer transition-all duration-300 hover:bg-gold-dark hover:-translate-y-0.5 shadow-airtable disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? "처리 중..." : "멘토 참여 신청하기"}
               </button>

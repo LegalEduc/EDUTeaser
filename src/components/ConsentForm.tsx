@@ -72,7 +72,7 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
         </p>
         <a
           href={`/api/consent/${token}/pdf`}
-          className="inline-block px-8 py-3 bg-gold text-ink font-semibold text-[1.05rem] rounded-full hover:bg-gold-light transition-colors"
+          className="inline-block px-8 py-3 bg-gold text-white font-semibold text-[1.05rem] rounded-[12px] hover:bg-gold-light transition-colors shadow-airtable"
         >
           동의서 PDF 다운로드
         </a>
@@ -83,8 +83,8 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       {/* 강의 조건 표시 */}
-      <div className="bg-ink-mid border border-white/[0.06] p-6 rounded">
-        <h3 className="text-[1rem] tracking-[3px] uppercase text-gold-dark mb-4 font-medium">
+      <div className="bg-ink-mid border border-white/[0.06] p-6 rounded-2xl">
+        <h3 className="text-[1rem] tracking-[0.12px] uppercase text-gold-light mb-4 font-medium">
           강의 조건
         </h3>
         <div className="space-y-3 text-[1.05rem]">
@@ -113,7 +113,7 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
 
       {/* 동의 항목 */}
       <div className="space-y-3">
-        <h3 className="text-[1rem] tracking-[3px] uppercase text-gold-dark mb-4 font-medium">
+        <h3 className="text-[1rem] tracking-[0.12px] uppercase text-gold-light mb-4 font-medium">
           동의 항목
         </h3>
         <label className="flex items-start gap-3 cursor-pointer min-h-[44px] py-1">
@@ -180,7 +180,7 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
 
       {/* 서명 */}
       <div>
-        <h3 className="text-[1rem] tracking-[3px] uppercase text-gold-dark mb-4 font-medium">
+        <h3 className="text-[1rem] tracking-[0.12px] uppercase text-gold-light mb-4 font-medium">
           서명
         </h3>
         <label className="block text-[1rem] text-cream/70 mb-2">
@@ -191,12 +191,12 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
           value={signedName}
           onChange={(e) => setSignedName(e.target.value)}
           placeholder="홍길동"
-          className="w-full sm:w-1/2 bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
+          className="w-full sm:w-1/2 bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/50 focus:outline-none transition-colors rounded-[12px]"
         />
       </div>
 
       {error && (
-        <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 text-[1rem] rounded">
+        <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 text-[1rem] rounded-[12px]">
           {error}
         </div>
       )}
@@ -204,7 +204,7 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
       <button
         type="submit"
         disabled={!canSubmit || isSubmitting}
-        className="w-full py-4 bg-gold text-ink font-semibold text-[1.1rem] rounded-full hover:bg-gold-light transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+        className="w-full py-4 bg-gold text-white font-semibold text-[1.1rem] rounded-[12px] hover:bg-gold-light transition-colors disabled:opacity-30 disabled:cursor-not-allowed shadow-airtable"
       >
         {isSubmitting ? "처리 중..." : "동의서 서명하기"}
       </button>

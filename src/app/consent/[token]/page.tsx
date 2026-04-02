@@ -63,7 +63,7 @@ export default function ConsentPage({
           <p className="font-logo text-[1.15rem] mb-6">
             LegalCrew <span className="italic">Academy</span>
           </p>
-          <p className="text-[1rem] tracking-[5px] uppercase text-gold-dark mb-4">
+          <p className="text-[1rem] tracking-[0.12px] uppercase text-gold-light mb-4">
             Consent
           </p>
           <h1 className="font-heading text-[22px] sm:text-[26px] font-bold mb-3">
@@ -85,7 +85,7 @@ export default function ConsentPage({
             </p>
             <a
               href={`/api/consent/${token}/pdf`}
-              className="inline-block px-8 py-3 bg-gold text-ink font-semibold text-[1.05rem] rounded-full hover:bg-gold-light transition-colors"
+              className="inline-block px-8 py-3 bg-gold text-white font-semibold text-[1.05rem] rounded-[12px] hover:bg-gold-light transition-colors shadow-airtable"
             >
               동의서 PDF 다운로드
             </a>

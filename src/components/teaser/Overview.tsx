@@ -33,7 +33,7 @@ export default function Overview() {
       <div className="max-w-[1080px] mx-auto px-[clamp(24px,5vw,64px)]">
         {/* 헤더 */}
         <div ref={headerRef} className="reveal text-center mb-[72px]">
-          <span className="inline-flex items-center gap-2 text-[1rem] font-medium tracking-[4px] uppercase text-gold mb-5">
+          <span className="inline-flex items-center gap-2 text-[1rem] font-medium tracking-[0.12px] uppercase text-gold mb-5">
             <span className="w-[5px] h-[5px] rounded-full bg-gold shrink-0" />
             Program Overview
           </span>
@@ -48,7 +48,7 @@ export default function Overview() {
         {/* 5개 카드 그리드 */}
         <div
           ref={gridRef}
-          className="reveal reveal-delay-1 grid grid-cols-2 md:grid-cols-5 gap-px bg-cream-dark border border-cream-dark rounded-[20px] overflow-hidden"
+          className="reveal reveal-delay-1 grid grid-cols-2 md:grid-cols-5 gap-px bg-cream-dark border border-cream-dark rounded-3xl overflow-hidden shadow-airtable-soft"
         >
           {items.map((item, idx) => (
             <div
@@ -57,7 +57,7 @@ export default function Overview() {
                 idx === 4 ? "col-span-2 md:col-span-1" : ""
               }`}
             >
-              <p className="text-[1rem] font-semibold tracking-[3.5px] uppercase text-gold mb-3.5">
+              <p className="text-[1rem] font-semibold tracking-[0.12px] uppercase text-gold mb-3.5">
                 {item.label}
               </p>
               <p className="text-[1.1rem] font-semibold text-ink leading-[1.5] mb-1.5 tracking-[-0.01em]">

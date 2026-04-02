@@ -41,7 +41,7 @@ export default function FAQ() {
       <div ref={ref} className="max-w-[1080px] mx-auto px-[clamp(24px,5vw,64px)]">
         {/* 헤더 */}
         <div className="reveal text-center mb-[72px]">
-          <span className="inline-flex items-center gap-2 text-[1rem] font-medium tracking-[4px] uppercase text-gold mb-3">
+          <span className="inline-flex items-center gap-2 text-[1rem] font-medium tracking-[0.12px] uppercase text-gold mb-3">
             <span className="w-[5px] h-[5px] rounded-full bg-gold shrink-0" />
             FAQ
           </span>
@@ -89,7 +89,7 @@ export default function FAQ() {
 
           {/* 문의처 */}
           <div className="mt-12 pt-10 border-t border-cream-dark">
-            <p className="text-[1rem] font-medium tracking-[3px] uppercase text-gold mb-3.5">
+            <p className="text-[1rem] font-medium tracking-[0.12px] uppercase text-gold mb-3.5">
               Contact
             </p>
             <p className="text-[1.1rem] font-medium text-ink mb-1">채다은 변호사 / 강사 관련</p>

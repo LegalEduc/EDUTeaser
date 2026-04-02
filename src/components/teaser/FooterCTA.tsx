@@ -26,7 +26,7 @@ export default function FooterCTA({ onApplyClick }: { onApplyClick: () => void }
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-[radial-gradient(circle,rgba(196,153,60,0.05)_0%,transparent_70%)] pointer-events-none" />
 
       <div ref={ref} className="max-w-[1080px] mx-auto px-[clamp(24px,5vw,64px)] text-center relative z-10">
-        <p className="reveal text-[1rem] font-medium tracking-[5px] uppercase text-gold mb-7">
+        <p className="reveal text-[1rem] font-medium tracking-[0.12px] uppercase text-gold mb-7">
           Join as a Mentor
         </p>
         <h2 className="reveal reveal-delay-1 text-[clamp(36px,5.5vw,72px)] font-extrabold text-ink leading-[1.08] tracking-[-0.045em] mb-7">
@@ -44,7 +44,7 @@ export default function FooterCTA({ onApplyClick }: { onApplyClick: () => void }
         <div className="reveal reveal-delay-3 flex items-center justify-center gap-4 flex-wrap mb-14">
           <button
             onClick={onApplyClick}
-            className="inline-flex items-center gap-2.5 text-[1rem] font-medium tracking-[2px] uppercase px-8 py-4 rounded-full bg-gold text-white border-none cursor-pointer transition-all duration-300 hover:bg-gold-dark hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(196,153,60,0.3)]"
+            className="inline-flex items-center gap-2.5 text-[1rem] font-medium tracking-[0.08px] uppercase px-6 py-3.5 rounded-[12px] bg-gold text-white border-none cursor-pointer transition-all duration-300 hover:bg-gold-dark hover:-translate-y-0.5 shadow-airtable hover:shadow-airtable-soft"
           >
             <span>멘토 참여 신청하기</span>
             <span className="w-[26px] h-[26px] rounded-full bg-white/18 flex items-center justify-center text-[1rem]">

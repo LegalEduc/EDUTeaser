@@ -16,8 +16,8 @@ export default function Image() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#0f0f1e",
-          color: "#faf8f5",
+          backgroundColor: "#181d26",
+          color: "#ffffff",
         }}
       >
         <div style={{ fontSize: 64, fontWeight: 700 }}>LegalCrew</div>
@@ -25,7 +25,7 @@ export default function Image() {
           style={{
             fontSize: 52,
             fontStyle: "italic",
-            color: "#c4993c",
+            color: "#2d7ff9",
             marginTop: 8,
           }}
         >
@@ -35,13 +35,12 @@ export default function Image() {
           style={{
             width: 400,
             height: 1,
-            backgroundColor: "#c4993c",
-            opacity: 0.4,
+            backgroundColor: "rgba(45,127,249,0.45)",
             marginTop: 32,
             marginBottom: 32,
           }}
         />
-        <div style={{ fontSize: 28, color: "rgba(250,248,245,0.5)" }}>
+        <div style={{ fontSize: 28, color: "rgba(255,255,255,0.55)" }}>
           The Rookie Camp
         </div>
       </div>

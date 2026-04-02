@@ -1,81 +1,99 @@
+/* @import 순서: 폰트 → Tailwind (CSS 스펙) */
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap");
+
 @import "tailwindcss";
 
-/* Pretendard */
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
-
-/* Noto Korean Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;500;700&display=swap');
-
 @theme {
-  /* Core Colors */
+  /* DESIGN.md — Airtable design system */
+  --theme_text: #181d26;
+  --theme_primary: #1b61c9;
+  --theme_surface: #ffffff;
+  --theme_border: #e0e2e6;
+  --theme_surface-subtle: #f8fafc;
+  --theme_text-weak: rgba(4, 14, 32, 0.69);
+  --theme_success-text: #006400;
+  --theme_shadow-blue: rgba(45, 127, 249, 0.28);
+
   --color-white: #ffffff;
-  --color-cream: #faf8f5;
-  --color-cream-mid: #f3f0eb;
-  --color-cream-dark: #e8e3da;
+  --color-cream: #ffffff;
+  --color-cream-mid: #f8fafc;
+  --color-cream-dark: #e0e2e6;
 
-  --color-ink: #111827;
-  --color-ink-mid: #1f2937;
-  --color-slate: #5c6480;
-  --color-slate-light: #8b92a8;
+  --color-ink: #181d26;
+  --color-ink-mid: #252b36;
 
-  /* Brand */
-  --color-gold: #c4993c;
-  --color-gold-light: #d4af62;
-  --color-gold-dark: #a07d2e;
+  --color-slate: #333333;
+  --color-slate-light: rgba(4, 14, 32, 0.69);
 
-  /* Dark (light fallback mapping) */
-  --color-navy: #1a2744;
-  --color-navy-mid: #243360;
-  --color-dark: #0f0f1a;
-  --color-dark-mid: #161624;
+  /* 브랜드 액센트: Airtable Blue (기존 gold 클래스명 유지) */
+  --color-gold: #1b61c9;
+  --color-gold-light: #2d7ff9;
+  --color-gold-dark: #154a9e;
 
-  --color-muted: #6b6b8a;
+  --color-navy: #181d26;
+  --color-navy-mid: #1e2430;
 
-  --font-sans: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font-serif: 'Noto Serif KR', serif;
-  --font-logo: 'Cormorant Garamond', serif;
+  --color-dark: #181d26;
+  --color-dark-mid: #252b36;
+
+  --color-muted: rgba(255, 255, 255, 0.45);
+
+  --font-sans: "Inter", "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+  --font-serif: "Noto Sans KR", serif;
+  --font-logo: "Cormorant Garamond", serif;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
-    font-size: 13pt;
+    font-size: 100%;
   }
 
   body {
     font-family: var(--font-sans);
     background: var(--color-cream);
     color: var(--color-ink);
-    line-height: 1.8;
+    line-height: 1.35;
+    letter-spacing: 0.18px;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
-    font-weight: 300;
-    font-size: 1rem;
+    font-weight: 400;
+    font-size: 1.125rem;
   }
 
-  /* Optional serif usage for sections needing a serif tone */
   .font-serif-kor {
     font-family: var(--font-serif);
   }
 
-  .font-pretendard {
-    font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  .font-heading {
+    font-family: var(--font-sans);
+    letter-spacing: 0.02em;
   }
-}
 
-/* Light-theme global override for former dark references */
-:root {
-  --color-navy: var(--color-cream-dark);
-  --color-navy-mid: var(--color-cream-mid);
-  --color-dark: var(--color-cream-mid);
-  --color-dark-mid: var(--color-cream);
+  .font-pretendard {
+    font-family: var(--font-sans);
+  }
+
+  .shadow-airtable {
+    box-shadow:
+      rgba(0, 0, 0, 0.32) 0 0 1px,
+      rgba(0, 0, 0, 0.08) 0 0 2px,
+      rgba(45, 127, 249, 0.28) 0 1px 3px,
+      rgba(0, 0, 0, 0.06) 0 0 0 0.5px inset;
+  }
+
+  .shadow-airtable-soft {
+    box-shadow: rgba(15, 48, 106, 0.05) 0 0 20px;
+  }
 }
 
 @layer base {
   /* Scroll Progress Bar */
   #progress-bar {
     position: fixed;
-    top: 0; left: 0;
+    top: 0;
+    left: 0;
     height: 2px;
     width: 0%;
     background: linear-gradient(to right, var(--color-gold-dark), var(--color-gold-light));
@@ -88,25 +106,40 @@
   .reveal {
     opacity: 0;
     transform: translateY(28px);
-    transition: opacity 0.75s cubic-bezier(0.22,1,0.36,1), transform 0.75s cubic-bezier(0.22,1,0.36,1);
+    transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .reveal.visible {
     opacity: 1;
     transform: none;
   }
-  .reveal-delay-1 { transition-delay: 0.1s; }
-  .reveal-delay-2 { transition-delay: 0.2s; }
-  .reveal-delay-3 { transition-delay: 0.33s; }
-  .reveal-delay-4 { transition-delay: 0.48s; }
+  .reveal-delay-1 {
+    transition-delay: 0.1s;
+  }
+  .reveal-delay-2 {
+    transition-delay: 0.2s;
+  }
+  .reveal-delay-3 {
+    transition-delay: 0.33s;
+  }
+  .reveal-delay-4 {
+    transition-delay: 0.48s;
+  }
 
-  /* Gold Section Divider */
+  /* 섹션 구분선 — 브랜드 블루 틴트 */
   .section-divider {
     width: 100%;
     max-width: 1080px;
     margin: 0 auto;
     height: 1px;
-    background: linear-gradient(to right, transparent, rgba(196,153,60,0.25) 20%, rgba(196,153,60,0.25) 80%, transparent);
-    opacity: 0.7;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(27, 97, 201, 0.22) 20%,
+      rgba(27, 97, 201, 0.22) 80%,
+      transparent
+    );
+    opacity: 0.85;
   }
 
   /* Accordion (FAQ + Curriculum) */
@@ -122,31 +155,52 @@
     overflow: hidden;
   }
 
-  /* Part accordion (curriculum) */
   .part-body {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1);
+    transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .part-body.open {
     max-height: 1000px;
   }
 }
 
-/* Hero Animations */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 @keyframes lineGrow {
-  from { transform: scaleX(0); opacity: 0; }
-  to { transform: scaleX(1); opacity: 1; }
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
 }
 @keyframes scrollPulse {
-  0%, 100% { opacity: 0.3; transform: scaleY(1); }
-  50% { opacity: 0.8; transform: scaleY(1.15); }
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scaleY(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scaleY(1.15);
+  }
 }

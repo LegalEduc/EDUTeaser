@@ -44,7 +44,7 @@ export async function generateConsentPdf(data: PdfData): Promise<Uint8Array> {
   const { height } = page.getSize();
   const black = rgb(0, 0, 0);
   const gray = rgb(0.4, 0.4, 0.4);
-  const gold = rgb(0.77, 0.6, 0.24);
+  const accent = rgb(0.106, 0.38, 0.788); /* #1b61c9 */
 
   let y = height - 60;
   const leftMargin = 50;
@@ -74,7 +74,7 @@ export async function generateConsentPdf(data: PdfData): Promise<Uint8Array> {
     start: { x: leftMargin, y },
     end: { x: leftMargin + contentWidth, y },
     thickness: 1,
-    color: gold,
+    color: accent,
   });
 
   // 강사 정보
@@ -84,7 +84,7 @@ export async function generateConsentPdf(data: PdfData): Promise<Uint8Array> {
     y,
     size: 13,
     font,
-    color: gold,
+    color: accent,
   });
 
   const infoItems = [
@@ -126,7 +126,7 @@ export async function generateConsentPdf(data: PdfData): Promise<Uint8Array> {
     y,
     size: 13,
     font,
-    color: gold,
+    color: accent,
   });
 
   y -= 25;
@@ -186,7 +186,7 @@ export async function generateConsentPdf(data: PdfData): Promise<Uint8Array> {
     y,
     size: 13,
     font,
-    color: gold,
+    color: accent,
   });
 
   const checkItems = [
@@ -226,7 +226,7 @@ export async function generateConsentPdf(data: PdfData): Promise<Uint8Array> {
     y,
     size: 13,
     font,
-    color: gold,
+    color: accent,
   });
 
   y -= 25;

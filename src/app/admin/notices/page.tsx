@@ -154,7 +154,7 @@ export default function NoticesPage() {
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="공지 제목"
                 required
-                className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
+                className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/50 focus:outline-none transition-colors rounded-[12px]"
               />
             </div>
             <div>
@@ -167,7 +167,7 @@ export default function NoticesPage() {
                 placeholder="공지 내용을 작성하세요"
                 required
                 rows={5}
-                className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors resize-y"
+                className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/50 focus:outline-none transition-colors resize-y rounded-[12px]"
               />
             </div>
             <div>
@@ -198,7 +198,7 @@ export default function NoticesPage() {
             <button
               type="submit"
               disabled={isSending}
-              className="px-6 py-3 bg-gold text-ink font-semibold text-[1.05rem] rounded-full hover:bg-gold-light transition-colors disabled:opacity-50"
+              className="px-6 py-3 bg-gold text-white font-semibold text-[1.05rem] rounded-[12px] hover:bg-gold-light transition-colors disabled:opacity-50 shadow-airtable"
             >
               {isSending ? "등록 중..." : "공지 등록"}
             </button>

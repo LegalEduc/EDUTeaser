@@ -15,7 +15,7 @@ export default function Nav({ onApplyClick }: { onApplyClick: () => void }) {
     <nav
       className={`fixed top-0 left-0 right-0 z-[200] flex items-center justify-between py-5 px-[clamp(24px,5vw,64px)] transition-all duration-400 border-b border-transparent ${
         scrolled
-          ? "bg-cream/94 backdrop-blur-[20px] !border-cream-dark"
+          ? "bg-white/95 backdrop-blur-[20px] !border-cream-dark shadow-airtable-soft"
           : "bg-transparent"
       }`}
     >
@@ -32,9 +32,9 @@ export default function Nav({ onApplyClick }: { onApplyClick: () => void }) {
       </a>
       <button
         onClick={onApplyClick}
-        className={`text-[1rem] font-medium tracking-[1.5px] uppercase px-[22px] py-[10px] rounded-full border-[1.5px] cursor-pointer transition-all duration-300 ${
+        className={`text-[1rem] font-medium tracking-[0.08px] uppercase px-5 py-2.5 rounded-[12px] border cursor-pointer transition-all duration-300 ${
           scrolled
-            ? "text-ink border-black/20 hover:bg-ink hover:text-white hover:border-ink"
+            ? "text-ink border-cream-dark hover:bg-ink hover:text-white hover:border-ink"
             : "text-white border-white/35 hover:bg-white/12 hover:border-white/65"
         }`}
       >

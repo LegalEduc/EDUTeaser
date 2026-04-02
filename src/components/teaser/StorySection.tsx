@@ -30,7 +30,7 @@ export default function StorySection() {
             {/* 수직 구분선 (PC only) */}
             <div className="hidden md:block absolute right-0 top-[5%] h-[90%] w-px bg-gradient-to-b from-transparent via-gold/25 to-transparent" />
 
-            <p className="text-[1rem] font-medium tracking-[4px] uppercase text-slate-light mb-7">
+            <p className="text-[1rem] font-medium tracking-[0.12px] uppercase text-slate-light mb-7">
               The Problem
             </p>
             <h2 className="text-[clamp(24px,3vw,38px)] font-bold text-ink leading-[1.35] tracking-[-0.03em] mb-6">
@@ -51,7 +51,7 @@ export default function StorySection() {
 
           {/* 오른쪽: 해결 방향 */}
           <div ref={rightRef} className="reveal reveal-delay-2 md:pl-[60px]">
-            <p className="text-[1rem] font-medium tracking-[4px] uppercase text-slate-light mb-7">
+            <p className="text-[1rem] font-medium tracking-[0.12px] uppercase text-slate-light mb-7">
               Our Answer
             </p>
             <h2 className="text-[clamp(24px,3vw,38px)] font-bold text-ink leading-[1.35] tracking-[-0.03em] mb-6">

@@ -71,7 +71,7 @@ export default function Mission() {
           {missions.map((m, i) => (
             <div
               key={m.num}
-              className={`reveal reveal-delay-${i + 1} bg-white/12 border border-white/22 rounded-[20px] p-10 px-8 transition-all duration-300 backdrop-blur-[4px] hover:bg-white/22 hover:-translate-y-1`}
+              className={`reveal reveal-delay-${i + 1} bg-white/12 border border-white/22 rounded-2xl p-10 px-8 transition-all duration-300 backdrop-blur-[4px] hover:bg-white/22 hover:-translate-y-1 shadow-airtable-soft`}
             >
               <p className="text-[1rem] font-medium tracking-[3px] text-white/40 uppercase mb-5">
                 {m.num}

@@ -278,7 +278,7 @@ export default function InstructorDetailPage({
         <div className="bg-ink-mid border border-white/[0.06] p-6 rounded mb-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="font-heading text-[22px] font-bold">{instructor.name}</h2>
-            <span className="text-[1rem] px-3 py-1 rounded-full bg-gold/20 text-gold">
+            <span className="text-[1rem] px-3 py-1 rounded-[12px] bg-gold/20 text-gold">
               {STATUS_TEXT[instructor.status] || instructor.status}
             </span>
           </div>
@@ -346,7 +346,7 @@ export default function InstructorDetailPage({
               <button
                 onClick={handleReject}
                 disabled={isRejecting}
-                className="px-5 py-2 border border-red-500/30 text-red-400 text-[1rem] rounded-full hover:bg-red-500/10 transition-colors disabled:opacity-50"
+                className="px-5 py-2 border border-red-500/30 text-red-400 text-[1rem] rounded-[12px] hover:bg-red-500/10 transition-colors disabled:opacity-50"
               >
                 {isRejecting ? "처리 중..." : "신청 거절"}
               </button>
@@ -414,7 +414,7 @@ export default function InstructorDetailPage({
                         URL.revokeObjectURL(url);
                       });
                   }}
-                  className="px-4 py-2 border border-gold/30 text-gold hover:bg-gold/10 transition-colors text-[1rem] rounded-full"
+                  className="px-4 py-2 border border-gold/30 text-gold hover:bg-gold/10 transition-colors text-[1rem] rounded-[12px]"
                 >
                   PDF 다운로드
                 </a>
@@ -434,14 +434,14 @@ export default function InstructorDetailPage({
                   <button
                     onClick={handleResend}
                     disabled={isResending || isResetting}
-                    className="px-5 py-2 bg-blue-600 text-cream font-semibold text-[13px] rounded-full hover:bg-blue-500 transition-colors disabled:opacity-50"
+                    className="px-5 py-2 bg-gold text-white font-semibold text-[13px] rounded-[12px] hover:bg-gold-dark transition-colors disabled:opacity-50 shadow-airtable"
                   >
                     {isResending ? "발송 중..." : "이메일 재발송"}
                   </button>
                   <button
                     onClick={handleReset}
                     disabled={isResending || isResetting}
-                    className="px-5 py-2 border border-red-500/30 text-red-400 text-[13px] rounded-full hover:bg-red-500/10 transition-colors disabled:opacity-50"
+                    className="px-5 py-2 border border-red-500/30 text-red-400 text-[13px] rounded-[12px] hover:bg-red-500/10 transition-colors disabled:opacity-50"
                   >
                     {isResetting ? "처리 중..." : "초기화"}
                   </button>
@@ -474,7 +474,7 @@ export default function InstructorDetailPage({
                   onChange={(e) => setLectureTopic(e.target.value)}
                   placeholder="예시: 형사 수사 대응 실무 등"
                   required
-                  className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
+                  className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/50 focus:outline-none transition-colors rounded-[12px]"
                 />
               </div>
               <div>
@@ -488,7 +488,7 @@ export default function InstructorDetailPage({
                   placeholder="예: 2"
                   required
                   min="1"
-                  className="w-full md:w-1/4 bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
+                  className="w-full md:w-1/4 bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/50 focus:outline-none transition-colors rounded-[12px]"
                 />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -503,7 +503,7 @@ export default function InstructorDetailPage({
                     placeholder="500000"
                     required
                     min="1"
-                    className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
+                    className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/50 focus:outline-none transition-colors rounded-[12px]"
                   />
                 </div>
                 <div>
@@ -524,13 +524,13 @@ export default function InstructorDetailPage({
                   onChange={(e) => setSpecialTerms(e.target.value)}
                   placeholder="특별 조건이 있으면 기재해 주세요"
                   rows={3}
-                  className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors resize-y"
+                  className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/50 focus:outline-none transition-colors resize-y rounded-[12px]"
                 />
               </div>
               <button
                 type="submit"
                 disabled={isSending}
-                className="px-6 py-3 bg-gold text-ink font-semibold text-[1.05rem] rounded-full hover:bg-gold-light transition-colors disabled:opacity-50"
+                className="px-6 py-3 bg-gold text-white font-semibold text-[1.05rem] rounded-[12px] hover:bg-gold-light transition-colors disabled:opacity-50 shadow-airtable"
               >
                 {isSending ? "처리 중..." : "동의서 세팅 + 링크 생성"}
               </button>

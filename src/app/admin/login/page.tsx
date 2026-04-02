@@ -41,7 +41,7 @@ export default function AdminLoginPage() {
     <div className="min-h-screen bg-ink flex items-center justify-center p-6">
       <div className="w-full max-w-[400px]">
         <div className="text-center mb-10">
-          <p className="text-[1rem] tracking-[5px] uppercase text-gold-dark mb-3">
+          <p className="text-[1rem] tracking-[0.12px] uppercase text-gold-light mb-3">
             Admin
           </p>
           <h1 className="font-heading text-[28px] font-bold text-cream">
@@ -67,13 +67,13 @@ export default function AdminLoginPage() {
               placeholder="관리자 비밀번호를 입력하세요"
               required
               autoFocus
-              className="w-full bg-ink-mid border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
+              className="w-full bg-ink-mid border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/50 focus:outline-none transition-colors rounded-[12px]"
             />
           </div>
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3 bg-gold text-ink font-semibold text-[1.05rem] rounded-full hover:bg-gold-light transition-colors disabled:opacity-50"
+            className="w-full py-3 bg-gold text-white font-semibold text-[1.05rem] rounded-[12px] hover:bg-gold-light transition-colors disabled:opacity-50 shadow-airtable"
           >
             {isLoading ? "로그인 중..." : "로그인"}
           </button>

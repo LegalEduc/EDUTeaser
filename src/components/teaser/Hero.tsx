@@ -8,9 +8,9 @@ export default function Hero({ onApplyClick }: { onApplyClick: () => void }) {
         className="absolute inset-0 pointer-events-none"
         style={{
           background: `
-            radial-gradient(ellipse 70% 50% at 50% 10%, rgba(196,153,60,0.07) 0%, transparent 55%),
-            radial-gradient(ellipse 40% 60% at 10% 60%, rgba(26,39,68,0.4) 0%, transparent 55%),
-            radial-gradient(ellipse 40% 60% at 90% 60%, rgba(26,39,68,0.3) 0%, transparent 55%)
+            radial-gradient(ellipse 70% 50% at 50% 10%, rgba(27,97,201,0.12) 0%, transparent 55%),
+            radial-gradient(ellipse 40% 60% at 10% 60%, rgba(24,36,54,0.5) 0%, transparent 55%),
+            radial-gradient(ellipse 40% 60% at 90% 60%, rgba(24,36,54,0.35) 0%, transparent 55%)
           `,
         }}
       />
@@ -21,20 +21,21 @@ export default function Hero({ onApplyClick }: { onApplyClick: () => void }) {
         style={{
           left: "clamp(24px,5vw,64px)",
           width: "1px",
-          background: "linear-gradient(to bottom, transparent 0%, rgba(196,153,60,0.2) 30%, rgba(196,153,60,0.2) 70%, transparent 100%)",
+          background:
+            "linear-gradient(to bottom, transparent 0%, rgba(27,97,201,0.25) 30%, rgba(27,97,201,0.25) 70%, transparent 100%)",
         }}
       />
 
       <div className="relative z-10 max-w-[900px] px-[clamp(24px,5vw,64px)]">
         <p
-          className="text-[clamp(1rem,1.6vw,1.15rem)] font-light text-gold tracking-[1px] mb-10"
+          className="text-[clamp(1rem,1.6vw,1.15rem)] font-medium text-gold tracking-[0.12px] mb-10"
           style={{ animation: "fadeIn 0.8s ease 0.3s both" }}
         >
           초빙 안내
         </p>
 
         <h1
-          className="text-[clamp(40px,7vw,88px)] font-extrabold text-white leading-[1.07] tracking-[-0.04em] mb-0"
+          className="text-[clamp(40px,7vw,88px)] font-bold text-white leading-[1.15] tracking-normal mb-0"
           style={{ animation: "fadeUp 1s cubic-bezier(0.22,1,0.36,1) 0.5s both" }}
         >
           법조계의 새로운
@@ -73,7 +74,7 @@ export default function Hero({ onApplyClick }: { onApplyClick: () => void }) {
           ].map((chip, i) => (
             <span
               key={i}
-              className="text-[1rem] font-light text-white/45 border border-white/10 rounded-full py-[7px] px-[18px] tracking-[0.5px] transition-all duration-300 hover:border-gold/40 hover:text-white/75"
+              className="text-[1rem] font-normal text-white/45 border border-white/10 rounded-[12px] py-[7px] px-[18px] tracking-[0.08px] transition-all duration-300 hover:border-gold/40 hover:text-white/75"
             >
               {chip.strong && (
                 <strong className="text-white/80 font-medium">{chip.strong} </strong>
@@ -90,7 +91,7 @@ export default function Hero({ onApplyClick }: { onApplyClick: () => void }) {
         >
           <button
             onClick={onApplyClick}
-            className="inline-flex items-center gap-2.5 text-[1rem] font-medium tracking-[2px] uppercase px-8 py-4 rounded-full bg-gold text-white border-none cursor-pointer transition-all duration-300 hover:bg-gold-dark hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(196,153,60,0.3)]"
+            className="inline-flex items-center gap-2.5 text-[1rem] font-medium tracking-[0.08px] uppercase px-6 py-3.5 rounded-[12px] bg-gold text-white border-none cursor-pointer transition-all duration-300 hover:bg-gold-dark hover:-translate-y-0.5 shadow-airtable hover:shadow-airtable-soft"
           >
             <span>멘토 참여 신청하기</span>
             <span className="w-[26px] h-[26px] rounded-full bg-white/18 flex items-center justify-center text-[1rem]">
@@ -99,7 +100,7 @@ export default function Hero({ onApplyClick }: { onApplyClick: () => void }) {
           </button>
           <a
             href="#curriculum"
-            className="inline-flex items-center gap-2.5 text-[1rem] font-medium tracking-[2px] uppercase px-8 py-4 rounded-full bg-transparent text-white border-[1.5px] border-white/40 no-underline cursor-pointer transition-all duration-300 hover:bg-white/12 hover:border-white/70"
+            className="inline-flex items-center gap-2.5 text-[1rem] font-medium tracking-[0.08px] uppercase px-6 py-3.5 rounded-[12px] bg-transparent text-white border border-white/40 no-underline cursor-pointer transition-all duration-300 hover:bg-white/12 hover:border-white/70"
           >
             커리큘럼 보기
           </a>
@@ -115,7 +116,7 @@ export default function Hero({ onApplyClick }: { onApplyClick: () => void }) {
         <div
           className="w-px h-10"
           style={{
-            background: "linear-gradient(to bottom, rgba(196,153,60,0.5), transparent)",
+            background: "linear-gradient(to bottom, rgba(45,127,249,0.55), transparent)",
             animation: "scrollPulse 2s ease infinite",
           }}
         />

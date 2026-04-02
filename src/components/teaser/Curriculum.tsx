@@ -40,7 +40,7 @@ export default function Curriculum() {
     <section
       id="curriculum"
       ref={sectionRef}
-      style={{ background: "#0f0f1a", padding: "clamp(100px,12vw,160px) 0" }}
+      style={{ background: "#181d26", padding: "clamp(100px,12vw,160px) 0" }}
     >
       <div style={{ maxWidth: 1080, margin: "0 auto", padding: "0 clamp(24px,5vw,64px)" }}>
         {/* 헤더 */}
@@ -54,20 +54,20 @@ export default function Curriculum() {
               fontWeight: 500,
               letterSpacing: 4,
               textTransform: "uppercase",
-              color: "rgba(196,153,60,0.7)",
+              color: "rgba(45,127,249,0.85)",
               marginBottom: 16,
             }}
           >
-            <span style={{ width: 5, height: 5, borderRadius: "50%", background: "rgba(196,153,60,0.7)" }} />
+            <span style={{ width: 5, height: 5, borderRadius: "50%", background: "rgba(45,127,249,0.85)" }} />
             Curriculum
           </span>
           <h2
             style={{
               fontSize: "clamp(32px,4.5vw,56px)",
-              fontWeight: 800,
+              fontWeight: 700,
               color: "#fff",
-              letterSpacing: "-0.04em",
-              lineHeight: 1.15,
+              letterSpacing: "normal",
+              lineHeight: 1.25,
             }}
           >
             24강<br />커리큘럼
@@ -85,9 +85,9 @@ export default function Curriculum() {
                 key={part.name}
                 className={`reveal ${i > 0 ? `reveal-delay-${Math.min(i, 3)}` : ""}`}
                 style={{
-                  borderRadius: 12,
-                  border: "1px solid rgba(255,255,255,0.06)",
-                  background: isOpen ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.03)",
+                  borderRadius: 16,
+                  border: "1px solid rgba(224,226,230,0.12)",
+                  background: isOpen ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.03)",
                   transition: "background 0.25s ease",
                 }}
               >
@@ -115,7 +115,7 @@ export default function Curriculum() {
                         fontWeight: 600,
                         letterSpacing: 3,
                         textTransform: "uppercase",
-                        color: "#c4993c",
+                        color: "#2d7ff9",
                       }}
                     >
                       {part.name}
@@ -133,12 +133,12 @@ export default function Curriculum() {
                         width: 30,
                         height: 30,
                         borderRadius: "50%",
-                        border: isOpen ? "1px solid rgba(196,153,60,0.4)" : "1px solid rgba(255,255,255,0.1)",
+                        border: isOpen ? "1px solid rgba(45,127,249,0.45)" : "1px solid rgba(255,255,255,0.1)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
                         fontSize: 11,
-                        color: isOpen ? "#c4993c" : "rgba(255,255,255,0.35)",
+                        color: isOpen ? "#2d7ff9" : "rgba(255,255,255,0.35)",
                         transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
                         transition: "all 0.3s ease",
                         flexShrink: 0,
@@ -170,7 +170,7 @@ export default function Curriculum() {
                           gap: 16,
                         }}
                       >
-                        <span style={{ color: "#c4993c", fontSize: 12, fontWeight: 700, letterSpacing: 0.5 }}>
+                        <span style={{ color: "#2d7ff9", fontSize: 12, fontWeight: 700, letterSpacing: 0.5 }}>
                           {item.no}
                         </span>
                         <span style={{ color: "rgba(255,255,255,0.3)", fontSize: 12, fontWeight: 300 }}>
