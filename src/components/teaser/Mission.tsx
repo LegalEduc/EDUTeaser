@@ -1,86 +1,40 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-
 const missions = [
   {
-    num: "01",
-    icon: "\u2696\uFE0F",
-    title: "실무적 관점의\n정립",
-    desc: "시험형 사고에서 탈피하여, 의뢰인의 실질적 문제를 해결하는 '비즈니스 해결사'로 마인드셋을 전환합니다.",
+    no: "01",
+    title: "실무적 관점의 정립",
+    desc: "시험형 사고에서 탈피하여, 의뢰인의 실질적 문제를 해결하는 비즈니스 해결사 관점으로 전환합니다.",
   },
   {
-    num: "02",
-    icon: "\uD83C\uDFAF",
-    title: "사건 주도권\n확보",
-    desc: "수동적인 문서 작성자에 머물지 않고, 소송의 전체 판세를 설계하는 '쟁점 설계자'로 성장시킵니다.",
+    no: "02",
+    title: "사건 주도권 확보",
+    desc: "수동적인 문서 작성자에 머물지 않고, 소송의 전체 판세를 설계하는 쟁점 설계자로 성장합니다.",
   },
   {
-    num: "03",
-    icon: "\uD83D\uDDFA\uFE0F",
-    title: "커리어 로드맵\n구축",
-    desc: "3년·5년·10년 차의 전문 영역 확립 및 퍼스널 브랜딩을 주도적으로 설계하는 능력을 배양합니다.",
+    no: "03",
+    title: "커리어 로드맵 구축",
+    desc: "3년·5년·10년 차의 전문 영역 확립과 퍼스널 브랜딩을 주도적으로 설계하는 역량을 배양합니다.",
   },
 ];
 
 export default function Mission() {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add("visible");
-        });
-      },
-      { threshold: 0.15 }
-    );
-    el.querySelectorAll(".reveal").forEach((child) => obs.observe(child));
-    return () => obs.disconnect();
-  }, []);
-
   return (
-    <section className="bg-cream-mid py-[clamp(100px,12vw,160px)] relative overflow-hidden">
-      <div className="absolute -top-[20%] -right-[8%] w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(27,97,201,0.06)_0%,transparent_70%)] pointer-events-none" />
+    <section className="bg-cream py-[clamp(80px,10vw,120px)] border-b border-cream-dark">
+      <div className="max-w-[1080px] mx-auto px-[clamp(16px,4vw,48px)]">
+        <h2 className="font-heading text-[clamp(28px,4vw,44px)] font-medium text-ink leading-[1.25]">
+          현장 중심 실무를 관통하는 완성형 변호사 양성
+        </h2>
+        <p className="mt-3 text-[1.02rem] text-slate leading-[1.8] tracking-[0.18px]">
+          시험형 사고를 넘어 실무 현장을 주도하는 변호사를 만듭니다.
+        </p>
 
-      <div ref={ref} className="max-w-[1080px] mx-auto px-[clamp(24px,5vw,64px)] relative z-10">
-        <div className="reveal flex flex-col md:flex-row items-start md:items-end justify-between mb-16 gap-10">
-          <h2 className="text-[clamp(36px,5vw,62px)] font-bold text-ink leading-[1.15] tracking-normal max-w-[540px]">
-            현장 중심 실무를
-            <br />
-            관통하는 완성형
-            <br />
-            변호사 양성
-          </h2>
-          <p className="text-[1.1rem] font-normal text-slate max-w-[300px] leading-[1.85] md:text-right tracking-[0.18px]">
-            시험형 사고를 넘어
-            <br />
-            실무 현장을 주도하는
-            <br />
-            변호사를 만듭니다.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {missions.map((m, i) => (
-            <div
-              key={m.num}
-              className={`reveal reveal-delay-${i + 1} bg-white border border-cream-dark rounded-2xl p-10 px-8 transition-all duration-300 hover:-translate-y-1 shadow-airtable-soft`}
-            >
-              <p className="text-[1rem] font-medium tracking-[0.12px] text-slate-light uppercase mb-5">
-                {m.num}
-              </p>
-              <div className="text-[28px] mb-4">
-                {m.icon}
-              </div>
-              <h3 className="text-[20px] font-bold text-ink mb-3 tracking-normal leading-[1.35] whitespace-pre-line">
-                {m.title}
-              </h3>
-              <p className="text-[1.05rem] font-normal text-slate leading-[1.85] tracking-[0.18px]">
-                {m.desc}
-              </p>
+        <div className="mt-10 border-t border-cream-dark">
+          {missions.map((m) => (
+            <div key={m.no} className="py-6 border-b border-cream-dark">
+              <p className="text-[0.88rem] uppercase tracking-[0.12px] text-gold font-medium">{m.no}</p>
+              <p className="mt-1 text-[1.18rem] font-medium text-ink leading-[1.4]">{m.title}</p>
+              <p className="mt-2 text-[1rem] text-slate leading-[1.8] tracking-[0.18px]">{m.desc}</p>
             </div>
           ))}
         </div>

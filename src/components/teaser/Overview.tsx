@@ -36,59 +36,53 @@ export default function Overview() {
   }, []);
 
   return (
-    <section className="bg-cream-mid py-[clamp(100px,12vw,160px)]">
-      <div className="max-w-[1080px] mx-auto px-[clamp(24px,5vw,64px)]">
-        <div ref={headerRef} className="reveal text-center mb-[72px]">
-          <h2 className="font-heading text-[clamp(30px,4vw,48px)] font-medium text-ink leading-[1.25] tracking-normal mt-3">
+    <section className="bg-cream py-[clamp(80px,10vw,120px)] border-b border-cream-dark">
+      <div className="max-w-[1080px] mx-auto px-[clamp(16px,4vw,48px)]">
+        <div ref={headerRef} className="reveal mb-12">
+          <h2 className="font-heading text-[clamp(30px,4vw,48px)] font-medium text-ink leading-[1.25] tracking-normal">
             프로그램 개요
           </h2>
-          <p className="mt-4 text-[1.1rem] text-slate font-normal leading-[1.8] tracking-[0.18px]">
+          <p className="mt-3 text-[1.05rem] text-slate font-normal leading-[1.8] tracking-[0.18px]">
             리걸크루 변호사 실전 압축 부트캠프
           </p>
         </div>
 
-        <div
-          ref={gridRef}
-          className="reveal reveal-delay-1 grid grid-cols-2 md:grid-cols-5 gap-px bg-cream-dark border border-cream-dark rounded-3xl overflow-hidden shadow-airtable-soft"
-        >
+        <div ref={gridRef} className="reveal reveal-delay-1 border-t border-cream-dark">
           {items.map((item, idx) => (
             <div
               key={item.label}
-              className={`bg-cream-mid py-11 px-5 text-center transition-colors duration-300 hover:bg-white ${
-                idx === 4 ? "col-span-2 md:col-span-1" : ""
-              }`}
+              className={`py-5 border-b border-cream-dark ${idx === 4 ? "" : ""}`}
             >
-              <p className="text-[1rem] font-medium tracking-[0.12px] uppercase text-gold mb-3.5">
+              <p className="text-[0.9rem] font-medium tracking-[0.12px] uppercase text-gold mb-1.5">
                 {item.label}
               </p>
-              <p className="text-[1.1rem] font-medium text-ink leading-[1.5] mb-1.5 tracking-[0.1px]">
+              <p className="text-[1.08rem] font-medium text-ink leading-[1.5] tracking-[0.1px]">
                 {item.value}
               </p>
               {item.sub ? (
-                <p className="text-[1rem] text-slate-light font-light">{item.sub}</p>
+                <p className="text-[0.98rem] text-slate-light font-light mt-0.5">{item.sub}</p>
               ) : null}
             </div>
           ))}
         </div>
 
-        {/* 핵심 지표(숫자로 보는 영역)는 Statistics 섹션을 제거하고 여기로 이어 붙입니다. */}
-        <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="mt-12 border-t border-cream-dark">
           {stats.map((s) => (
-            <div key={s.label} className="text-center">
-              <div className="text-[clamp(42px,5vw,64px)] font-bold text-ink leading-none tracking-normal mb-2">
+            <div key={s.label} className="py-4 border-b border-cream-dark">
+              <div className="text-[clamp(30px,4vw,42px)] font-medium text-ink leading-none tracking-normal mb-1">
                 {s.num}
                 <span className="text-gold font-medium">
                   {s.unit}
                 </span>
               </div>
-              <p className="text-[1rem] text-slate-light font-light tracking-[0.08px] leading-[1.6]">
+              <p className="text-[0.98rem] text-slate-light font-light tracking-[0.08px] leading-[1.6]">
                 {s.label}
               </p>
             </div>
           ))}
         </div>
 
-        <div className="reveal reveal-delay-2 mt-12 max-w-[800px] mx-auto text-[1.02rem] text-slate leading-[1.85] tracking-[0.18px] space-y-4">
+        <div className="reveal reveal-delay-2 mt-10 text-[1.02rem] text-slate leading-[1.85] tracking-[0.18px] space-y-4">
           <p className="font-semibold text-ink">졸업 산출물 및 커리어 지원</p>
           <p>
             조원희 부트캠프장(법무법인 디엘지 대표변호사) 주도로 Personal Portfolio Book 완성을 위한 1:1 강평·피드백을
