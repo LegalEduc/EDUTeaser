@@ -33,7 +33,7 @@ export default function Hero({ onApplyClick }: { onApplyClick: () => void }) {
         </p>
 
         <h1
-          className="text-[clamp(1.35rem,4.2vw,2.35rem)] font-bold text-ink leading-[1.35] tracking-normal mb-6"
+          className="font-heading text-[clamp(1.35rem,4.2vw,2.35rem)] font-medium text-ink leading-[1.35] tracking-normal mb-6"
           style={{ animation: "fadeUp 1s cubic-bezier(0.22,1,0.36,1) 0.5s both" }}
         >
           법조계의 새로운 실무 표준을 정립할
@@ -78,7 +78,7 @@ export default function Hero({ onApplyClick }: { onApplyClick: () => void }) {
           ].map((chip, i) => (
             <span
               key={i}
-              className="text-[1rem] font-normal text-slate border border-cream-dark bg-white rounded-[12px] py-[7px] px-[18px] tracking-[0.08px] transition-all duration-300 hover:border-gold/35 hover:text-ink"
+              className="text-[1rem] font-normal text-slate border border-cream-dark bg-white rounded-[12px] py-[7px] px-[18px] tracking-[0.08px] transition-all duration-300 hover:border-gold/35 hover:text-ink shadow-airtable-soft"
             >
               {chip.strong && (
                 <strong className="text-ink font-medium">{chip.strong} </strong>

@@ -39,7 +39,7 @@ export default function Overview() {
     <section className="bg-cream-mid py-[clamp(100px,12vw,160px)]">
       <div className="max-w-[1080px] mx-auto px-[clamp(24px,5vw,64px)]">
         <div ref={headerRef} className="reveal text-center mb-[72px]">
-          <h2 className="text-[clamp(30px,4vw,48px)] font-bold text-ink leading-[1.25] tracking-[-0.035em] mt-3">
+          <h2 className="font-heading text-[clamp(30px,4vw,48px)] font-medium text-ink leading-[1.25] tracking-normal mt-3">
             프로그램 개요
           </h2>
           <p className="mt-4 text-[1.1rem] text-slate font-normal leading-[1.8] tracking-[0.18px]">
@@ -58,10 +58,10 @@ export default function Overview() {
                 idx === 4 ? "col-span-2 md:col-span-1" : ""
               }`}
             >
-              <p className="text-[1rem] font-semibold tracking-[0.12px] uppercase text-gold mb-3.5">
+              <p className="text-[1rem] font-medium tracking-[0.12px] uppercase text-gold mb-3.5">
                 {item.label}
               </p>
-              <p className="text-[1.1rem] font-semibold text-ink leading-[1.5] mb-1.5 tracking-[-0.01em]">
+              <p className="text-[1.1rem] font-medium text-ink leading-[1.5] mb-1.5 tracking-[0.1px]">
                 {item.value}
               </p>
               {item.sub ? (

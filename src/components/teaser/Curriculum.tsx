@@ -47,7 +47,7 @@ export default function Curriculum() {
             <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-gold" />
             커리큘럼
           </span>
-          <h2 className="text-[clamp(32px,4.5vw,56px)] font-bold leading-[1.25] tracking-normal text-ink">
+          <h2 className="font-heading text-[clamp(32px,4.5vw,56px)] font-medium leading-[1.25] tracking-normal text-ink">
             24강
             <br />
             커리큘럼 · 강사진
