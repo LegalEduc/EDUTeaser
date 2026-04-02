@@ -4,8 +4,8 @@ import { useEffect, useRef } from "react";
 
 const items = [
   { label: "연수 기간", value: "2026. 5. 12.(화) ~ 7. 30.(목)", sub: "" },
-  { label: "교육 시간", value: "매주 화·목 19:00~21:00", sub: "회당 2시간, 총 24강" },
-  { label: "강의 방식", value: "오프라인 교육", sub: "실무 워크숍 병행" },
+  { label: "교육 시간", value: "매주 화·목 19:00~21:00", sub: "회당 2시간 (총 24강)" },
+  { label: "강의 방식", value: "오프라인 교육, 부트캠프장 주도 1:1 실무 워크숍", sub: "" },
   { label: "강의 장소", value: "드림플러스 강남", sub: "서울특별시 서초구 강남대로 311" },
   { label: "수강 인원", value: "1기 50명 제한", sub: "" },
 ];

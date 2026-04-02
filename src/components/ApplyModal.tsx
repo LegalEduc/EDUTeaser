@@ -53,8 +53,8 @@ const PROGRAM_NAME = "리걸크루 변호사 실전 압축 부트캠프 1기";
 const PROGRAM_INFO = [
   { label: "프로그램명", value: PROGRAM_NAME },
   { label: "연수 기간", value: "2026. 5. 12.(화) ~ 2026. 7. 30.(목)" },
-  { label: "교육 시간", value: "매주 화·목 19:00~21:00, 회당 2시간, 총 24강" },
-  { label: "강의 방식", value: "오프라인 교육 및 실무 워크숍" },
+  { label: "교육 시간", value: "매주 화·목 19:00~21:00, 회당 2시간 (총 24강)" },
+  { label: "강의 방식", value: "오프라인 교육, 부트캠프장 주도 1:1 실무 워크숍" },
   { label: "강의 장소", value: "드림플러스 강남 (서울특별시 서초구 강남대로 311)" },
   { label: "수강 인원", value: "1기 50명 제한" },
   { label: "관련문의", value: "contact@legalcrew.co.kr" },
@@ -144,12 +144,6 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
     setIsSubmitting(true);
 
     try {
-      const bioLen = form.bio.trim().length;
-      if (bioLen < 3000) {
-        setError(`이력 사항은 최소 3,000자 이상 입력해 주세요. (현재 ${bioLen}자)`);
-        return;
-      }
-
       const res = await fetch("/api/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -235,7 +229,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-[500] bg-dark/70 backdrop-blur-[6px] flex items-center justify-center overflow-y-auto p-6"
+      className="fixed inset-0 z-[500] bg-dark/70 backdrop-blur-[6px] flex items-center justify-center overflow-y-auto p-6 scrollbar-visible"
     >
       {/* 토스트 메시지 */}
       {toast && (
@@ -243,7 +237,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
           {toast}
         </div>
       )}
-      <div className="bg-white rounded-3xl max-w-[840px] w-full p-8 md:p-12 relative max-h-[90vh] overflow-y-auto my-6 shadow-airtable-soft border border-cream-dark">
+      <div className="bg-white rounded-3xl max-w-[840px] w-full p-8 md:p-12 relative max-h-[90vh] overflow-y-auto my-6 shadow-airtable-soft border border-cream-dark scrollbar-visible">
         {/* 닫기 버튼 */}
         <button
           onClick={onClose}
@@ -273,9 +267,6 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
           /* --- 신청 폼 --- */
           <>
             <div className="mb-8">
-              <p className="text-[1rem] font-medium tracking-[0.12px] uppercase text-gold mb-3.5">
-                마스터 사전 정보 등록
-              </p>
               <h2 className="text-[26px] font-bold text-ink tracking-[-0.03em] leading-[1.25] mb-2">
                 마스터 사전 정보 등록
               </h2>
@@ -468,7 +459,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                     className={`${inputClass} resize-y min-h-[220px]`}
                   />
                   <p className="text-[1rem] text-slate-light mt-1.5 font-light">
-                    홍보 자료 및 수강생 안내에 활용됩니다. 최소 3,000자 이상 입력해 주세요.
+                    홍보 자료 및 수강생 안내에 활용됩니다.
                   </p>
                 </div>
               </fieldset>
@@ -573,7 +564,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
               <fieldset className="space-y-6">
                 <legend className={sectionLabelClass}>강사료 및 정산 관련 확인</legend>
                 <p className="text-[0.95rem] text-slate font-light leading-relaxed -mt-1">
-                  공공기관 재직자 등 내부 규정상 강사료 한도 확인이 필요한 경우에만 작성해 주시기 바랍니다. 세부 규정이 없는 경우 총금액만 작성하셔도 됩니다.
+                  공공기관 재직자 등 내부 규정상 강사료 한도 확인이 필요한 경우에만 작성해 주시기 바랍니다.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-md:!grid-cols-1">
                   <div>
@@ -665,7 +656,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                   onClick={() => setConsentPopup(null)}
                 >
                   <div
-                    className="bg-white rounded-[16px] max-w-[600px] w-full p-8 relative max-h-[80vh] overflow-y-auto"
+                    className="bg-white rounded-[16px] max-w-[600px] w-full p-8 relative max-h-[80vh] overflow-y-auto scrollbar-visible"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <button
@@ -704,7 +695,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                           </div>
                           <div className="p-4 bg-cream rounded-2xl border border-cream-dark/60">
                             <p className="font-semibold text-ink mb-1">6. 제3자 제공 목적</p>
-                            <p>온라인 강의 운영, 촬영 편집, 정산 및 관련 행정 처리</p>
+                            <p>정산 및 관련 행정 처리</p>
                           </div>
                         </div>
                       </>
@@ -721,15 +712,11 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                             <p>강의 내용 일부를 리걸크루의 기사, 블로그, 홈페이지, SNS, 브로슈어 등 프로그램 안내&middot;홍보 콘텐츠에 게재</p>
                           </div>
                           <div className="p-4 bg-cream rounded-2xl border border-cream-dark/60">
-                            <p className="font-semibold text-ink mb-1">2. 강의 촬영 및 온라인 제공</p>
-                            <p>본인의 강의를 촬영하여 수강생 및 리걸크루가 승인한 대상자에게 제공되는 온라인 강의&middot;복습 자료&middot;아카이브 용도로 사용</p>
-                          </div>
-                          <div className="p-4 bg-cream rounded-2xl border border-cream-dark/60">
-                            <p className="font-semibold text-ink mb-1">3. 교재/자료집 제작 및 배부</p>
+                            <p className="font-semibold text-ink mb-1">2. 교재/자료집 제작 및 배부</p>
                             <p>본 프로그램을 목적으로 본인이 작성한 강의안과 다른 강의안을 함께 교재 또는 자료집으로 제작하여 수강생에게 배부하고, 잔여 수량은 프로그램 운영 범위 내에서 활용</p>
                           </div>
                           <div className="p-4 bg-cream rounded-2xl border border-cream-dark/60">
-                            <p className="font-semibold text-ink mb-1">4. 발표 자료 공유</p>
+                            <p className="font-semibold text-ink mb-1">3. 발표 자료 공유</p>
                             <p>강의 시 사용한 PPT 또는 발표 자료를 요청 수강생에게 PDF 형태로 공유</p>
                           </div>
                         </div>

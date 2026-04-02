@@ -102,6 +102,24 @@
     pointer-events: none;
   }
 
+  /* Modal 스크롤바 가시성 강화 */
+  .scrollbar-visible {
+    scrollbar-gutter: stable;
+    scrollbar-width: auto;
+    scrollbar-color: rgba(27, 97, 201, 0.65) rgba(0, 0, 0, 0);
+  }
+  .scrollbar-visible::-webkit-scrollbar {
+    width: 10px;
+  }
+  .scrollbar-visible::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-visible::-webkit-scrollbar-thumb {
+    background: rgba(27, 97, 201, 0.45);
+    border-radius: 999px;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+  }
+
   /* Scroll Reveal */
   .reveal {
     opacity: 0;

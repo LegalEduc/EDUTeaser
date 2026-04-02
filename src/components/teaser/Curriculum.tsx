@@ -52,10 +52,11 @@ export default function Curriculum() {
             <br />
             커리큘럼 · 강사진
           </h2>
-          <p className="mt-4 max-w-[720px] text-[0.95rem] leading-[1.65] text-slate tracking-[0.18px]">
-            파트 및 주요 학습 내용은 강의 준비 지원을 위한 예시안입니다. 과목 범위 내에서 강사님의 전문성과 판단에 따라
-            구성을 자유롭게 조정하실 수 있습니다.
-          </p>
+          <ul className="mt-4 max-w-[720px] text-[0.95rem] leading-[1.65] text-slate tracking-[0.18px] list-disc pl-5 space-y-1">
+            <li>아래 명시된 커리큘럼 세부 정보는 강의 준비를 위해 마련한 &#39;예시안&#39;입니다.</li>
+            <li>강사님의 전문성과 판단에 따라 과목 내용을 자유롭게 구성하실 수 있습니다.</li>
+            <li>1~2년차 변호사들이 실전에서 헤매기 쉬운 포인트를 중심으로 강의안을 구성해 주세요.</li>
+          </ul>
         </div>
 
         <div className="flex flex-col gap-2">
