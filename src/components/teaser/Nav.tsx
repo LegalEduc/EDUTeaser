@@ -13,7 +13,7 @@ export default function Nav({ onApplyClick }: { onApplyClick: () => void }) {
         <img
           src="/legalcrew-logo.png"
           alt="LegalCrew"
-          className="h-10 md:h-11 w-auto max-w-[min(280px,55vw)] object-contain object-left"
+          className="h-12 md:h-14 w-auto max-w-[min(360px,60vw)] object-contain object-left"
         />
       </a>
       <button

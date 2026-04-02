@@ -15,7 +15,7 @@ export default function Footer() {
               <img
                 src="/legalcrew-logo.png"
                 alt="LegalCrew"
-                className="h-11 w-auto"
+                className="h-12 md:h-14 w-auto object-contain"
                 style={{ backgroundColor: "transparent" }}
               />
             </a>

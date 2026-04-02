@@ -10,6 +10,13 @@ const items = [
   { label: "수강 인원", value: "1기 50명 제한", sub: "" },
 ];
 
+const stats = [
+  { num: "24", unit: "강", label: "총 강의 수" },
+  { num: "12", unit: "주", label: "부트캠프 기간" },
+  { num: "50", unit: "명", label: "1기 수강 정원" },
+  { num: "2", unit: "시간", label: "회당 강의 시간" },
+];
+
 export default function Overview() {
   const headerRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
@@ -64,7 +71,24 @@ export default function Overview() {
           ))}
         </div>
 
-        <div className="reveal reveal-delay-2 mt-14 max-w-[800px] mx-auto text-[1.02rem] text-slate leading-[1.85] tracking-[0.18px] space-y-4">
+        {/* 핵심 지표(숫자로 보는 영역)는 Statistics 섹션을 제거하고 여기로 이어 붙입니다. */}
+        <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-6">
+          {stats.map((s) => (
+            <div key={s.label} className="text-center">
+              <div className="text-[clamp(42px,5vw,64px)] font-bold text-ink leading-none tracking-normal mb-2">
+                {s.num}
+                <span className="text-gold font-medium">
+                  {s.unit}
+                </span>
+              </div>
+              <p className="text-[1rem] text-slate-light font-light tracking-[0.08px] leading-[1.6]">
+                {s.label}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div className="reveal reveal-delay-2 mt-12 max-w-[800px] mx-auto text-[1.02rem] text-slate leading-[1.85] tracking-[0.18px] space-y-4">
           <p className="font-semibold text-ink">졸업 산출물 및 커리어 지원</p>
           <p>
             조원희 부트캠프장(법무법인 디엘지 대표변호사) 주도로 Personal Portfolio Book 완성을 위한 1:1 강평·피드백을

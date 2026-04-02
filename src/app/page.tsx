@@ -3,10 +3,8 @@
 import { useState, useEffect } from "react";
 import Nav from "@/components/teaser/Nav";
 import Hero from "@/components/teaser/Hero";
-import StorySection from "@/components/teaser/StorySection";
 import Overview from "@/components/teaser/Overview";
 import Mission from "@/components/teaser/Mission";
-import Statistics from "@/components/teaser/Statistics";
 import Curriculum from "@/components/teaser/Curriculum";
 import Footer from "@/components/teaser/Footer";
 import ApplyModal from "@/components/ApplyModal";
@@ -44,15 +42,8 @@ export default function TeaserPage() {
         <div className="section-divider" />
       </div>
 
-      <StorySection />
-
-      <div className="bg-cream-mid px-6 md:px-16">
-        <div className="section-divider" />
-      </div>
-
       <Overview />
       <Mission />
-      <Statistics />
       <Curriculum />
       <Footer />
 
