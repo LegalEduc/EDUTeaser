@@ -20,7 +20,7 @@ export default function Nav({ onApplyClick }: { onApplyClick: () => void }) {
         onClick={onApplyClick}
         className="text-[1rem] font-medium tracking-[0.08px] uppercase px-5 py-2.5 rounded-[12px] border border-gold bg-gold text-white cursor-pointer transition-all duration-300 hover:bg-gold-dark shadow-airtable shrink-0"
       >
-        마스터 신청하기
+        마스터 정보 등록
       </button>
     </nav>
   );

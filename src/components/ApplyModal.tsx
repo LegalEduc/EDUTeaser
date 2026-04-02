@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, FormEvent } from "react";
+import { useEffect, useMemo, useState, FormEvent } from "react";
+import { curriculum } from "@/data/curriculum";
 
 interface ApplyModalProps {
   isOpen: boolean;
@@ -108,12 +109,47 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
     setError("");
   };
 
+  const assignedLectures = useMemo(() => {
+    const input = form.name.trim();
+    if (input.length < 2) return [];
+
+    const inputNorm = input.replace(/\s+/g, "");
+    const getNoNum = (no: string) => {
+      const n = parseInt(no.replace(/[^0-9]/g, ""), 10);
+      return Number.isNaN(n) ? 0 : n;
+    };
+
+    return curriculum
+      .filter((item) => {
+        if (!item.instructor || item.instructor === "—") return false;
+        const instructor = item.instructor;
+        const baseName = instructor.split("(")[0].trim();
+
+        const baseNorm = baseName.replace(/\s+/g, "");
+        const instructorNorm = instructor.replace(/\s+/g, "");
+
+        return (
+          baseName.includes(input) ||
+          instructor.includes(input) ||
+          baseNorm.includes(inputNorm) ||
+          instructorNorm.includes(inputNorm)
+        );
+      })
+      .sort((a, b) => getNoNum(a.no) - getNoNum(b.no));
+  }, [form.name]);
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
     setIsSubmitting(true);
 
     try {
+      const bioLen = form.bio.trim().length;
+      if (bioLen < 3000) {
+        setError(`이력 사항은 최소 3,000자 이상 입력해 주세요. (현재 ${bioLen}자)`);
+        return;
+      }
+
       const res = await fetch("/api/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -221,12 +257,10 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
           <div className="text-center py-12">
             <div className="text-5xl mb-6">&#10003;</div>
             <h3 className="text-[24px] font-bold text-ink mb-4">
-              신청이 접수되었습니다
+              사전 정보가 접수되었습니다
             </h3>
             <p className="text-[1.05rem] text-slate font-light leading-relaxed">
-              검토 후 강의 조건이 포함된 동의서 링크를
-              <br />
-              이메일로 보내드리겠습니다.
+              검토 후 강의 조건이 포함된 동의서 링크를 이메일로 보내드립니다.
             </p>
             <button
               onClick={onClose}
@@ -240,13 +274,13 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
           <>
             <div className="mb-8">
               <p className="text-[1rem] font-medium tracking-[0.12px] uppercase text-gold mb-3.5">
-                Master Application
+                마스터 사전 정보 등록
               </p>
               <h2 className="text-[26px] font-bold text-ink tracking-[-0.03em] leading-[1.25] mb-2">
-                마스터 참여 신청
+                마스터 사전 정보 등록
               </h2>
               <p className="text-[1.05rem] text-slate font-light leading-[1.75]">
-                기본 정보를 남겨주시면 담당자가 2영업일 내 연락드립니다.
+                강의 준비 및 홍보 자료 제작을 위해, 아래 정보를 제출해 주세요.
               </p>
             </div>
 
@@ -286,6 +320,39 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                       required
                       className={inputClass}
                     />
+                    {form.name.trim().length >= 2 && (
+                      <div className="mt-4 p-4 bg-cream-mid border border-cream-dark rounded-2xl">
+                        <p className="text-[1rem] font-semibold tracking-[0.12px] text-ink mb-3">
+                          배정된 과목/스케줄
+                        </p>
+                        {assignedLectures.length > 0 ? (
+                          <div className="space-y-3">
+                            {assignedLectures.map((item) => (
+                              <div
+                                key={item.no}
+                                className="pt-2 border-t border-cream-dark first:border-t-0 first:pt-0"
+                              >
+                                <div className="flex items-baseline justify-between gap-4">
+                                  <span className="text-[1rem] font-semibold text-gold">
+                                    {item.no}
+                                  </span>
+                                  <span className="text-[1rem] text-slate-light font-light">
+                                    {item.date}
+                                  </span>
+                                </div>
+                                <div className="text-[1.05rem] text-ink font-medium leading-[1.4] mt-1">
+                                  {item.part}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <p className="text-[1rem] text-slate-light font-light leading-[1.7]">
+                            입력하신 이름과 일치하는 배정 정보를 찾지 못했습니다.
+                          </p>
+                        )}
+                      </div>
+                    )}
                   </div>
                   <div>
                     <label className={labelClass}>
@@ -397,11 +464,11 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                     onChange={(e) => updateField("bio", e.target.value)}
                     placeholder={`소속, 주요 경력, 전문분야 등을 자유롭게 기재해 주세요.\n\n예시)\n법무법인 ○○ 파트너 변호사 (2018~현재)\n서울중앙지방법원 조정위원\n전문분야: 기업소송, M&A, 건설분쟁`}
                     required
-                    rows={6}
-                    className={`${inputClass} resize-y min-h-[120px]`}
+                    rows={10}
+                    className={`${inputClass} resize-y min-h-[220px]`}
                   />
                   <p className="text-[1rem] text-slate-light mt-1.5 font-light">
-                    홍보 자료 및 수강생 안내에 활용됩니다 &middot; 10줄 내외
+                    홍보 자료 및 수강생 안내에 활용됩니다. 최소 3,000자 이상 입력해 주세요.
                   </p>
                 </div>
               </fieldset>
@@ -687,7 +754,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                 disabled={isSubmitting}
                 className="w-full py-4 bg-gold text-white font-semibold text-[1rem] tracking-[0.08px] uppercase rounded-[12px] cursor-pointer transition-all duration-300 hover:bg-gold-dark hover:-translate-y-0.5 shadow-airtable disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? "처리 중..." : "마스터 참여 신청하기"}
+                {isSubmitting ? "처리 중..." : "마스터 사전 정보 등록하기"}
               </button>
             </form>
           </>

@@ -29,16 +29,16 @@ export default function Hero({ onApplyClick }: { onApplyClick: () => void }) {
           className="text-[clamp(0.9rem,1.4vw,1.05rem)] font-semibold text-gold tracking-[0.12px] mb-4"
           style={{ animation: "fadeIn 0.8s ease 0.3s both" }}
         >
-          [초빙] 실전 압축 부트캠프
+          [초빙 완료] 실전 압축 부트캠프
         </p>
 
         <h1
           className="text-[clamp(1.35rem,4.2vw,2.35rem)] font-bold text-ink leading-[1.35] tracking-normal mb-6"
           style={{ animation: "fadeUp 1s cubic-bezier(0.22,1,0.36,1) 0.5s both" }}
         >
-          법조계의 새로운 실무 표준을 정립할
+          법조계의 새로운 실무 표준을 함께 완성할
           <br />
-          마스터를 모십니다
+          마스터 사전 정보 등록
         </h1>
 
         <p
@@ -53,12 +53,11 @@ export default function Hero({ onApplyClick }: { onApplyClick: () => void }) {
           style={{ animation: "fadeUp 0.9s ease 1s both" }}
         >
           <p>
-            변호사님을 리걸크루 변호사 실전 압축 부트캠프 <strong className="font-semibold text-ink">마스터</strong>로
-            정중히 모십니다.
+            선정된 <strong className="font-semibold text-ink">마스터</strong>께서는 아래 정보를 입력해 주세요.
+            입력하신 내용은 강의 준비 및 홍보 자료 제작을 위한 사전 정보로 반영됩니다.
           </p>
           <p>
-            본 과정을 통해 신규 변호사들이 실무 투입 즉시 성과를 창출하는 &lsquo;완성형 에이스&rsquo;로 양성될 수 있도록
-            현장에서 축적해오신 실무 경험과 통찰을 나눠주세요!
+            또한 등록 정보를 기반으로 과목명과 스케줄이 빠르게 정리되어 수강생 안내에 활용됩니다.
           </p>
         </div>
 
@@ -97,7 +96,7 @@ export default function Hero({ onApplyClick }: { onApplyClick: () => void }) {
             onClick={onApplyClick}
             className="inline-flex items-center gap-2.5 text-[1rem] font-medium tracking-[0.08px] uppercase px-6 py-3.5 rounded-[12px] bg-gold text-white border-none cursor-pointer transition-all duration-300 hover:bg-gold-dark hover:-translate-y-0.5 shadow-airtable hover:shadow-airtable-soft"
           >
-            <span>마스터 참여 신청하기</span>
+            <span>마스터 정보 등록하기</span>
             <span className="w-[26px] h-[26px] rounded-full bg-white/20 flex items-center justify-center text-[1rem]">
               &rarr;
             </span>

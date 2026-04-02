@@ -45,7 +45,7 @@ export default function Curriculum() {
         <div className="reveal mb-12 md:mb-16">
           <span className="mb-4 inline-flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.12px] text-gold">
             <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-gold" />
-            Curriculum
+            커리큘럼
           </span>
           <h2 className="text-[clamp(32px,4.5vw,56px)] font-bold leading-[1.25] tracking-normal text-ink">
             24강
@@ -74,6 +74,7 @@ export default function Curriculum() {
                   type="button"
                   onClick={() => setOpenIdx(isOpen ? null : i)}
                   className="flex w-full cursor-pointer items-center justify-between gap-4 border-none bg-transparent px-4 py-5 text-left text-ink md:px-5 md:py-6"
+                  aria-expanded={isOpen}
                 >
                   <div className="flex min-w-0 flex-1 flex-col gap-1 sm:flex-row sm:items-center sm:gap-4">
                     <span className="shrink-0 text-[13px] font-semibold uppercase tracking-[0.12px] text-gold">
@@ -94,30 +95,35 @@ export default function Curriculum() {
                 </button>
 
                 <div
-                  className="grid transition-[grid-template-rows] duration-300 ease-out"
-                  style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
+                  className="overflow-hidden transition-[max-height] duration-300 ease-out"
+                  style={{ maxHeight: isOpen ? 2000 : 0 }}
+                  aria-hidden={!isOpen}
                 >
-                  <div className="min-h-0 overflow-hidden">
-                    <div className="space-y-0 px-4 pb-5 pt-0 md:px-5 md:pb-6">
-                      {items.map((item) => (
-                        <div
-                          key={item.no}
-                          className="border-t border-cream-dark py-4 first:border-t-0 first:pt-0"
-                        >
-                          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-[52px_92px_1fr_200px] lg:items-start lg:gap-4">
-                            <span className="text-[12px] font-bold tracking-[0.08px] text-gold">{item.no}</span>
-                            <span className="text-[12px] font-normal text-slate-light lg:pt-0.5">{item.date}</span>
-                            <div className="min-w-0 text-[13px] font-light leading-[1.75] tracking-[0.18px] text-slate">
-                              <strong className="mb-1 block font-medium text-ink">{item.part}</strong>
-                              {item.desc}
-                            </div>
-                            <div className="text-[12px] font-medium leading-[1.5] text-ink lg:border-l lg:border-cream-dark lg:pl-4">
-                              {item.instructor}
-                            </div>
+                  <div className="space-y-0 px-4 pb-5 pt-0 md:px-5 md:pb-6">
+                    {items.map((item) => (
+                      <div
+                        key={item.no}
+                        className="border-t border-cream-dark py-4 first:border-t-0 first:pt-0"
+                      >
+                        <div className="flex flex-col gap-3 lg:grid lg:grid-cols-[52px_92px_1fr_200px] lg:items-start lg:gap-4">
+                          <span className="text-[12px] font-bold tracking-[0.08px] text-gold">
+                            {item.no}
+                          </span>
+                          <span className="text-[12px] font-normal text-slate-light lg:pt-0.5">
+                            {item.date}
+                          </span>
+                          <div className="min-w-0 text-[13px] font-light leading-[1.75] tracking-[0.18px] text-slate">
+                            <strong className="mb-1 block font-medium text-ink">
+                              {item.part}
+                            </strong>
+                            {item.desc}
+                          </div>
+                          <div className="text-[12px] font-medium leading-[1.5] text-ink lg:border-l lg:border-cream-dark lg:pl-4">
+                            {item.instructor}
                           </div>
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>

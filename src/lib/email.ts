@@ -25,9 +25,9 @@ export async function sendApplyNotification(instructor: {
   await transporter.sendMail({
     from: EMAIL_FROM,
     to: ADMIN_EMAIL,
-    subject: `[마스터 신청] ${instructor.name}님이 참여를 신청했습니다`,
+    subject: `[마스터 사전 정보 등록] ${instructor.name}님이 정보를 등록했습니다`,
     html: `
-      <h2>새로운 마스터 참여 신청</h2>
+      <h2>새로운 마스터 사전 정보 등록</h2>
       <p><strong>이름:</strong> ${instructor.name}</p>
       <p><strong>이메일:</strong> ${instructor.email}</p>
       <p>어드민 페이지에서 상세 내용을 확인하세요.</p>

@@ -37,10 +37,6 @@ export default function FAQ() {
       <div ref={ref} className="max-w-[1080px] mx-auto px-[clamp(24px,5vw,64px)]">
         {/* 헤더 */}
         <div className="reveal text-center mb-[72px]">
-          <span className="inline-flex items-center gap-2 text-[1rem] font-medium tracking-[0.12px] uppercase text-gold mb-3">
-            <span className="w-[5px] h-[5px] rounded-full bg-gold shrink-0" />
-            FAQ
-          </span>
           <h2 className="text-[clamp(28px,3.5vw,44px)] font-bold text-ink tracking-[-0.03em] leading-[1.25] mt-3">
             자주 묻는 질문
           </h2>
@@ -86,7 +82,7 @@ export default function FAQ() {
           {/* 문의처 */}
           <div className="mt-12 pt-10 border-t border-cream-dark">
             <p className="text-[1rem] font-medium tracking-[0.12px] uppercase text-gold mb-3.5">
-              Contact
+              문의
             </p>
             <p className="text-[1.1rem] font-medium text-ink mb-1">강선민 기획이사</p>
             <p className="text-[1.05rem] text-slate font-light leading-[1.8]">

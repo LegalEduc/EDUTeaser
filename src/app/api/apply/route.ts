@@ -53,6 +53,8 @@ function validateBody(body: ApplyBody): string | null {
     return "자격시험 구분을 선택해 주세요.";
   if (!body.barExamDetail?.trim()) return "자격시험 상세를 입력해 주세요.";
   if (!body.bio?.trim()) return "이력 사항을 입력해 주세요.";
+  if (body.bio.trim().length < 3000)
+    return "이력 사항은 최소 3,000자 이상 입력해 주세요.";
   if (!body.phone?.match(/^01[016789]-?\d{3,4}-?\d{4}$/))
     return "휴대폰 번호 형식이 올바르지 않습니다.";
   if (!body.email?.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/))

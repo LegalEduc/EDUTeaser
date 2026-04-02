@@ -34,7 +34,7 @@ export default function Statistics() {
       <div ref={ref} className="max-w-[1080px] mx-auto px-[clamp(24px,5vw,64px)] relative z-10">
         <div className="reveal mb-20">
           <p className="text-[1rem] font-medium tracking-[0.12px] uppercase text-slate-light mb-5">
-            Numbers That Matter
+            핵심 지표
           </p>
           <h2 className="text-[clamp(36px,5vw,64px)] font-bold text-ink leading-[1.12] tracking-normal">
             숫자로 보는

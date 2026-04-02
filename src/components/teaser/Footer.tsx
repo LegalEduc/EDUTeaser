@@ -25,7 +25,7 @@ export default function Footer() {
           </div>
           <div className="md:text-right">
             <p className="text-[1rem] font-medium tracking-[3px] uppercase text-gold mb-2.5">
-              Contact
+              문의
             </p>
             <p className="text-[1.05rem] font-medium text-white mb-1">강선민 기획이사</p>
             <div className="text-[1rem] text-white/35 font-light leading-[1.7]">

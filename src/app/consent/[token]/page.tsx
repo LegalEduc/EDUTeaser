@@ -64,7 +64,7 @@ export default function ConsentPage({
             LegalCrew <span className="italic">Academy</span>
           </p>
           <p className="text-[1rem] tracking-[0.12px] uppercase text-gold-light mb-4">
-            Consent
+            동의서
           </p>
           <h1 className="font-heading text-[22px] sm:text-[26px] font-bold mb-3">
             강의 동의서
