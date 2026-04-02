@@ -13,9 +13,10 @@ export default function Footer() {
               aria-label="LegalCrew 홈"
             >
               <img
-                src="/legalcrew-ci.svg"
-                alt="LegalCrew CI"
+                src="/legalcrew-logo.png"
+                alt="LegalCrew"
                 className="h-11 w-auto"
+                style={{ backgroundColor: "transparent" }}
               />
             </a>
             <p className="text-[1rem] text-white/30 font-light tracking-[0.5px] mt-2">
