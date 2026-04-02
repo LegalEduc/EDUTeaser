@@ -48,7 +48,7 @@ export default function ConsentPage({
         <div className="text-center">
           <p className="text-red-400 text-[1.15rem] mb-4">{error}</p>
           <p className="text-muted text-[1rem]">
-            문의: cs@legalcrew.co.kr
+            문의: contact@legalcrew.co.kr
           </p>
         </div>
       </div>
@@ -70,7 +70,7 @@ export default function ConsentPage({
             강의 동의서
           </h1>
           <p className="text-[1.05rem] text-muted font-light">
-            리걸크루 변호사 실전 압축 부트캠프 &mdash; The Rookie Camp
+            리걸크루 변호사 실전 압축 부트캠프
           </p>
         </div>
 
@@ -101,7 +101,7 @@ export default function ConsentPage({
         {/* 푸터 */}
         <div className="mt-16 pt-8 border-t border-white/[0.06] text-center">
           <p className="text-[1rem] text-muted">
-            문의: cs@legalcrew.co.kr &middot; 010-9131-4827
+            문의: contact@legalcrew.co.kr &middot; 010-9131-4827
           </p>
           <p className="text-[1rem] text-cream/20 mt-2">
             &copy; 2026 LegalCrew. All rights reserved.

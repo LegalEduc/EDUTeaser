@@ -42,22 +42,19 @@ export default function Mission() {
   }, []);
 
   return (
-    <section className="bg-gold py-[clamp(100px,12vw,160px)] relative overflow-hidden">
-      {/* 장식 원 */}
-      <div className="absolute -top-[30%] -right-[8%] w-[500px] h-[500px] rounded-full bg-white/6 pointer-events-none" />
-      <div className="absolute -bottom-[20%] -left-[5%] w-[360px] h-[360px] rounded-full bg-black/6 pointer-events-none" />
+    <section className="bg-cream-mid py-[clamp(100px,12vw,160px)] relative overflow-hidden">
+      <div className="absolute -top-[20%] -right-[8%] w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(27,97,201,0.06)_0%,transparent_70%)] pointer-events-none" />
 
       <div ref={ref} className="max-w-[1080px] mx-auto px-[clamp(24px,5vw,64px)] relative z-10">
-        {/* 헤더: 제목 좌측 / 설명 우측 */}
         <div className="reveal flex flex-col md:flex-row items-start md:items-end justify-between mb-16 gap-10">
-          <h2 className="text-[clamp(36px,5vw,62px)] font-extrabold text-white leading-[1.1] tracking-[-0.04em] max-w-[540px]">
+          <h2 className="text-[clamp(36px,5vw,62px)] font-bold text-ink leading-[1.15] tracking-normal max-w-[540px]">
             현장 중심 실무를
             <br />
             관통하는 완성형
             <br />
             변호사 양성
           </h2>
-          <p className="text-[1.1rem] font-light text-white/72 max-w-[300px] leading-[1.85] md:text-right">
+          <p className="text-[1.1rem] font-normal text-slate max-w-[300px] leading-[1.85] md:text-right tracking-[0.18px]">
             시험형 사고를 넘어
             <br />
             실무 현장을 주도하는
@@ -66,23 +63,22 @@ export default function Mission() {
           </p>
         </div>
 
-        {/* 3열 카드 */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {missions.map((m, i) => (
             <div
               key={m.num}
-              className={`reveal reveal-delay-${i + 1} bg-white/12 border border-white/22 rounded-2xl p-10 px-8 transition-all duration-300 backdrop-blur-[4px] hover:bg-white/22 hover:-translate-y-1 shadow-airtable-soft`}
+              className={`reveal reveal-delay-${i + 1} bg-white border border-cream-dark rounded-2xl p-10 px-8 transition-all duration-300 hover:-translate-y-1 shadow-airtable-soft`}
             >
-              <p className="text-[1rem] font-medium tracking-[3px] text-white/40 uppercase mb-5">
+              <p className="text-[1rem] font-medium tracking-[0.12px] text-slate-light uppercase mb-5">
                 {m.num}
               </p>
               <div className="text-[28px] mb-4">
                 {m.icon}
               </div>
-              <h3 className="text-[20px] font-bold text-white mb-3 tracking-[-0.02em] leading-[1.35] whitespace-pre-line">
+              <h3 className="text-[20px] font-bold text-ink mb-3 tracking-normal leading-[1.35] whitespace-pre-line">
                 {m.title}
               </h3>
-              <p className="text-[1.05rem] font-light text-white/72 leading-[1.85]">
+              <p className="text-[1.05rem] font-normal text-slate leading-[1.85] tracking-[0.18px]">
                 {m.desc}
               </p>
             </div>

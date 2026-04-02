@@ -19,22 +19,18 @@ export default function Footer() {
               />
             </a>
             <p className="text-[1rem] text-white/30 font-light tracking-[0.5px] mt-2">
-              변호사 실전 압축 부트캠프 — The Rookie Camp
+              리걸크루 변호사 실전 압축 부트캠프
             </p>
           </div>
           <div className="md:text-right">
             <p className="text-[1rem] font-medium tracking-[3px] uppercase text-gold mb-2.5">
               Contact
             </p>
-            <p className="text-[1.05rem] font-medium text-white mb-1">채다은 변호사 / 강사 관련</p>
+            <p className="text-[1.05rem] font-medium text-white mb-1">강선민 기획이사</p>
             <div className="text-[1rem] text-white/35 font-light leading-[1.7]">
               <a href="mailto:contact@legalcrew.co.kr" className="text-white/35 no-underline hover:text-gold transition-colors">
                 contact@legalcrew.co.kr
               </a>
-              <br />
-              010-4635-2159
-              <br />
-              강선민 기획이사 / 교육 관련
               <br />
               010-9131-4827
             </div>

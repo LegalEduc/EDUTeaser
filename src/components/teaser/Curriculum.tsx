@@ -4,12 +4,12 @@ import { useState, useEffect, useRef } from "react";
 import { curriculum } from "@/data/curriculum";
 
 const parts = [
-  { name: "Part 1", title: "마인드셋 · 기초 역량", range: "1 – 2강", from: 1, to: 2 },
+  { name: "Part 1", title: "마인드셋 · 커뮤니케이션", range: "1 – 2강", from: 1, to: 2 },
   { name: "Part 2", title: "형사 수사 · 공판", range: "3 – 6강", from: 3, to: 6 },
-  { name: "Part 3", title: "민사 소송 · 집행", range: "7 – 13강", from: 7, to: 13 },
-  { name: "Part 4", title: "특수 분야 실무", range: "14 – 15강", from: 14, to: 15 },
-  { name: "Part 5", title: "문서 · 계약 실무", range: "16 – 18강", from: 16, to: 18 },
-  { name: "Part 6", title: "AI · 리서치 · 커리어", range: "19 – 24강", from: 19, to: 24 },
+  { name: "Part 3", title: "민사 · 행정", range: "7 – 10강", from: 7, to: 10 },
+  { name: "Part 4", title: "커리어 · 가사 · 집행", range: "11 – 14강", from: 11, to: 14 },
+  { name: "Part 5", title: "특수 분야 · 문서 · 계약", range: "15 – 18강", from: 15, to: 18 },
+  { name: "Part 6", title: "영문 계약 · AI · 수료", range: "19 – 24강", from: 19, to: 24 },
 ];
 
 function getItems(from: number, to: number) {
@@ -20,7 +20,6 @@ export default function Curriculum() {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
-  // reveal 애니메이션
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -40,42 +39,26 @@ export default function Curriculum() {
     <section
       id="curriculum"
       ref={sectionRef}
-      style={{ background: "#181d26", padding: "clamp(100px,12vw,160px) 0" }}
+      className="bg-cream-mid py-[clamp(100px,12vw,160px)] border-t border-cream-dark"
     >
-      <div style={{ maxWidth: 1080, margin: "0 auto", padding: "0 clamp(24px,5vw,64px)" }}>
-        {/* 헤더 */}
-        <div className="reveal" style={{ marginBottom: 64 }}>
-          <span
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              fontSize: 10,
-              fontWeight: 500,
-              letterSpacing: 4,
-              textTransform: "uppercase",
-              color: "rgba(45,127,249,0.85)",
-              marginBottom: 16,
-            }}
-          >
-            <span style={{ width: 5, height: 5, borderRadius: "50%", background: "rgba(45,127,249,0.85)" }} />
+      <div className="mx-auto max-w-[1080px] px-[clamp(24px,5vw,64px)]">
+        <div className="reveal mb-12 md:mb-16">
+          <span className="mb-4 inline-flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.12px] text-gold">
+            <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-gold" />
             Curriculum
           </span>
-          <h2
-            style={{
-              fontSize: "clamp(32px,4.5vw,56px)",
-              fontWeight: 700,
-              color: "#fff",
-              letterSpacing: "normal",
-              lineHeight: 1.25,
-            }}
-          >
-            24강<br />커리큘럼
+          <h2 className="text-[clamp(32px,4.5vw,56px)] font-bold leading-[1.25] tracking-normal text-ink">
+            24강
+            <br />
+            커리큘럼 · 강사진
           </h2>
+          <p className="mt-4 max-w-[720px] text-[0.95rem] leading-[1.65] text-slate tracking-[0.18px]">
+            파트 및 주요 학습 내용은 강의 준비 지원을 위한 예시안입니다. 과목 범위 내에서 강사님의 전문성과 판단에 따라
+            구성을 자유롭게 조정하실 수 있습니다.
+          </p>
         </div>
 
-        {/* 아코디언 */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+        <div className="flex flex-col gap-2">
           {parts.map((part, i) => {
             const isOpen = openIdx === i;
             const items = getItems(part.from, part.to);
@@ -83,107 +66,58 @@ export default function Curriculum() {
             return (
               <div
                 key={part.name}
-                className={`reveal ${i > 0 ? `reveal-delay-${Math.min(i, 3)}` : ""}`}
-                style={{
-                  borderRadius: 16,
-                  border: "1px solid rgba(224,226,230,0.12)",
-                  background: isOpen ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.03)",
-                  transition: "background 0.25s ease",
-                }}
+                className={`reveal rounded-2xl border border-cream-dark bg-white transition-shadow duration-200 ${
+                  i > 0 ? `reveal-delay-${Math.min(i, 3)}` : ""
+                } ${isOpen ? "shadow-airtable-soft" : ""}`}
               >
-                {/* 버튼 */}
                 <button
                   type="button"
                   onClick={() => setOpenIdx(isOpen ? null : i)}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    width: "100%",
-                    padding: "24px 20px",
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    textAlign: "left",
-                    color: "inherit",
-                  }}
+                  className="flex w-full cursor-pointer items-center justify-between gap-4 border-none bg-transparent px-4 py-5 text-left text-ink md:px-5 md:py-6"
                 >
-                  <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-                    <span
-                      style={{
-                        fontSize: 13,
-                        fontWeight: 600,
-                        letterSpacing: 3,
-                        textTransform: "uppercase",
-                        color: "#2d7ff9",
-                      }}
-                    >
+                  <div className="flex min-w-0 flex-1 flex-col gap-1 sm:flex-row sm:items-center sm:gap-4">
+                    <span className="shrink-0 text-[13px] font-semibold uppercase tracking-[0.12px] text-gold">
                       {part.name}
                     </span>
-                    <span style={{ fontSize: 18, fontWeight: 600, color: "#fff", letterSpacing: "-0.01em" }}>
-                      {part.title}
-                    </span>
+                    <span className="text-[17px] font-semibold tracking-normal md:text-[18px]">{part.title}</span>
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                    <span style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", letterSpacing: 1.5 }}>
-                      {part.range}
-                    </span>
+                  <div className="flex shrink-0 items-center gap-3">
+                    <span className="hidden text-[11px] tracking-[0.08px] text-slate-light sm:inline">{part.range}</span>
                     <span
-                      style={{
-                        width: 30,
-                        height: 30,
-                        borderRadius: "50%",
-                        border: isOpen ? "1px solid rgba(45,127,249,0.45)" : "1px solid rgba(255,255,255,0.1)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: 11,
-                        color: isOpen ? "#2d7ff9" : "rgba(255,255,255,0.35)",
-                        transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
-                        transition: "all 0.3s ease",
-                        flexShrink: 0,
-                      }}
+                      className={`flex h-[30px] w-[30px] items-center justify-center rounded-full border text-[11px] transition-all duration-300 ${
+                        isOpen ? "rotate-180 border-gold/45 text-gold" : "border-cream-dark text-slate-light"
+                      }`}
                     >
                       ▾
                     </span>
                   </div>
                 </button>
 
-                {/* 본문 — 인라인 스타일로 확실하게 */}
                 <div
-                  style={{
-                    maxHeight: isOpen ? 1200 : 0,
-                    overflow: "hidden",
-                    transition: "max-height 0.4s ease",
-                  }}
+                  className="grid transition-[grid-template-rows] duration-300 ease-out"
+                  style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
                 >
-                  <div style={{ padding: "0 20px 24px" }}>
-                    {items.map((item) => (
-                      <div
-                        key={item.no}
-                        style={{
-                          display: "grid",
-                          gridTemplateColumns: "48px 72px 1fr",
-                          alignItems: "baseline",
-                          padding: "14px 0",
-                          borderTop: "1px solid rgba(255,255,255,0.05)",
-                          gap: 16,
-                        }}
-                      >
-                        <span style={{ color: "#2d7ff9", fontSize: 12, fontWeight: 700, letterSpacing: 0.5 }}>
-                          {item.no}
-                        </span>
-                        <span style={{ color: "rgba(255,255,255,0.3)", fontSize: 12, fontWeight: 300 }}>
-                          {item.date}
-                        </span>
-                        <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 13, lineHeight: 1.75, fontWeight: 300 }}>
-                          <strong style={{ color: "rgba(255,255,255,0.85)", fontWeight: 500, display: "block", marginBottom: 2 }}>
-                            {item.part}
-                          </strong>
-                          {item.desc}
+                  <div className="min-h-0 overflow-hidden">
+                    <div className="space-y-0 px-4 pb-5 pt-0 md:px-5 md:pb-6">
+                      {items.map((item) => (
+                        <div
+                          key={item.no}
+                          className="border-t border-cream-dark py-4 first:border-t-0 first:pt-0"
+                        >
+                          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-[52px_92px_1fr_200px] lg:items-start lg:gap-4">
+                            <span className="text-[12px] font-bold tracking-[0.08px] text-gold">{item.no}</span>
+                            <span className="text-[12px] font-normal text-slate-light lg:pt-0.5">{item.date}</span>
+                            <div className="min-w-0 text-[13px] font-light leading-[1.75] tracking-[0.18px] text-slate">
+                              <strong className="mb-1 block font-medium text-ink">{item.part}</strong>
+                              {item.desc}
+                            </div>
+                            <div className="text-[12px] font-medium leading-[1.5] text-ink lg:border-l lg:border-cream-dark lg:pl-4">
+                              {item.instructor}
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>

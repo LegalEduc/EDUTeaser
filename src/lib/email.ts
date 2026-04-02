@@ -25,9 +25,9 @@ export async function sendApplyNotification(instructor: {
   await transporter.sendMail({
     from: EMAIL_FROM,
     to: ADMIN_EMAIL,
-    subject: `[멘토 신청] ${instructor.name}님이 참여를 신청했습니다`,
+    subject: `[마스터 신청] ${instructor.name}님이 참여를 신청했습니다`,
     html: `
-      <h2>새로운 멘토 참여 신청</h2>
+      <h2>새로운 마스터 참여 신청</h2>
       <p><strong>이름:</strong> ${instructor.name}</p>
       <p><strong>이메일:</strong> ${instructor.email}</p>
       <p>어드민 페이지에서 상세 내용을 확인하세요.</p>
@@ -50,9 +50,9 @@ export async function sendConsentLink(
     subject: "[리걸크루 아카데미] 강의 동의서 확인 요청",
     html: `
       <h2>${name}님, 안녕하세요.</h2>
-      <p>리걸크루 변호사 실전 압축 부트캠프(The Rookie Camp)의 강의 조건을 확인하고 동의서에 서명해 주세요.</p>
+      <p>리걸크루 변호사 실전 압축 부트캠프의 강의 조건을 확인하고 동의서에 서명해 주세요.</p>
       <p style="margin: 24px 0;">
-        <a href="${link}" style="display:inline-block;padding:12px 32px;background:#c4993c;color:#0f0f1e;text-decoration:none;font-weight:bold;border-radius:50px;">
+        <a href="${link}" style="display:inline-block;padding:12px 24px;background:#1b61c9;color:#ffffff;text-decoration:none;font-weight:bold;border-radius:12px;">
           동의서 확인하기
         </a>
       </p>

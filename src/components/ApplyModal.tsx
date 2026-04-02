@@ -47,14 +47,15 @@ const initialForm: FormData = {
   promotionAgreed: false,
 };
 
-const PROGRAM_NAME = "리걸크루 변호사 실전 압축 부트캠프-The Rookie Camp 1회차";
+const PROGRAM_NAME = "리걸크루 변호사 실전 압축 부트캠프 1기";
 
 const PROGRAM_INFO = [
   { label: "프로그램명", value: PROGRAM_NAME },
-  { label: "연수 기간", value: "2026. 5. 12.(화) ~ 2026. 7. 30.(목) 19:00 - 21:00" },
-  { label: "교육 시간", value: "매주 화·목, 회당 2시간, 총 24강" },
+  { label: "연수 기간", value: "2026. 5. 12.(화) ~ 2026. 7. 30.(목)" },
+  { label: "교육 시간", value: "매주 화·목 19:00~21:00, 회당 2시간, 총 24강" },
   { label: "강의 방식", value: "오프라인 교육 및 실무 워크숍" },
   { label: "강의 장소", value: "드림플러스 강남 (서울특별시 서초구 강남대로 311)" },
+  { label: "수강 인원", value: "1기 50명 제한" },
   { label: "관련문의", value: "contact@legalcrew.co.kr" },
 ];
 
@@ -239,10 +240,10 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
           <>
             <div className="mb-8">
               <p className="text-[1rem] font-medium tracking-[0.12px] uppercase text-gold mb-3.5">
-                Mentor Application
+                Master Application
               </p>
               <h2 className="text-[26px] font-bold text-ink tracking-[-0.03em] leading-[1.25] mb-2">
-                멘토 참여 신청
+                마스터 참여 신청
               </h2>
               <p className="text-[1.05rem] text-slate font-light leading-[1.75]">
                 기본 정보를 남겨주시면 담당자가 2영업일 내 연락드립니다.
@@ -686,7 +687,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                 disabled={isSubmitting}
                 className="w-full py-4 bg-gold text-white font-semibold text-[1rem] tracking-[0.08px] uppercase rounded-[12px] cursor-pointer transition-all duration-300 hover:bg-gold-dark hover:-translate-y-0.5 shadow-airtable disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? "처리 중..." : "멘토 참여 신청하기"}
+                {isSubmitting ? "처리 중..." : "마스터 참여 신청하기"}
               </button>
             </form>
           </>

@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "LegalCrew Academy — The Rookie Camp";
+export const alt = "리걸크루 변호사 실전 압축 부트캠프 — 마스터 초빙";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -16,32 +16,28 @@ export default function Image() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#181d26",
-          color: "#ffffff",
+          backgroundColor: "#ffffff",
+          color: "#181d26",
+          padding: 48,
         }}
       >
-        <div style={{ fontSize: 64, fontWeight: 700 }}>LegalCrew</div>
-        <div
-          style={{
-            fontSize: 52,
-            fontStyle: "italic",
-            color: "#2d7ff9",
-            marginTop: 8,
-          }}
-        >
-          Academy
+        <div style={{ fontSize: 42, fontWeight: 700, textAlign: "center", lineHeight: 1.25 }}>
+          리걸크루
+        </div>
+        <div style={{ fontSize: 26, fontWeight: 600, color: "#1b61c9", marginTop: 16, textAlign: "center" }}>
+          변호사 실전 압축 부트캠프
         </div>
         <div
           style={{
-            width: 400,
+            width: 360,
             height: 1,
-            backgroundColor: "rgba(45,127,249,0.45)",
-            marginTop: 32,
-            marginBottom: 32,
+            backgroundColor: "rgba(27,97,201,0.35)",
+            marginTop: 28,
+            marginBottom: 28,
           }}
         />
-        <div style={{ fontSize: 28, color: "rgba(255,255,255,0.55)" }}>
-          The Rookie Camp
+        <div style={{ fontSize: 24, color: "rgba(24,29,38,0.65)", textAlign: "center" }}>
+          마스터 초빙
         </div>
       </div>
     ),

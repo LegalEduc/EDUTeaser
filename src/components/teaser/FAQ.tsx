@@ -8,10 +8,6 @@ const faqs = [
     a: "동의서 서명 완료 후 별도 안내 이메일을 드립니다.",
   },
   {
-    q: "강의 일정 변경이 가능한가요?",
-    a: "사전 협의 시 조율 가능합니다. 담당자에게 문의해 주세요.",
-  },
-  {
     q: "주차는 어떻게 처리되나요?",
     a: "신청 시 주차 필요 여부를 체크해 주시면 당일 주차 등록 처리해 드립니다.",
   },
@@ -92,13 +88,9 @@ export default function FAQ() {
             <p className="text-[1rem] font-medium tracking-[0.12px] uppercase text-gold mb-3.5">
               Contact
             </p>
-            <p className="text-[1.1rem] font-medium text-ink mb-1">채다은 변호사 / 강사 관련</p>
+            <p className="text-[1.1rem] font-medium text-ink mb-1">강선민 기획이사</p>
             <p className="text-[1.05rem] text-slate font-light leading-[1.8]">
               contact@legalcrew.co.kr
-              <br />
-              010-4635-2159
-              <br />
-              강선민 기획이사 / 교육 관련
               <br />
               010-9131-4827
             </p>

@@ -111,7 +111,7 @@ export async function POST(request: NextRequest) {
 
     // DB 저장
     await db.insert(instructors).values({
-      programName: body.programName?.trim() || "리걸크루 변호사 실전 압축 부트캠프-The Rookie Camp 1회차",
+      programName: body.programName?.trim() || "리걸크루 변호사 실전 압축 부트캠프 1기",
       name: body.name.trim(),
       residentNumber: encryptedResident,
       barExamType: body.barExamType,

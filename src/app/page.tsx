@@ -40,41 +40,24 @@ export default function TeaserPage() {
 
       <Nav onApplyClick={openModal} />
 
-      {/* 히어로 — 다크 */}
       <Hero onApplyClick={openModal} />
 
-      {/* 골드 구분선 */}
       <div className="bg-cream px-6 md:px-16">
         <div className="section-divider" />
       </div>
 
-      {/* Problem 섹션 — 크림 */}
       <StorySection />
 
-      {/* 골드 구분선 */}
       <div className="bg-cream-mid px-6 md:px-16">
         <div className="section-divider" />
       </div>
 
-      {/* 프로그램 개요 — 라이트 */}
       <Overview />
-
-      {/* 미션 — 골드 */}
       <Mission />
-
-      {/* Statistics — 네이비 */}
       <Statistics />
-
-      {/* 커리큘럼 — 다크 */}
       <Curriculum />
-
-      {/* FAQ — 크림 */}
       <FAQ />
-
-      {/* 하단 CTA — 크림 */}
       <FooterCTA onApplyClick={openModal} />
-
-      {/* 푸터 — 다크 */}
       <Footer />
 
       {/* 신청 모달 */}
