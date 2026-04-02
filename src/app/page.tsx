@@ -8,8 +8,6 @@ import Overview from "@/components/teaser/Overview";
 import Mission from "@/components/teaser/Mission";
 import Statistics from "@/components/teaser/Statistics";
 import Curriculum from "@/components/teaser/Curriculum";
-import FAQ from "@/components/teaser/FAQ";
-import FooterCTA from "@/components/teaser/FooterCTA";
 import Footer from "@/components/teaser/Footer";
 import ApplyModal from "@/components/ApplyModal";
 
@@ -56,8 +54,6 @@ export default function TeaserPage() {
       <Mission />
       <Statistics />
       <Curriculum />
-      <FAQ />
-      <FooterCTA onApplyClick={openModal} />
       <Footer />
 
       {/* 신청 모달 */}

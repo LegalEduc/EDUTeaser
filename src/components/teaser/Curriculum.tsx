@@ -66,8 +66,8 @@ export default function Curriculum() {
             return (
               <div
                 key={part.name}
-                className={`reveal rounded-2xl border border-cream-dark bg-white transition-shadow duration-200 ${
-                  i > 0 ? `reveal-delay-${Math.min(i, 3)}` : ""
+                className={`rounded-2xl border border-cream-dark bg-white transition-shadow duration-200 ${
+                  i > 0 ? "" : ""
                 } ${isOpen ? "shadow-airtable-soft" : ""}`}
               >
                 <button

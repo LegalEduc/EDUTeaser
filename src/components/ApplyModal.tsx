@@ -102,8 +102,6 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
     }
   }, [isOpen]);
 
-  if (!isOpen) return null;
-
   const updateField = <K extends keyof FormData>(key: K, value: FormData[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
     setError("");
@@ -137,6 +135,8 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
       })
       .sort((a, b) => getNoNum(a.no) - getNoNum(b.no));
   }, [form.name]);
+
+  if (!isOpen) return null;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
