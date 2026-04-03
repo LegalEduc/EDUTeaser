@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState, FormEvent, use } from "react";
+import { useEffect, useState, FormEvent } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { curriculum } from "@/data/curriculum";
 
 interface InstructorDetail {
@@ -62,12 +62,15 @@ function formatPhone(phone: string) {
   return phone;
 }
 
-export default function InstructorDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = use(params);
+function paramToString(v: string | string[] | undefined): string {
+  if (typeof v === "string") return v;
+  if (Array.isArray(v) && v[0]) return v[0];
+  return "";
+}
+
+export default function InstructorDetailPage() {
+  const routeParams = useParams();
+  const id = paramToString(routeParams?.id);
   const router = useRouter();
   const [instructor, setInstructor] = useState<InstructorDetail | null>(null);
   const [consentSetting, setConsentSetting] = useState<ConsentSetting | null>(null);
@@ -137,6 +140,11 @@ export default function InstructorDetailPage({
   }, [consentSetting, lectureTopic, lectureCount, matchedLectures]);
 
   useEffect(() => {
+    if (!id) {
+      setError("강사 ID가 없습니다.");
+      setLoading(false);
+      return;
+    }
     const token = localStorage.getItem("admin_token");
     if (!token) return;
 

@@ -256,12 +256,14 @@ export async function generateConsentPdf(data: PdfData): Promise<Uint8Array> {
   });
 
   y -= 18;
-  const signedDate = data.signature.signedAt.toLocaleDateString("ko-KR", {
+  const signedDate = data.signature.signedAt.toLocaleString("ko-KR", {
     year: "numeric",
     month: "long",
     day: "numeric",
     hour: "2-digit",
     minute: "2-digit",
+    hour12: false,
+    timeZone: "Asia/Seoul",
   });
   page.drawText(`서명일시: ${signedDate}`, {
     x: leftMargin + 10,

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState, use } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import ConsentForm from "@/components/ConsentForm";
 
 interface ConsentData {
@@ -15,17 +16,25 @@ interface ConsentData {
   alreadySigned: boolean;
 }
 
-export default function ConsentPage({
-  params,
-}: {
-  params: Promise<{ token: string }>;
-}) {
-  const { token } = use(params);
+function paramToString(v: string | string[] | undefined): string {
+  if (typeof v === "string") return v;
+  if (Array.isArray(v) && v[0]) return v[0];
+  return "";
+}
+
+export default function ConsentPage() {
+  const routeParams = useParams();
+  const token = paramToString(routeParams?.token);
   const [data, setData] = useState<ConsentData | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!token) {
+      setError("유효하지 않은 링크이거나 만료된 링크입니다.");
+      setLoading(false);
+      return;
+    }
     fetch(`/api/consent/${token}`)
       .then((res) => {
         if (!res.ok) throw new Error("not found");
