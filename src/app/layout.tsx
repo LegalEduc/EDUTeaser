@@ -16,11 +16,20 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ko_KR",
     siteName: "LegalCrew",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "리걸크루 변호사 실전 압축 부트캠프 마스터 등록",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "리걸크루 변호사 실전 압축 부트캠프 — 마스터 초빙",
     description: "실무 표준을 함께 세울 마스터를 모십니다.",
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,

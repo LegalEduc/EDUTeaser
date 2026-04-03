@@ -20,7 +20,7 @@ const missions = [
 
 export default function Mission() {
   return (
-    <section className="bg-cream py-[clamp(64px,10vw,96px)] border-b border-cream-dark">
+    <section className="bg-cream pt-[clamp(40px,7vw,64px)] pb-[clamp(64px,10vw,96px)] border-b border-cream-dark">
       <div className="max-w-[1136px] mx-auto px-[clamp(16px,4vw,48px)]">
         <h2 className="font-heading text-[clamp(1.75rem,4vw,2.25rem)] text-ink leading-[1.22]">
           현장 중심 실무를 관통하는 완성형 변호사 양성

@@ -10,9 +10,9 @@ export default function Hero({ onApplyClick }: { onApplyClick: () => void }) {
           className="font-heading text-[clamp(2rem,5vw,3.25rem)] text-ink leading-[1.23] mb-6"
           style={{ animation: "fadeUp 1s cubic-bezier(0.22,1,0.36,1) 0.5s both" }}
         >
-          법조계의<br />
-          새로운 실무 표준을 정립할<br />
-          마스터를 모십니다
+          법조계 실무 표준을<br />
+          한 단계 끌어올려 주실<br />
+          마스터를 모십니다!
         </h1>
 
         <p
@@ -26,7 +26,7 @@ export default function Hero({ onApplyClick }: { onApplyClick: () => void }) {
           className="text-center max-w-[640px] mx-auto text-[1rem] text-slate leading-[1.5] space-y-4 mb-10"
           style={{ animation: "fadeUp 0.9s ease 1s both" }}
         >
-          <p>신규 변호사들이 시험형 사고에서 실무형 사고로 거듭나도록<br />
+          <p>신규 변호사들이 시험형 사고에서 실무형 사고로 거듭날 수 있도록<br />
             마스터님께서 현장에서 축적해오신 경험과 통찰을 나눠주세요!
           </p>
         </div>
