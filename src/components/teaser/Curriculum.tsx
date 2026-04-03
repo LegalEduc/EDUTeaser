@@ -16,6 +16,18 @@ function getItems(from: number, to: number) {
   return curriculum.filter((_, i) => i >= from - 1 && i <= to - 1);
 }
 
+function splitInstructorAffiliation(text: string): { name: string; affiliation: string } | null {
+  // 예: "강우찬 수석부장판사 (서울행정법원)"
+  const m = text.match(/^(.*?)(?:\s*\((.*)\)\s*)$/);
+  if (!m) return null;
+  const name = m[1]?.trim();
+  const affiliation = m[2]?.trim();
+  if (!name || !affiliation) return null;
+  // "—" 같은 값은 분리하지 않음
+  if (name === "—" || affiliation === "—") return null;
+  return { name, affiliation };
+}
+
 export default function Curriculum() {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
@@ -121,7 +133,18 @@ export default function Curriculum() {
                             {item.desc}
                           </div>
                           <div className="text-caption font-medium leading-[1.5] text-ink lg:border-l lg:border-[#e2e2e2] lg:pl-4">
-                            {item.instructor}
+                            {(() => {
+                              const split = splitInstructorAffiliation(item.instructor);
+                              if (!split) return item.instructor;
+                              return (
+                                <>
+                                  <span className="block">{split.name}</span>
+                                  <span className="block text-slate-light font-normal">
+                                    {split.affiliation}
+                                  </span>
+                                </>
+                              );
+                            })()}
                           </div>
                         </div>
                       </div>

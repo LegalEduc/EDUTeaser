@@ -140,8 +140,13 @@ export async function POST(request: NextRequest) {
     );
   } catch (err) {
     console.error("Apply API error:", err);
+    const isEncryptionKeyIssue =
+      err instanceof Error && err.message.includes("ENCRYPTION_KEY");
+    const message = isEncryptionKeyIssue
+      ? "서버 보안 키 설정이 누락되었습니다. 관리자에게 문의해 주세요."
+      : "서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.";
     return NextResponse.json(
-      { success: false, message: "서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요." },
+      { success: false, message },
       { status: 500 }
     );
   }

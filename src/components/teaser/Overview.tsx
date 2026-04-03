@@ -11,10 +11,10 @@ const items = [
 ];
 
 const stats = [
-  { num: "24", unit: "강", label: "총 강의 수" },
+  { num: "48", unit: "시간", label: "총 강의 시간" },
   { num: "12", unit: "주", label: "부트캠프 기간" },
-  { num: "50", unit: "명", label: "1기 수강 정원" },
-  { num: "2", unit: "시간", label: "회당 강의 시간" },
+  { num: "1:1", unit: "", label: "부트캠프장 주도 개별 강평" },
+  { num: "수료 후", unit: "", label: "대한변협 전문연수 인정 신청 예정" },
 ];
 
 export default function Overview() {

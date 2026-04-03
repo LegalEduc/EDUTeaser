@@ -54,7 +54,7 @@ const PROGRAM_INFO = [
   { label: "프로그램명", value: PROGRAM_NAME },
   { label: "연수 기간", value: "2026. 5. 12.(화) ~ 2026. 7. 30.(목)" },
   { label: "교육 시간", value: "매주 화·목 19:00~21:00, 회당 2시간 (총 24강)" },
-  { label: "강의 방식", value: "오프라인 교육, 부트캠프장 주도 1:1 실무 워크숍" },
+  { label: "강의 방식", value: "오프라인 교육<br>부트캠프장 주도 1:1 실무 워크숍" },
   { label: "강의 장소", value: "드림플러스 강남 (서울특별시 서초구 강남대로 311)" },
   { label: "수강 인원", value: "1기 50명 제한" },
   { label: "관련문의", value: "contact@legalcrew.co.kr" },
@@ -143,6 +143,15 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
     setIsSubmitting(true);
 
     try {
+      const normalizedBarExamDetail =
+        form.barExamDetail === ""
+          ? ""
+          : form.barExamType === "judicial_exam"
+            ? `${form.barExamDetail}기`
+            : form.barExamType === "bar_exam"
+              ? `${form.barExamDetail}회`
+              : form.barExamDetail;
+
       const res = await fetch("/api/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -151,7 +160,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
           name: form.name,
           residentNumber: form.residentNumber,
           barExamType: form.barExamType,
-          barExamDetail: form.barExamDetail,
+          barExamDetail: normalizedBarExamDetail,
           bio: form.bio,
           phone: form.phone,
           email: form.email,
@@ -171,13 +180,17 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.message || "오류가 발생했습니다.");
+        const msg = data.message || "오류가 발생했습니다.";
+        setError(msg);
+        showToast(msg);
         return;
       }
 
       setStep("success");
     } catch {
-      setError("네트워크 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+      const msg = "네트워크 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.";
+      setError(msg);
+      showToast(msg);
     } finally {
       setIsSubmitting(false);
     }
@@ -188,16 +201,45 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
     setTimeout(() => setToast(""), 2000);
   };
 
+  const handleResidentNumberChange = (value: string) => {
+    const digits = value.replace(/\D/g, "").slice(0, 13);
+    if (!digits) {
+      updateField("residentNumber", "");
+      return;
+    }
+    const formatted =
+      digits.length <= 6 ? digits : `${digits.slice(0, 6)}-${digits.slice(6)}`;
+    updateField("residentNumber", formatted);
+  };
+
+  const handlePhoneChange = (value: string) => {
+    const digits = value.replace(/\D/g, "").slice(0, 11);
+    if (!digits) {
+      updateField("phone", "");
+      return;
+    }
+    let formatted: string;
+    if (digits.length <= 3) {
+      formatted = digits;
+    } else if (digits.length <= 7) {
+      formatted = `${digits.slice(0, 3)}-${digits.slice(3)}`;
+    } else {
+      formatted = `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+    }
+    updateField("phone", formatted);
+  };
+
   const handleBarExamDetailChange = (value: string) => {
-    if (value === "") {
+    const digits = value.replace(/\D/g, "");
+    if (digits === "") {
       updateField("barExamDetail", "");
       return;
     }
-    if (!/^\d*$/.test(value)) {
+    if (!/^\d*$/.test(digits)) {
       showToast("숫자만 입력해주세요");
       return;
     }
-    updateField("barExamDetail", value);
+    updateField("barExamDetail", digits);
   };
 
   const handleFeeLimitChange = (value: string) => {
@@ -225,6 +267,15 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
       : form.barExamType === "bar_exam"
         ? "예시: 00회"
         : "";
+
+  const barDetailDisplayValue =
+    form.barExamDetail === ""
+      ? ""
+      : form.barExamType === "judicial_exam"
+        ? `${form.barExamDetail}기`
+        : form.barExamType === "bar_exam"
+          ? `${form.barExamDetail}회`
+          : form.barExamDetail;
 
   return (
     <div className="fixed inset-0 z-[500] bg-black/50 backdrop-blur-[4px] flex items-center justify-center overflow-y-auto p-6 scrollbar-visible">
@@ -280,7 +331,14 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                 {PROGRAM_INFO.map(({ label, value }) => (
                   <div key={label} className="flex gap-3">
                     <dt className="text-ink/50 font-medium whitespace-nowrap min-w-[80px]">{label}</dt>
-                    <dd className="text-ink font-light">{value}</dd>
+                    <dd className="text-ink font-light">
+                      {value.split("<br>").map((line, idx, arr) => (
+                        <span key={`${label}-${idx}`}>
+                          {line}
+                          {idx < arr.length - 1 ? <br /> : null}
+                        </span>
+                      ))}
+                    </dd>
                   </div>
                 ))}
               </dl>
@@ -350,8 +408,9 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                     <input
                       type="text"
                       value={form.residentNumber}
-                      onChange={(e) => updateField("residentNumber", e.target.value)}
+                      onChange={(e) => handleResidentNumberChange(e.target.value)}
                       placeholder="000000-0000000"
+                      inputMode="numeric"
                       required
                       className={inputClass}
                     />
@@ -365,13 +424,14 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-md:!grid-cols-1">
                   <div>
                     <label className={labelClass}>
-                      휴대폰 번호 <span className="text-gold ml-0.5">*</span>
+                      휴대전화 번호 <span className="text-gold ml-0.5">*</span>
                     </label>
                     <input
                       type="tel"
                       value={form.phone}
-                      onChange={(e) => updateField("phone", e.target.value)}
+                      onChange={(e) => handlePhoneChange(e.target.value)}
                       placeholder="010-0000-0000"
+                      inputMode="numeric"
                       required
                       className={inputClass}
                     />
@@ -433,7 +493,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                     <input
                       type="text"
                       inputMode="numeric"
-                      value={form.barExamDetail}
+                      value={barDetailDisplayValue}
                       onChange={(e) => handleBarExamDetailChange(e.target.value)}
                       placeholder={barDetailPlaceholder}
                       required
