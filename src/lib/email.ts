@@ -15,7 +15,8 @@ function getTransporter() {
 }
 
 const EMAIL_FROM =
-  process.env.EMAIL_FROM || "LegalCrew Academy <cs@legalcrew.co.kr>";
+  process.env.EMAIL_FROM ||
+  "리걸크루 실전 압축 부트캠프 <contact@legalcrew.co.kr>";
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "contact@legalcrew.co.kr";
 
 export async function sendApplyNotification(instructor: {
@@ -109,7 +110,7 @@ export async function sendNotice(
           <h2>${title}</h2>
           <div style="white-space:pre-wrap;line-height:1.8;">${body}</div>
           <hr style="margin:24px 0;border:none;border-top:1px solid #eee;">
-          <p style="color:#999;font-size:12pt;">LegalCrew Academy | cs@legalcrew.co.kr</p>
+          <p style="color:#999;font-size:12pt;">LegalCrew 실전 압축 부트캠프 | contact@legalcrew.co.kr</p>
         `,
       });
       sentCount++;

@@ -156,5 +156,5 @@ FAQ          → 다크
 ## 문의처 정보
 
 - 담당자: 강선민 이사
-- 이메일: cs@legalcrew.co.kr
+- 이메일: contact@legalcrew.co.kr
 - 전화: 010-0000-0000
