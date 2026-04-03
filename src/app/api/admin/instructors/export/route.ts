@@ -18,6 +18,13 @@ function safeDecrypt(value: string): string {
   }
 }
 
+function mapBarExamType(value: string | null): string {
+  if (!value) return "";
+  if (value === "judicial_exam") return "연수원";
+  if (value === "bar_exam") return "변시";
+  return value;
+}
+
 export async function GET(request: NextRequest) {
   try {
     const token = getTokenFromRequest(request);
@@ -114,7 +121,7 @@ export async function GET(request: NextRequest) {
           row.email,
           row.phone,
           residentNumber,
-          row.barExamType,
+          mapBarExamType(row.barExamType),
           row.barExamDetail,
           row.bio,
           row.bankName,

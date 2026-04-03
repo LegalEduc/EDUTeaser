@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
 import { consentSettings, consentSignatures, instructors } from "@/lib/schema";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { getTokenFromRequest, verifyToken } from "@/lib/auth";
 import { randomUUID } from "crypto";
 import { sendConsentLink } from "@/lib/email";
@@ -130,6 +130,7 @@ export async function PUT(
       .select()
       .from(consentSettings)
       .where(eq(consentSettings.instructorId, id))
+      .orderBy(desc(consentSettings.createdAt))
       .limit(1);
 
     if (!setting) {

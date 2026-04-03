@@ -104,7 +104,7 @@ export async function sendNotice(
       await transporter.sendMail({
         from: EMAIL_FROM,
         to: email,
-        subject: `[리걸크루 아카데미] ${title}`,
+        subject: `[리걸크루 실전 압축 부트캠프] ${title}`,
         html: `
           <h2>${title}</h2>
           <div style="white-space:pre-wrap;line-height:1.8;">${body}</div>

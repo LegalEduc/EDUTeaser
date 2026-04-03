@@ -176,7 +176,7 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
             className="mt-0.5 accent-ink"
           />
           <span className="text-[1rem] text-ink">
-            초상권 활용에 동의합니다{" "}
+            프로그램 운영 범위 내 초상권 활용에 동의합니다{" "}
             <span className="text-slate-light ml-1">선택</span>
           </span>
         </label>
