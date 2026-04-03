@@ -32,6 +32,18 @@ interface PdfData {
   documentId: string;
 }
 
+
+function formatPhoneDisplay(phone: string): string {
+  const digits = phone.replace(/\D/g, "");
+  if (digits.length === 11) {
+    return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+  }
+  if (digits.length === 10) {
+    return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
+  }
+  return phone;
+}
+
 export async function generateConsentPdf(data: PdfData): Promise<Uint8Array> {
   const pdfDoc = await PDFDocument.create();
   pdfDoc.registerFontkit(fontkit);
@@ -90,7 +102,7 @@ export async function generateConsentPdf(data: PdfData): Promise<Uint8Array> {
 
   const infoItems = [
     ["성명", data.instructor.name],
-    ["연락처", data.instructor.phone],
+    ["연락처", formatPhoneDisplay(data.instructor.phone)],
     ["이메일", data.instructor.email],
     ["은행", `${data.instructor.bankName} (${data.instructor.accountHolder})`],
     [
@@ -139,22 +151,6 @@ export async function generateConsentPdf(data: PdfData): Promise<Uint8Array> {
     color: gray,
   });
   page.drawText(data.setting.lectureTopic, {
-    x: leftMargin + 80,
-    y,
-    size: 12,
-    font,
-    color: black,
-  });
-
-  y -= 18;
-  page.drawText("강사료:", {
-    x: leftMargin + 10,
-    y,
-    size: 12,
-    font,
-    color: gray,
-  });
-  page.drawText(`${data.setting.feeAmount.toLocaleString()}원`, {
     x: leftMargin + 80,
     y,
     size: 12,

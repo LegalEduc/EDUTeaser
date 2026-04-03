@@ -18,10 +18,10 @@ export const metadata: Metadata = {
     siteName: "LegalCrew",
     images: [
       {
-        url: "/og-image.png?v=20260404-legalcrew-ci",
+        url: "/og-image.png?v=20260405-legal-crew-wordmark",
         width: 1024,
         height: 535,
-        alt: "LegalCrew",
+        alt: "Legal Crew",
       },
     ],
   },
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description: "실무 표준을 함께 세울 마스터를 모십니다.",
     images: [
       {
-        url: "/og-image.png?v=20260404-legalcrew-ci",
+        url: "/og-image.png?v=20260405-legal-crew-wordmark",
         width: 1024,
         height: 535,
       },
