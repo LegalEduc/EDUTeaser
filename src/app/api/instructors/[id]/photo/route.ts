@@ -4,10 +4,12 @@ import { getDb } from "@/lib/db";
 import { instructors } from "@/lib/schema";
 import { eq } from "drizzle-orm";
 
-const store = getStore("instructor-photos");
-
 const ALLOWED_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp"];
 const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
+
+function getPhotoStore() {
+  return getStore("instructor-photos");
+}
 
 function getExtension(name: string): string {
   const lower = name.toLowerCase();
@@ -55,6 +57,7 @@ export async function POST(
     }
 
     const key = `${id}${ext}`;
+    const store = getPhotoStore();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await (store as any).set(key, file);
 
@@ -77,6 +80,7 @@ export async function GET(
 
     for (const ext of ALLOWED_EXTENSIONS) {
       const key = `${id}${ext}`;
+      const store = getPhotoStore();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const blob = await (store as any).get(key, { type: "arrayBuffer" });
       if (blob) {
