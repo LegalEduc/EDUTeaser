@@ -17,6 +17,7 @@ interface PdfData {
   setting: {
     lectureTopic: string;
     feeAmount: number;
+    totalFee: number;
     specialTerms: string | null;
   };
   signature: {
@@ -154,6 +155,22 @@ export async function generateConsentPdf(data: PdfData): Promise<Uint8Array> {
     color: gray,
   });
   page.drawText(`${data.setting.feeAmount.toLocaleString()}원`, {
+    x: leftMargin + 80,
+    y,
+    size: 12,
+    font,
+    color: black,
+  });
+
+  y -= 18;
+  page.drawText("총 강사료:", {
+    x: leftMargin + 10,
+    y,
+    size: 12,
+    font,
+    color: gray,
+  });
+  page.drawText(`${data.setting.totalFee.toLocaleString()}원`, {
     x: leftMargin + 80,
     y,
     size: 12,

@@ -71,6 +71,7 @@ export async function GET(
       setting: {
         lectureTopic: setting.lectureTopic,
         feeAmount: setting.feeAmount,
+        totalFee: setting.totalFee,
         specialTerms: setting.specialTerms,
       },
       signature: {
