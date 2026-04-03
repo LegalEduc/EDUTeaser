@@ -18,9 +18,9 @@ export const metadata: Metadata = {
     siteName: "LegalCrew",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-image.png?v=20260403",
         width: 1024,
-        height: 512,
+        height: 535,
         alt: "리걸크루 변호사 실전 압축 부트캠프 마스터 등록",
       },
     ],
@@ -29,7 +29,13 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "리걸크루 변호사 실전 압축 부트캠프 — 마스터 초빙",
     description: "실무 표준을 함께 세울 마스터를 모십니다.",
-    images: ["/og-image.png"],
+    images: [
+      {
+        url: "/og-image.png?v=20260403",
+        width: 1024,
+        height: 535,
+      },
+    ],
   },
   robots: {
     index: true,
