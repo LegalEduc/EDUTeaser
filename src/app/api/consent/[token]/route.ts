@@ -50,7 +50,9 @@ export async function GET(
       instructor: { name: instructor.name },
       setting: {
         lectureTopic: setting.lectureTopic,
+        lectureCount: setting.lectureCount,
         feeAmount: setting.feeAmount,
+        totalFee: setting.totalFee,
         specialTerms: setting.specialTerms,
       },
       alreadySigned: !!existingSig,

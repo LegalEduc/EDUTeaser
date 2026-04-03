@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 const items = [
-  { label: "연수 기간", value: "2026.\n5. 12.(화) ~ 2026. 7. 30.(목)", sub: "" },
+  { label: "연수 기간", value: "2026. 5. 12.(화) ~ 2026. 7. 30.(목)", sub: "" },
   { label: "교육 시간", value: "매주 화·목 19:00~21:00", sub: "회당 2시간 (총 48시간)" },
   { label: "강의 방식", value: "오프라인 교육\n부트캠프장 주도 1:1 실무 워크숍", sub: "" },
   { label: "강의 장소", value: "드림플러스 강남", sub: "서울특별시 서초구 강남대로 311" },
@@ -13,8 +13,8 @@ const items = [
 const stats = [
   { num: "24", unit: "강", label: "부트캠프 강의 수" },
   { num: "12", unit: "주", label: "부트캠프 운영 기간" },
-  { num: "1:1", unit: "케어", label: "부트캠프장 주도 개별 강평" },
-  { num: "수료후", unit: "", label: "대한변협 전문연수 인정 신청 예정" },
+  { num: "1:1", unit: "케어", label: "부트캠프장 개별 강평" },
+  { num: "수료후", unit: "", label: "대한변협 전문연수 신청 예정" },
 ];
 
 export default function Overview() {

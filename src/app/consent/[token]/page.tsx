@@ -7,7 +7,9 @@ interface ConsentData {
   instructor: { name: string };
   setting: {
     lectureTopic: string;
+    lectureCount: number;
     feeAmount: number;
+    totalFee: number;
     specialTerms: string | null;
   };
   alreadySigned: boolean;

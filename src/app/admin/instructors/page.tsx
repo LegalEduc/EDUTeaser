@@ -52,7 +52,7 @@ export default function InstructorsPage() {
   const [loading, setLoading] = useState(true);
   const [isExporting, setIsExporting] = useState(false);
 
-  useEffect(() => {
+  const fetchInstructors = () => {
     const token = localStorage.getItem("admin_token");
     if (!token) return;
 
@@ -74,7 +74,33 @@ export default function InstructorsPage() {
       })
       .catch(() => {})
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchInstructors();
   }, [filter, router]);
+
+  const handleDeleteInstructor = async (id: string, name: string) => {
+    const ok = window.confirm(
+      `${name} 강사 정보를 완전 삭제하시겠습니까?\n삭제 후에는 이메일 중복 제한이 해제되어 재등록 가능합니다.`
+    );
+    if (!ok) return;
+    const token = localStorage.getItem("admin_token");
+    if (!token) return;
+
+    const res = await fetch(`/api/admin/instructors/${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await res.json().catch(() => null);
+    if (!res.ok) {
+      alert(data?.message || "강사 삭제에 실패했습니다.");
+      return;
+    }
+    alert(data?.message || "강사 정보가 삭제되었습니다.");
+    setLoading(true);
+    fetchInstructors();
+  };
 
   const handleExport = async () => {
     const password = window.prompt("2차 인증을 위해 관리자 비밀번호를 입력해 주세요.");
@@ -198,18 +224,26 @@ export default function InstructorsPage() {
             {instructors.map((inst) => {
               const statusInfo = STATUS_LABEL[inst.status];
               return (
-                <Link
+                <div
                   key={inst.id}
-                  href={`/admin/instructors/${inst.id}`}
                   className="block bg-white border border-[#e2e2e2] p-5 rounded-xl shadow-airtable-soft hover:shadow-airtable transition-shadow"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <span className="font-semibold text-[1.1rem]">{inst.name}</span>
+                      <Link href={`/admin/instructors/${inst.id}`} className="font-semibold text-[1.1rem] hover:underline">
+                        {inst.name}
+                      </Link>
                       <span className={`text-[1rem] px-2 py-0.5 rounded-full ${statusInfo.color}`}>
                         {statusInfo.text}
                       </span>
                     </div>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteInstructor(inst.id, inst.name)}
+                      className="px-3 py-1.5 text-caption rounded-full border border-red-500/30 text-red-600 hover:bg-red-50 transition-colors"
+                    >
+                      삭제
+                    </button>
                   </div>
                   <div className="mt-2 flex flex-col sm:flex-row gap-1 sm:gap-4 text-[1rem] text-slate">
                     <span>{BAR_LABEL[inst.barExamType]} {inst.barExamDetail}</span>
@@ -222,7 +256,7 @@ export default function InstructorsPage() {
                     {inst.sentAt && <span className="text-slate">발송 {formatDate(inst.sentAt)}</span>}
                     {inst.signedAt && <span className="text-ink font-medium">서명 {formatDate(inst.signedAt)}</span>}
                   </div>
-                </Link>
+                </div>
               );
             })}
           </div>

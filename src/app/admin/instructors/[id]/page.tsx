@@ -128,9 +128,12 @@ export default function InstructorDetailPage({
     if (matchedLectures.length === 0) return;
 
     setLectureCount(String(matchedLectures.length));
-    const first = matchedLectures[0];
-    const last = matchedLectures[matchedLectures.length - 1];
-    setLectureTopic(`담당 배정 강의 (${first.no}~${last.no})`);
+    const exactLectureTopics = matchedLectures.map((item) => `${item.no} ${item.part}`).join(" / ");
+    const autoTopic =
+      exactLectureTopics.length > 180
+        ? `${matchedLectures[0].no} ${matchedLectures[0].part} 외 ${matchedLectures.length - 1}개`
+        : exactLectureTopics;
+    setLectureTopic(autoTopic);
   }, [consentSetting, lectureTopic, lectureCount, matchedLectures]);
 
   useEffect(() => {
@@ -197,7 +200,7 @@ export default function InstructorDetailPage({
       setConsentSetting({
         lectureTopic,
         lectureCount: Number(lectureCount),
-        feeAmount: Number(feeAmount),
+        feeAmount: feeAmountNumber,
         totalFee,
         specialTerms: specialTerms || null,
         token: data.token,
@@ -591,9 +594,10 @@ export default function InstructorDetailPage({
                   className="w-full bg-white border border-ink px-4 py-3 text-[1.05rem] text-ink placeholder:text-slate-light focus:ring-2 focus:ring-ink/20 focus:border-ink focus:outline-none transition-colors rounded-lg"
                 />
                 {matchedLectures.length > 0 && (
-                  <p className="mt-2 text-caption text-slate">
-                    배정 강의 {matchedLectures.length}개가 자동 매칭되어 기본값을 채웠습니다.
-                  </p>
+                  <div className="mt-2 text-caption text-slate space-y-1">
+                    <p>마스터 등록 시 배정된 강의 정보로 자동 입력되었습니다.</p>
+                    <p className="text-slate-light">{matchedLectures.map((item) => `${item.no} ${item.part}`).join(" / ")}</p>
+                  </div>
                 )}
               </div>
               <div>
@@ -619,7 +623,7 @@ export default function InstructorDetailPage({
                     type="text"
                     value={feeAmount}
                     onChange={(e) => handleFeeAmountChange(e.target.value)}
-                    placeholder="500,000"
+                    placeholder="1,000,000"
                     required
                     inputMode="numeric"
                     className="w-full bg-white border border-ink px-4 py-3 text-[1.05rem] text-ink placeholder:text-slate-light focus:ring-2 focus:ring-ink/20 focus:border-ink focus:outline-none transition-colors rounded-lg"

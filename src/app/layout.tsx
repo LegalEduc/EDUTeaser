@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { getBaseUrl } from "@/lib/base-url";
 
 export const metadata: Metadata = {
   title: "리걸크루 변호사 실전 압축 부트캠프 — 마스터 초빙",
   description:
     "법조계의 새로운 실무 표준을 정립할 마스터를 모십니다. 리걸크루 변호사 실전 압축 부트캠프 1기.",
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_BASE_URL || "https://master.legalcrew.co.kr"
-  ),
+  metadataBase: new URL(getBaseUrl()),
   alternates: {
     canonical: "/",
   },

@@ -501,9 +501,6 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                       }}
                       className="w-full text-[0.95rem] text-slate file:mr-3 file:rounded-full file:border file:border-ink file:bg-white file:px-3 file:py-1.5 file:text-[0.9rem] file:font-medium file:text-ink hover:file:bg-[#e2e2e2]"
                     />
-                    <p className="text-[1rem] text-slate-light mt-1.5 font-light">
-                      홍보 자료 및 어드민 확인용으로 사용됩니다. (선택)
-                    </p>
                   </div>
                 </div>
               </fieldset>

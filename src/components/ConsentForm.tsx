@@ -6,7 +6,9 @@ interface ConsentFormProps {
   instructor: { name: string };
   setting: {
     lectureTopic: string;
+    lectureCount: number;
     feeAmount: number;
+    totalFee: number;
     specialTerms: string | null;
   };
   token: string;
@@ -92,9 +94,19 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
             <span className="font-semibold text-ink text-right">{setting.lectureTopic}</span>
           </div>
           <div className="flex justify-between gap-4">
+            <span className="text-slate shrink-0">총 강의횟수</span>
+            <span className="font-semibold text-ink text-right">{setting.lectureCount}회</span>
+          </div>
+          <div className="flex justify-between gap-4">
             <span className="text-slate shrink-0">강사료</span>
             <span className="font-semibold text-ink text-right">
-              {setting.feeAmount.toLocaleString()}원
+              {setting.feeAmount.toLocaleString()}원 (1회당)
+            </span>
+          </div>
+          <div className="flex justify-between gap-4">
+            <span className="text-slate shrink-0">총 강사료</span>
+            <span className="font-semibold text-ink text-right">
+              {setting.totalFee.toLocaleString()}원
             </span>
           </div>
           {setting.specialTerms && (

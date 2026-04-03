@@ -141,3 +141,42 @@ export async function PATCH(
     );
   }
 }
+
+// DELETE: 강사 완전 삭제 (관련 동의서/서명 포함)
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const token = getTokenFromRequest(request);
+  if (!token || !(await verifyToken(token))) {
+    return NextResponse.json({ message: "인증이 필요합니다." }, { status: 401 });
+  }
+
+  try {
+    const { id } = await params;
+    const db = getDb();
+
+    const [target] = await db
+      .select({ id: instructors.id })
+      .from(instructors)
+      .where(eq(instructors.id, id))
+      .limit(1);
+
+    if (!target) {
+      return NextResponse.json({ message: "강사를 찾을 수 없습니다." }, { status: 404 });
+    }
+
+    // FK 제약을 피하기 위해 자식 테이블부터 삭제
+    await db.delete(consentSignatures).where(eq(consentSignatures.instructorId, id));
+    await db.delete(consentSettings).where(eq(consentSettings.instructorId, id));
+    await db.delete(instructors).where(eq(instructors.id, id));
+
+    return NextResponse.json({ success: true, message: "강사 정보가 삭제되었습니다." });
+  } catch (err) {
+    console.error("Instructor delete error:", err);
+    return NextResponse.json(
+      { message: "강사 삭제 중 오류가 발생했습니다." },
+      { status: 500 }
+    );
+  }
+}

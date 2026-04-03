@@ -1,12 +1,13 @@
 import { ImageResponse } from "next/og";
+import { getBaseUrl } from "@/lib/base-url";
 
 export const runtime = "edge";
 export const alt = "리걸크루 변호사 실전 압축 부트캠프 마스터 등록";
-export const size = { width: 1200, height: 630 };
+export const size = { width: 2400, height: 1260 };
 export const contentType = "image/png";
 
 export default function Image() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://master.legalcrew.co.kr";
+  const baseUrl = getBaseUrl();
   const logoUrl = `${baseUrl}/legalcrew-logo.png`;
 
   return new ImageResponse(
@@ -43,7 +44,7 @@ export default function Image() {
         <div
           style={{
             fontSize: 52,
-            fontWeight: 700,
+            fontWeight: 800,
             color: "#151517",
             textAlign: "center",
             lineHeight: 1.2,
@@ -55,7 +56,7 @@ export default function Image() {
         <div
           style={{
             fontSize: 52,
-            fontWeight: 700,
+            fontWeight: 800,
             color: "#4874F7",
             textAlign: "center",
             lineHeight: 1.2,

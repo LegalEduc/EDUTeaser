@@ -3,7 +3,7 @@ import { getDb } from "@/lib/db";
 import { instructors } from "@/lib/schema";
 import { encrypt } from "@/lib/encrypt";
 import { sendApplyNotification } from "@/lib/email";
-import { eq } from "drizzle-orm";
+import { and, eq, ne } from "drizzle-orm";
 
 // IP 기반 Rate Limiting (인메모리, 서버리스 인스턴스 단위)
 const RATE_LIMIT_WINDOW = 60 * 1000; // 1분
@@ -95,7 +95,12 @@ export async function POST(request: NextRequest) {
     const existing = await db
       .select({ id: instructors.id })
       .from(instructors)
-      .where(eq(instructors.email, body.email.trim()))
+      .where(
+        and(
+          eq(instructors.email, body.email.trim().toLowerCase()),
+          ne(instructors.status, "rejected")
+        )
+      )
       .limit(1);
 
     if (existing.length > 0) {
@@ -132,6 +137,7 @@ export async function POST(request: NextRequest) {
     sendApplyNotification({
       name: body.name.trim(),
       email: body.email.trim(),
+      id: inserted.id,
     }).catch((err) => console.error("Apply notification email error:", err));
 
     return NextResponse.json(

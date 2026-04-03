@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { getBaseUrl } from "@/lib/base-url";
 
 function getTransporter() {
   const user = process.env.SMTP_USER;
@@ -20,8 +21,11 @@ const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "contact@legalcrew.co.kr";
 export async function sendApplyNotification(instructor: {
   name: string;
   email: string;
+  id: string;
 }) {
   const transporter = getTransporter();
+  const baseUrl = getBaseUrl();
+  const adminDetailLink = `${baseUrl}/admin/instructors/${instructor.id}`;
   await transporter.sendMail({
     from: EMAIL_FROM,
     to: ADMIN_EMAIL,
@@ -30,7 +34,13 @@ export async function sendApplyNotification(instructor: {
       <h2>새로운 마스터 사전 정보 등록</h2>
       <p><strong>이름:</strong> ${instructor.name}</p>
       <p><strong>이메일:</strong> ${instructor.email}</p>
+      <p style="margin: 20px 0;">
+        <a href="${adminDetailLink}" style="display:inline-block;padding:10px 18px;background:#4874F7;color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;line-height:1.2;border-radius:999px;">
+          어드민 상세 바로가기
+        </a>
+      </p>
       <p>어드민 페이지에서 상세 내용을 확인하세요.</p>
+      <p style="color:#666;font-size:13px;line-height:1.5;">버튼이 작동하지 않으면 아래 링크를 복사해 주세요.<br>${adminDetailLink}</p>
     `,
   });
 }
@@ -41,7 +51,7 @@ export async function sendConsentLink(
   token: string
 ) {
   const transporter = getTransporter();
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://master.legalcrew.co.kr";
+  const baseUrl = getBaseUrl();
   const link = `${baseUrl}/consent/${token}`;
 
   await transporter.sendMail({

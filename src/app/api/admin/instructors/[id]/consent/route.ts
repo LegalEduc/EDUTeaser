@@ -26,13 +26,16 @@ export async function POST(
         { status: 400 }
       );
     }
-    if (!body.lectureCount || body.lectureCount <= 0) {
+    const lectureCount = Number(String(body.lectureCount ?? "").replace(/,/g, ""));
+    const feeAmount = Number(String(body.feeAmount ?? "").replace(/,/g, ""));
+
+    if (!Number.isFinite(lectureCount) || lectureCount <= 0) {
       return NextResponse.json(
         { message: "총 강의횟수를 입력해 주세요." },
         { status: 400 }
       );
     }
-    if (!body.feeAmount || body.feeAmount <= 0) {
+    if (!Number.isFinite(feeAmount) || feeAmount <= 0) {
       return NextResponse.json(
         { message: "강사료를 입력해 주세요." },
         { status: 400 }
@@ -56,13 +59,13 @@ export async function POST(
     const consentToken = randomUUID();
 
     // 동의서 세팅 저장
-    const computedTotal = Number(body.lectureCount) * Number(body.feeAmount);
+    const computedTotal = lectureCount * feeAmount;
 
     await db.insert(consentSettings).values({
       instructorId: id,
       lectureTopic: body.lectureTopic.trim(),
-      lectureCount: body.lectureCount,
-      feeAmount: body.feeAmount,
+      lectureCount,
+      feeAmount,
       totalFee: computedTotal,
       specialTerms: body.specialTerms?.trim() || null,
       token: consentToken,
