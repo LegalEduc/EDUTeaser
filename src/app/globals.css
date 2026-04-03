@@ -30,8 +30,8 @@
 
   /* 기존 클래스명 유지: primary CTA = Legal Blue */
   --color-gold: #4874F7;
-  --color-gold-light: #0C1F7A;
-  --color-gold-dark: #151517;
+  --color-gold-light: #3B63D8;
+  --color-gold-dark: #2F4FB1;
 
   --color-navy: #000000;
   --color-navy-mid: #000000;
@@ -108,7 +108,7 @@
     left: 0;
     height: 2px;
     width: 0%;
-    background: #000000;
+    background: #4874F7;
     z-index: 9999;
     transition: width 0.1s linear;
     pointer-events: none;

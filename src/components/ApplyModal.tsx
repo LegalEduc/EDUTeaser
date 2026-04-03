@@ -345,9 +345,9 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
               <p className={sectionLabelClass}>프로그램 정보</p>
               <dl className="space-y-2 text-sm">
                 {PROGRAM_INFO.map(({ label, value }) => (
-                  <div key={label} className="flex gap-3">
-                    <dt className="text-ink/50 font-medium whitespace-nowrap min-w-[80px]">{label}</dt>
-                    <dd className="text-ink font-light">
+                  <div key={label} className="flex flex-col gap-1.5 sm:flex-row sm:gap-3">
+                    <dt className="text-ink/50 font-medium sm:whitespace-nowrap sm:min-w-[80px]">{label}</dt>
+                    <dd className="text-ink font-light break-all">
                       {value.split("<br>").map((line, idx, arr) => (
                         <span key={`${label}-${idx}`}>
                           {line}

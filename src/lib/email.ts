@@ -59,11 +59,12 @@ export async function sendConsentLink(
     to,
     subject: "[리걸크루 실전 압축 부트캠프] 강의 동의서 확인 요청",
     html: `
-      <h2 style="font-size:14pt;font-weight:700;line-height:1.5;margin:0 0 12px 0;">${name}님, 안녕하세요.</h2>
+      <div style="height:56px;line-height:56px;">&nbsp;</div>
+      <h2 style="font-size:14pt;font-weight:700;line-height:1.5;margin:0 0 12px 0;">${name} 마스터님, 안녕하세요.</h2>
       <p style="font-size:14pt;line-height:1.7;margin:0 0 8px 0;">리걸크루 변호사 실전 압축 부트캠프 마스터 등록이 완료됐습니다.</p>
       <p style="font-size:14pt;line-height:1.7;margin:0 0 18px 0;">하단 버튼 클릭 후 상세 강의 조건을 확인해주세요.</p>
       <p style="margin: 24px 0;">
-        <a href="${link}" style="display:inline-block;padding:12px 24px;background:#000000;color:#ffffff;text-decoration:none;font-size:14pt;font-weight:600;line-height:1.2;border-radius:999px;">
+        <a href="${link}" style="display:inline-block;padding:12px 24px;background:#4874F7;color:#ffffff;text-decoration:none;font-size:14pt;font-weight:600;line-height:1.2;border-radius:999px;">
           강의 조건 확인하기
         </a>
       </p>
