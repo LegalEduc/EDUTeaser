@@ -20,21 +20,21 @@ const missions = [
 
 export default function Mission() {
   return (
-    <section className="bg-cream py-[clamp(80px,10vw,120px)] border-b border-cream-dark">
-      <div className="max-w-[1080px] mx-auto px-[clamp(16px,4vw,48px)]">
-        <h2 className="font-heading text-[clamp(28px,4vw,44px)] font-medium text-ink leading-[1.25]">
+    <section className="bg-cream py-[clamp(64px,10vw,96px)] border-b border-cream-dark">
+      <div className="max-w-[1136px] mx-auto px-[clamp(16px,4vw,48px)]">
+        <h2 className="font-heading text-[clamp(1.75rem,4vw,2.25rem)] text-ink leading-[1.22]">
           현장 중심 실무를 관통하는 완성형 변호사 양성
         </h2>
-        <p className="mt-3 text-[1.02rem] text-slate leading-[1.8] tracking-[0.18px]">
+        <p className="mt-3 text-[1rem] text-slate leading-[1.5]">
           시험형 사고를 넘어 실무 현장을 주도하는 변호사를 만듭니다.
         </p>
 
-        <div className="mt-10 border-t border-cream-dark">
+        <div className="mt-10 border-t border-[#e2e2e2]">
           {missions.map((m) => (
-            <div key={m.no} className="py-6 border-b border-cream-dark">
-              <p className="text-[0.88rem] uppercase tracking-[0.12px] text-gold font-medium">{m.no}</p>
-              <p className="mt-1 text-[1.18rem] font-medium text-ink leading-[1.4]">{m.title}</p>
-              <p className="mt-2 text-[1rem] text-slate leading-[1.8] tracking-[0.18px]">{m.desc}</p>
+            <div key={m.no} className="py-6 border-b border-[#e2e2e2]">
+              <p className="text-caption font-semibold text-ink">{m.no}</p>
+              <p className="mt-1 font-heading text-[1.25rem] text-ink leading-snug">{m.title}</p>
+              <p className="mt-2 text-[1rem] text-slate leading-[1.5]">{m.desc}</p>
             </div>
           ))}
         </div>

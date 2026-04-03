@@ -39,26 +39,30 @@ export default function Curriculum() {
     <section
       id="curriculum"
       ref={sectionRef}
-      className="bg-cream-mid py-[clamp(100px,12vw,160px)] border-t border-cream-dark"
+      className="bg-cream-mid py-[clamp(64px,10vw,96px)] border-t border-cream-dark"
     >
-      <div className="mx-auto max-w-[1080px] px-[clamp(24px,5vw,64px)]">
+      <div className="mx-auto max-w-[1136px] px-[clamp(24px,5vw,64px)]">
         <div className="reveal mb-12 md:mb-16">
-          <span className="mb-4 inline-flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.12px] text-gold">
-            <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-gold" />
+          <span className="mb-3 inline-flex items-center gap-2 text-caption font-medium text-slate">
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-ink" />
             커리큘럼
           </span>
-          <h2 className="text-[clamp(32px,4.5vw,56px)] font-bold leading-[1.25] tracking-normal text-ink">
+          <h2 className="font-heading text-[clamp(1.75rem,4vw,2.25rem)] leading-[1.22] text-ink">
             24강
             <br />
             커리큘럼 · 강사진
           </h2>
-          <p className="mt-4 max-w-[720px] text-[0.95rem] leading-[1.65] text-slate tracking-[0.18px]">
-            파트 및 주요 학습 내용은 강의 준비 지원을 위한 예시안입니다. 과목 범위 내에서 강사님의 전문성과 판단에 따라
-            구성을 자유롭게 조정하실 수 있습니다.
-          </p>
+          <div className="mt-4 max-w-[720px] text-[1rem] leading-[1.5] text-slate space-y-3">
+            <p>
+              1. 커리큘럼 세부 내용은 강의 준비에 도움을 드리고자 마련한 '예시안'입니다.
+            </p>
+            <p>
+              2. 담당하신 과목 범위 내에서 강사님의 전문성과 판단에 따라 구성을 자유롭게 조정 부탁드립니다.
+            </p>
+          </div>
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-3">
           {parts.map((part, i) => {
             const isOpen = openIdx === i;
             const items = getItems(part.from, part.to);
@@ -66,9 +70,9 @@ export default function Curriculum() {
             return (
               <div
                 key={part.name}
-                className={`rounded-2xl border border-cream-dark bg-white transition-shadow duration-200 ${
-                  i > 0 ? "" : ""
-                } ${isOpen ? "shadow-airtable-soft" : ""}`}
+                className={`rounded-xl bg-white transition-shadow duration-200 shadow-airtable-soft ${
+                  isOpen ? "shadow-airtable" : ""
+                }`}
               >
                 <button
                   type="button"
@@ -77,16 +81,14 @@ export default function Curriculum() {
                   aria-expanded={isOpen}
                 >
                   <div className="flex min-w-0 flex-1 flex-col gap-1 sm:flex-row sm:items-center sm:gap-4">
-                    <span className="shrink-0 text-[13px] font-semibold uppercase tracking-[0.12px] text-gold">
-                      {part.name}
-                    </span>
-                    <span className="text-[17px] font-semibold tracking-normal md:text-[18px]">{part.title}</span>
+                    <span className="shrink-0 text-caption font-semibold text-ink">{part.name}</span>
+                    <span className="text-[1.0625rem] font-semibold md:text-[1.125rem]">{part.title}</span>
                   </div>
                   <div className="flex shrink-0 items-center gap-3">
-                    <span className="hidden text-[11px] tracking-[0.08px] text-slate-light sm:inline">{part.range}</span>
+                    <span className="hidden text-caption text-slate sm:inline">{part.range}</span>
                     <span
-                      className={`flex h-[30px] w-[30px] items-center justify-center rounded-full border text-[11px] transition-all duration-300 ${
-                        isOpen ? "rotate-180 border-gold/45 text-gold" : "border-cream-dark text-slate-light"
+                      className={`flex h-[30px] w-[30px] items-center justify-center rounded-full border border-ink/15 text-caption transition-all duration-300 ${
+                        isOpen ? "rotate-180 border-ink/40 text-ink" : "text-slate-light"
                       }`}
                     >
                       ▾
@@ -103,22 +105,22 @@ export default function Curriculum() {
                     {items.map((item) => (
                       <div
                         key={item.no}
-                        className="border-t border-cream-dark py-4 first:border-t-0 first:pt-0"
+                        className="border-t border-[#e2e2e2] py-4 first:border-t-0 first:pt-0"
                       >
                         <div className="flex flex-col gap-3 lg:grid lg:grid-cols-[52px_92px_1fr_200px] lg:items-start lg:gap-4">
-                          <span className="text-[12px] font-bold tracking-[0.08px] text-gold">
+                          <span className="text-caption font-bold text-ink">
                             {item.no}
                           </span>
-                          <span className="text-[12px] font-normal text-slate-light lg:pt-0.5">
+                          <span className="text-caption font-normal text-slate lg:pt-0.5">
                             {item.date}
                           </span>
-                          <div className="min-w-0 text-[13px] font-light leading-[1.75] tracking-[0.18px] text-slate">
+                          <div className="min-w-0 text-caption font-normal leading-[1.5] text-slate">
                             <strong className="mb-1 block font-medium text-ink">
                               {item.part}
                             </strong>
                             {item.desc}
                           </div>
-                          <div className="text-[12px] font-medium leading-[1.5] text-ink lg:border-l lg:border-cream-dark lg:pl-4">
+                          <div className="text-caption font-medium leading-[1.5] text-ink lg:border-l lg:border-[#e2e2e2] lg:pl-4">
                             {item.instructor}
                           </div>
                         </div>

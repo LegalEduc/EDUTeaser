@@ -26,7 +26,7 @@ export default function StorySection() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div className="rounded-2xl border border-cream-dark bg-white/60 p-6">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-[12px] font-semibold tracking-[0.12px] uppercase text-gold">
+                <span className="text-caption font-semibold tracking-[0.12px] uppercase text-gold">
                   01
                 </span>
                 <span className="text-[18px]">⚖️</span>
@@ -43,7 +43,7 @@ export default function StorySection() {
 
             <div className="rounded-2xl border border-cream-dark bg-white/60 p-6">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-[12px] font-semibold tracking-[0.12px] uppercase text-gold">
+                <span className="text-caption font-semibold tracking-[0.12px] uppercase text-gold">
                   02
                 </span>
                 <span className="text-[18px]">🎯</span>
@@ -60,7 +60,7 @@ export default function StorySection() {
 
             <div className="rounded-2xl border border-cream-dark bg-white/60 p-6">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-[12px] font-semibold tracking-[0.12px] uppercase text-gold">
+                <span className="text-caption font-semibold tracking-[0.12px] uppercase text-gold">
                   03
                 </span>
                 <span className="text-[18px]">🗺️</span>

@@ -38,28 +38,22 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-ink flex items-center justify-center p-6">
-      <div className="w-full max-w-[400px]">
+    <div className="min-h-screen bg-cream flex items-center justify-center p-6">
+      <div className="w-full max-w-[400px] rounded-xl bg-white p-8 shadow-airtable border border-[#e2e2e2]">
         <div className="text-center mb-10">
-          <p className="text-[1rem] tracking-[0.12px] uppercase text-gold-light mb-3">
-            Admin
-          </p>
-          <h1 className="font-heading text-[28px] font-bold text-cream">
-            관리자 로그인
-          </h1>
+          <p className="text-caption font-medium text-slate mb-2">Admin</p>
+          <h1 className="font-heading text-[1.75rem] text-ink leading-tight">관리자 로그인</h1>
         </div>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-400 text-[1rem] rounded">
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-[1rem] rounded-lg">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-[1rem] text-cream/70 mb-2">
-              비밀번호
-            </label>
+            <label className="block text-[1rem] text-slate mb-2">비밀번호</label>
             <input
               type="password"
               value={password}
@@ -67,13 +61,13 @@ export default function AdminLoginPage() {
               placeholder="관리자 비밀번호를 입력하세요"
               required
               autoFocus
-              className="w-full bg-ink-mid border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/50 focus:outline-none transition-colors rounded-[12px]"
+              className="w-full bg-white border border-ink px-4 py-3 text-[1rem] text-ink placeholder:text-slate-light focus:outline-none focus:ring-2 focus:ring-ink/20 rounded-lg"
             />
           </div>
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3 bg-gold text-white font-semibold text-[1.05rem] rounded-[12px] hover:bg-gold-light transition-colors disabled:opacity-50 shadow-airtable"
+            className="w-full min-h-[44px] py-3 bg-gold text-white font-semibold text-[1rem] rounded-full hover:bg-gold-light transition-colors disabled:opacity-50 shadow-airtable"
           >
             {isLoading ? "로그인 중..." : "로그인"}
           </button>

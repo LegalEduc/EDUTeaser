@@ -24,7 +24,7 @@ export default function Image() {
         <div style={{ fontSize: 42, fontWeight: 700, textAlign: "center", lineHeight: 1.25 }}>
           리걸크루
         </div>
-        <div style={{ fontSize: 26, fontWeight: 600, color: "#1b61c9", marginTop: 16, textAlign: "center" }}>
+        <div style={{ fontSize: 26, fontWeight: 600, color: "#000000", marginTop: 16, textAlign: "center" }}>
           변호사 실전 압축 부트캠프
         </div>
         <div

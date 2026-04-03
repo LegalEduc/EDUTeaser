@@ -1,49 +1,58 @@
 /* @import 순서: 폰트 → Tailwind (CSS 스펙) */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap");
 
 @import "tailwindcss";
 
 @theme {
-  /* DESIGN.md — Airtable design system */
-  --theme_text: #181d26;
-  --theme_primary: #1b61c9;
+  /* DESIGN.md — Uber design system (UberMove 대체: DM Sans + Inter + Noto Sans KR) */
+  --theme_uber-black: #000000;
   --theme_surface: #ffffff;
-  --theme_border: #e0e2e6;
-  --theme_surface-subtle: #f8fafc;
-  --theme_text-weak: rgba(4, 14, 32, 0.69);
-  --theme_success-text: #006400;
-  --theme_shadow-blue: rgba(45, 127, 249, 0.28);
-  --theme_button-text-spotlight: rgba(249, 252, 255, 0.97);
-  --theme_button-text-secondary-active: rgba(7, 12, 20, 0.82);
+  --theme_text-primary: #000000;
+  --theme_text-body: #4b4b4b;
+  --theme_text-muted: #afafaf;
+  --theme_chip: #efefef;
+  --theme_hover-gray: #e2e2e2;
+  --theme_hover-light: #f3f3f3;
+  --theme_shadow-light: rgba(0, 0, 0, 0.12);
+  --theme_shadow-medium: rgba(0, 0, 0, 0.16);
+  --theme_button-press: rgba(0, 0, 0, 0.08);
 
   --color-white: #ffffff;
   --color-cream: #ffffff;
-  --color-cream-mid: #f8fafc;
-  --color-cream-dark: #e0e2e6;
+  --color-cream-mid: #f3f3f3;
+  --color-cream-dark: #e2e2e2;
 
-  --color-ink: #181d26;
-  --color-ink-mid: #252b36;
+  --color-ink: #000000;
+  --color-ink-mid: #000000;
 
-  --color-slate: #333333;
-  --color-slate-light: rgba(4, 14, 32, 0.69);
+  --color-slate: #4b4b4b;
+  --color-slate-light: #afafaf;
 
-  /* 브랜드 액센트: Airtable Blue (기존 gold 클래스명 유지) */
-  --color-gold: #1b61c9;
-  --color-gold-light: #2d7ff9;
-  --color-gold-dark: #154a9e;
+  /* 기존 클래스명 유지: primary CTA = Legal Blue */
+  --color-gold: #4874F7;
+  --color-gold-light: #0C1F7A;
+  --color-gold-dark: #151517;
 
-  --color-navy: #181d26;
-  --color-navy-mid: #1e2430;
+  --color-navy: #000000;
+  --color-navy-mid: #000000;
 
-  --color-dark: #181d26;
-  --color-dark-mid: #252b36;
+  --color-dark: #000000;
+  --color-dark-mid: #1a1a1a;
 
-  --color-muted: rgba(255, 255, 255, 0.45);
+  --color-muted: #afafaf;
 
-  --font-sans: "Haas", "Haas Grot Text R Web", "Inter", "Noto Sans KR", -apple-system,
-    BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-serif: "Noto Sans KR", serif;
-  --font-logo: "Haas Groot Disp", "Haas", "Inter", sans-serif;
+  --font-sans: "DM Sans", "Inter", "Noto Sans KR", system-ui, -apple-system, "Helvetica Neue",
+    Helvetica, Arial, sans-serif;
+  --font-serif: "Noto Sans KR", sans-serif;
+  --font-logo: "DM Sans", "Inter", sans-serif;
+
+  /* 사용자 가독성: 본문·UI 최소 글자 12pt(브라우저 기준 ≈16px) 이상 */
+  --text-caption: 12pt;
+  --text-caption--line-height: 1.43;
+  --text-xs: 12pt;
+  --text-xs--line-height: 1.43;
+  --text-sm: 1rem;
+  --text-sm--line-height: 1.5;
 }
 
 @layer base {
@@ -56,12 +65,12 @@
     font-family: var(--font-sans);
     background: var(--color-cream);
     color: var(--color-ink);
-    line-height: 1.35;
-    letter-spacing: 0.18px;
+    line-height: 1.5;
+    letter-spacing: 0;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
     font-weight: 400;
-    font-size: 1.125rem;
+    font-size: 1rem;
   }
 
   .font-serif-kor {
@@ -69,7 +78,8 @@
   }
 
   .font-heading {
-    font-family: "Haas Groot Disp", "Haas", "Inter", "Noto Sans KR", sans-serif;
+    font-family: "DM Sans", "Inter", "Noto Sans KR", sans-serif;
+    font-weight: 700;
     letter-spacing: 0;
   }
 
@@ -77,38 +87,37 @@
     font-family: var(--font-sans);
   }
 
+  /* 레거시 유틸 이름 유지 — Uber card shadow */
   .shadow-airtable {
-    box-shadow:
-      rgba(0, 0, 0, 0.32) 0 0 1px,
-      rgba(0, 0, 0, 0.08) 0 0 2px,
-      rgba(45, 127, 249, 0.28) 0 1px 3px,
-      rgba(0, 0, 0, 0.06) 0 0 0 0.5px inset;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px 0px;
   }
 
   .shadow-airtable-soft {
-    box-shadow: rgba(15, 48, 106, 0.05) 0 0 20px;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 12px 0px;
+  }
+
+  .shadow-uber-float {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 8px 0px;
   }
 }
 
 @layer base {
-  /* Scroll Progress Bar */
   #progress-bar {
     position: fixed;
     top: 0;
     left: 0;
     height: 2px;
     width: 0%;
-    background: linear-gradient(to right, var(--color-gold-dark), var(--color-gold-light));
+    background: #000000;
     z-index: 9999;
     transition: width 0.1s linear;
     pointer-events: none;
   }
 
-  /* Modal 스크롤바 가시성 강화 */
   .scrollbar-visible {
     scrollbar-gutter: stable;
     scrollbar-width: auto;
-    scrollbar-color: rgba(27, 97, 201, 0.65) rgba(0, 0, 0, 0);
+    scrollbar-color: rgba(0, 0, 0, 0.45) transparent;
   }
   .scrollbar-visible::-webkit-scrollbar {
     width: 10px;
@@ -117,12 +126,11 @@
     background: transparent;
   }
   .scrollbar-visible::-webkit-scrollbar-thumb {
-    background: rgba(27, 97, 201, 0.45);
+    background: rgba(0, 0, 0, 0.35);
     border-radius: 999px;
-    border: 2px solid rgba(255, 255, 255, 0.85);
+    border: 2px solid rgba(255, 255, 255, 0.9);
   }
 
-  /* Scroll Reveal */
   .reveal {
     opacity: 0;
     transform: translateY(28px);
@@ -146,23 +154,15 @@
     transition-delay: 0.48s;
   }
 
-  /* 섹션 구분선 — 브랜드 블루 틴트 */
   .section-divider {
     width: 100%;
-    max-width: 1080px;
+    max-width: 1136px;
     margin: 0 auto;
     height: 1px;
-    background: linear-gradient(
-      to right,
-      transparent,
-      rgba(27, 97, 201, 0.22) 20%,
-      rgba(27, 97, 201, 0.22) 80%,
-      transparent
-    );
-    opacity: 0.85;
+    background: #e2e2e2;
+    opacity: 1;
   }
 
-  /* Accordion (FAQ + Curriculum) */
   .accordion-body {
     display: grid;
     grid-template-rows: 0fr;

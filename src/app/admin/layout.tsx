@@ -44,8 +44,8 @@ export default function AdminLayout({
 
   if (!checked) {
     return (
-      <div className="min-h-screen bg-ink flex items-center justify-center">
-        <p className="text-muted text-[1.05rem]">인증 확인 중...</p>
+      <div className="min-h-screen bg-cream flex items-center justify-center">
+        <p className="text-slate text-[1rem]">인증 확인 중...</p>
       </div>
     );
   }

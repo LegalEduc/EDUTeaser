@@ -18,10 +18,10 @@ interface Instructor {
 }
 
 const STATUS_LABEL: Record<string, { text: string; color: string }> = {
-  applied: { text: "신청", color: "bg-gold/20 text-gold" },
-  consent_sent: { text: "발송", color: "bg-blue-500/20 text-blue-400" },
-  consented: { text: "완료", color: "bg-green-500/20 text-green-400" },
-  rejected: { text: "거절", color: "bg-red-500/20 text-red-400" },
+  applied: { text: "신청", color: "bg-[#efefef] text-ink" },
+  consent_sent: { text: "발송", color: "bg-[#e2e2e2] text-ink" },
+  consented: { text: "완료", color: "bg-ink text-white" },
+  rejected: { text: "거절", color: "bg-red-100 text-red-700" },
 };
 
 const BAR_LABEL: Record<string, string> = {
@@ -65,41 +65,47 @@ export default function InstructorsPage() {
   }, [filter, router]);
 
   return (
-    <div className="min-h-screen bg-ink text-cream">
-      <header className="border-b border-white/[0.06] px-5 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+    <div className="min-h-screen bg-cream text-ink">
+      <header className="border-b border-[#e2e2e2] bg-white px-5 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="flex items-center justify-between">
-          <h1 className="font-logo text-[18px] font-semibold">
-            LegalCrew <span className="italic">Admin</span>
-          </h1>
+          <h1 className="font-heading text-[1.125rem] font-bold">LegalCrew Admin</h1>
           <button
+            type="button"
             onClick={() => {
               localStorage.removeItem("admin_token");
               router.replace("/admin/login");
             }}
-            className="sm:hidden text-[1rem] text-muted hover:text-cream transition-colors"
+            className="sm:hidden text-[1rem] text-slate hover:text-ink transition-colors"
           >
             로그아웃
           </button>
         </div>
-        <nav className="flex gap-3 text-[1rem] overflow-x-auto">
-          <Link href="/admin" className="text-muted hover:text-cream transition-colors whitespace-nowrap">대시보드</Link>
-          <Link href="/admin/instructors" className="text-gold whitespace-nowrap">강사 관리</Link>
-          <Link href="/admin/notices" className="text-muted hover:text-cream transition-colors whitespace-nowrap">안내사항 전달</Link>
+        <nav className="flex gap-4 text-sm font-medium overflow-x-auto">
+          <Link href="/admin" className="text-slate hover:text-ink whitespace-nowrap transition-colors">
+            대시보드
+          </Link>
+          <Link href="/admin/instructors" className="text-ink underline underline-offset-4 whitespace-nowrap">
+            강사 관리
+          </Link>
+          <Link href="/admin/notices" className="text-slate hover:text-ink whitespace-nowrap transition-colors">
+            안내사항 전달
+          </Link>
         </nav>
         <button
+          type="button"
           onClick={() => {
             localStorage.removeItem("admin_token");
             router.replace("/admin/login");
           }}
-          className="hidden sm:block text-[1rem] text-muted hover:text-cream transition-colors"
+          className="hidden sm:block text-[1rem] text-slate hover:text-ink transition-colors"
         >
           로그아웃
         </button>
       </header>
 
-      <main className="max-w-[960px] mx-auto px-6 py-10">
+      <main className="max-w-[1136px] mx-auto px-6 py-10">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-          <h2 className="font-heading text-[24px] font-bold">강사 관리</h2>
+          <h2 className="font-heading text-[1.5rem]">강사 관리</h2>
           <div className="flex flex-wrap gap-2">
             {[
               { value: "", label: "전체" },
@@ -108,12 +114,13 @@ export default function InstructorsPage() {
               { value: "consented", label: "완료" },
             ].map((f) => (
               <button
+                type="button"
                 key={f.value}
                 onClick={() => setFilter(f.value)}
-                className={`px-4 py-1.5 text-[1rem] rounded-full border transition-colors ${
+                className={`px-4 py-2 text-caption font-medium rounded-full border transition-colors ${
                   filter === f.value
-                    ? "border-gold text-gold bg-gold/10"
-                    : "border-white/10 text-muted hover:text-cream"
+                    ? "border-ink bg-ink text-white"
+                    : "border-[#e2e2e2] bg-[#efefef] text-ink hover:bg-[#e2e2e2]"
                 }`}
               >
                 {f.label}
@@ -123,9 +130,9 @@ export default function InstructorsPage() {
         </div>
 
         {loading ? (
-          <p className="text-muted text-[1.05rem]">불러오는 중...</p>
+          <p className="text-slate text-[1rem]">불러오는 중...</p>
         ) : instructors.length === 0 ? (
-          <p className="text-muted text-[1.05rem]">등록된 강사가 없습니다.</p>
+          <p className="text-slate text-[1rem]">등록된 강사가 없습니다.</p>
         ) : (
           <div className="space-y-3">
             {instructors.map((inst) => {
@@ -134,7 +141,7 @@ export default function InstructorsPage() {
                 <Link
                   key={inst.id}
                   href={`/admin/instructors/${inst.id}`}
-                  className="block bg-ink-mid border border-white/[0.06] p-5 rounded hover:border-gold/20 transition-colors"
+                  className="block bg-white border border-[#e2e2e2] p-5 rounded-xl shadow-airtable-soft hover:shadow-airtable transition-shadow"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
@@ -144,26 +151,16 @@ export default function InstructorsPage() {
                       </span>
                     </div>
                   </div>
-                  <div className="mt-2 flex flex-col sm:flex-row gap-1 sm:gap-4 text-[1rem] text-muted">
+                  <div className="mt-2 flex flex-col sm:flex-row gap-1 sm:gap-4 text-[1rem] text-slate">
                     <span>{BAR_LABEL[inst.barExamType]} {inst.barExamDetail}</span>
                     <span>{inst.email}</span>
                     <span>{inst.phone}</span>
                   </div>
                   {/* 날짜 타임라인 */}
                   <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-[1rem]">
-                    <span className="text-gold/70">
-                      신청 {formatDate(inst.appliedAt)}
-                    </span>
-                    {inst.sentAt && (
-                      <span className="text-blue-400/70">
-                        발송 {formatDate(inst.sentAt)}
-                      </span>
-                    )}
-                    {inst.signedAt && (
-                      <span className="text-green-400/70">
-                        서명 {formatDate(inst.signedAt)}
-                      </span>
-                    )}
+                    <span className="text-slate">신청 {formatDate(inst.appliedAt)}</span>
+                    {inst.sentAt && <span className="text-slate">발송 {formatDate(inst.sentAt)}</span>}
+                    {inst.signedAt && <span className="text-ink font-medium">서명 {formatDate(inst.signedAt)}</span>}
                   </div>
                 </Link>
               );

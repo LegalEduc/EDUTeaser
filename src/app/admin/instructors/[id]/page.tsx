@@ -240,102 +240,107 @@ export default function InstructorDetailPage({
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-ink flex items-center justify-center">
-        <p className="text-muted text-[1.05rem]">불러오는 중...</p>
+      <div className="min-h-screen bg-cream flex items-center justify-center">
+        <p className="text-slate text-[1.05rem]">불러오는 중...</p>
       </div>
     );
   }
 
   if (error || !instructor) {
     return (
-      <div className="min-h-screen bg-ink flex items-center justify-center">
+      <div className="min-h-screen bg-cream flex items-center justify-center">
         <p className="text-red-400 text-[1.05rem]">{error || "강사 정보를 찾을 수 없습니다."}</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-ink text-cream">
-      <header className="border-b border-white/[0.06] px-6 py-4 flex items-center justify-between">
+    <div className="min-h-screen bg-cream text-ink">
+      <header className="border-b border-[#e2e2e2] bg-white px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-6">
-          <h1 className="font-logo text-[18px] font-semibold">
+          <h1 className="font-heading text-[18px] font-bold">
             LegalCrew <span className="italic">Admin</span>
           </h1>
           <nav className="flex gap-4 text-[1rem]">
-            <Link href="/admin" className="text-muted hover:text-cream transition-colors">대시보드</Link>
-            <Link href="/admin/instructors" className="text-gold">강사 관리</Link>
-            <Link href="/admin/notices" className="text-muted hover:text-cream transition-colors">안내사항 전달</Link>
+            <Link href="/admin" className="text-slate hover:text-ink transition-colors">대시보드</Link>
+            <Link href="/admin/instructors" className="text-ink font-semibold underline underline-offset-4">
+              강사 관리
+            </Link>
+            <Link href="/admin/notices" className="text-slate hover:text-ink transition-colors">안내사항 전달</Link>
           </nav>
         </div>
       </header>
 
       <main className="max-w-[960px] mx-auto px-6 py-10">
-        <Link href="/admin/instructors" className="text-[1rem] text-muted hover:text-cream mb-6 inline-block">
+        <Link href="/admin/instructors" className="text-[1rem] text-slate hover:text-ink mb-6 inline-block">
           &larr; 강사 목록
         </Link>
 
         {/* 강사 정보 */}
-        <div className="bg-ink-mid border border-white/[0.06] p-6 rounded mb-6">
+        <div className="bg-white border border-[#e2e2e2] shadow-airtable-soft p-6 rounded-xl mb-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="font-heading text-[22px] font-bold">{instructor.name}</h2>
-            <span className="text-[1rem] px-3 py-1 rounded-[12px] bg-gold/20 text-gold">
+            <span className="text-caption px-3 py-1 rounded-full bg-[#efefef] text-ink font-medium">
               {STATUS_TEXT[instructor.status] || instructor.status}
             </span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[1rem]">
             <div>
-              <span className="text-muted">자격시험:</span>{" "}
+              <span className="text-slate">자격시험:</span>{" "}
               {BAR_LABEL[instructor.barExamType]} {instructor.barExamDetail}
             </div>
             <div>
-              <span className="text-muted">이메일:</span> {instructor.email}
+              <span className="text-slate">이메일:</span> {instructor.email}
             </div>
             <div>
-              <span className="text-muted">전화:</span> {instructor.phone}
+              <span className="text-slate">전화:</span> {instructor.phone}
             </div>
             <div>
-              <span className="text-muted">은행:</span> {instructor.bankName} ({instructor.accountHolder})
+              <span className="text-slate">은행:</span> {instructor.bankName} ({instructor.accountHolder})
             </div>
             <div>
-              <span className="text-muted">주민번호:</span> {instructor.residentNumber}
+              <span className="text-slate">주민번호:</span> {instructor.residentNumber}
             </div>
             <div>
-              <span className="text-muted">계좌번호:</span> {instructor.accountNumber}
+              <span className="text-slate">계좌번호:</span> {instructor.accountNumber}
             </div>
             <div>
-              <span className="text-muted">주차:</span>{" "}
+              <span className="text-slate">주차:</span>{" "}
               {instructor.parkingNeeded ? `필요 (${instructor.carNumber})` : "불필요"}
             </div>
           </div>
           {/* 진행 날짜 */}
-          <div className="mt-4 pt-4 border-t border-white/[0.06] flex flex-wrap gap-x-6 gap-y-2 text-[1rem]">
+          <div className="mt-4 pt-4 border-t border-[#e2e2e2] flex flex-wrap gap-x-6 gap-y-2 text-[1rem]">
             <div>
-              <span className="text-muted">신청일:</span>{" "}
-              <span className="text-gold">{new Date(instructor.appliedAt).toLocaleDateString("ko-KR")}</span>
+              <span className="text-slate">신청일:</span>{" "}
+              <span className="text-ink font-medium">{new Date(instructor.appliedAt).toLocaleDateString("ko-KR")}</span>
             </div>
             {consentSetting && (
               <div>
-                <span className="text-muted">동의서 발송일:</span>{" "}
-                <span className="text-blue-400">{new Date(consentSetting.sentAt).toLocaleDateString("ko-KR")}</span>
+                <span className="text-slate">동의서 발송일:</span>{" "}
+                <span className="text-ink">{new Date(consentSetting.sentAt).toLocaleDateString("ko-KR")}</span>
               </div>
             )}
             {consentSignature && (
               <div>
-                <span className="text-muted">최종 서명일:</span>{" "}
-                <span className="text-green-400">{new Date(consentSignature.signedAt).toLocaleDateString("ko-KR")}</span>
+                <span className="text-slate">최종 서명일:</span>{" "}
+                <span className="text-ink font-medium">{new Date(consentSignature.signedAt).toLocaleDateString("ko-KR")}</span>
               </div>
             )}
           </div>
           {instructor.bio && (
-            <div className="mt-4 pt-4 border-t border-white/[0.06]">
-              <p className="text-muted text-[1rem] mb-1">이력 사항</p>
+            <div className="mt-4 pt-4 border-t border-[#e2e2e2]">
+              <p className="text-slate text-[1rem] mb-1">이력 사항</p>
+              <p className="text-caption text-slate-light mb-2">
+                홍보 자료 및 수강생 안내에 활용됩니다.
+              </p>
               <p className="text-[1rem] whitespace-pre-wrap leading-relaxed">{instructor.bio}</p>
             </div>
           )}
           {instructor.status === "applied" && (
-            <div className="mt-4 pt-4 border-t border-white/[0.06]">
+            <div className="mt-4 pt-4 border-t border-[#e2e2e2]">
               {actionResult && (
-                <div className={`mb-4 p-3 text-[13px] rounded border ${
+                <div className={`mb-4 p-3 text-caption rounded border ${
                   actionResult.includes("거절")
                     ? "bg-red-500/10 border-red-500/20 text-red-400"
                     : "bg-red-500/10 border-red-500/20 text-red-400"
@@ -346,14 +351,14 @@ export default function InstructorDetailPage({
               <button
                 onClick={handleReject}
                 disabled={isRejecting}
-                className="px-5 py-2 border border-red-500/30 text-red-400 text-[1rem] rounded-[12px] hover:bg-red-500/10 transition-colors disabled:opacity-50"
+                className="px-5 py-2 border border-red-500/30 text-red-400 text-[1rem] rounded-lg hover:bg-red-500/10 transition-colors disabled:opacity-50"
               >
                 {isRejecting ? "처리 중..." : "신청 거절"}
               </button>
             </div>
           )}
           {instructor.status === "rejected" && (
-            <div className="mt-4 pt-4 border-t border-white/[0.06]">
+            <div className="mt-4 pt-4 border-t border-[#e2e2e2]">
               <p className="text-red-400 text-[1rem]">이 강사의 신청은 거절되었습니다.</p>
             </div>
           )}
@@ -361,39 +366,39 @@ export default function InstructorDetailPage({
 
         {/* 동의서 세팅 */}
         {consentSetting ? (
-          <div className="bg-ink-mid border border-white/[0.06] p-6 rounded mb-6">
+          <div className="bg-white border border-[#e2e2e2] shadow-airtable-soft p-6 rounded-xl mb-6">
             <h3 className="font-heading text-[18px] font-bold mb-4">동의서 세팅</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[1rem]">
               <div>
-                <span className="text-muted">강의 주제:</span> {consentSetting.lectureTopic}
+                <span className="text-slate">강의 주제:</span> {consentSetting.lectureTopic}
               </div>
               <div>
-                <span className="text-muted">총 강의횟수:</span> {consentSetting.lectureCount}회
+                <span className="text-slate">총 강의횟수:</span> {consentSetting.lectureCount}회
               </div>
               <div>
-                <span className="text-muted">강사료(1회당):</span>{" "}
+                <span className="text-slate">강사료(1회당):</span>{" "}
                 {consentSetting.feeAmount.toLocaleString()}원
               </div>
               <div>
-                <span className="text-muted">총 강사료:</span>{" "}
+                <span className="text-slate">총 강사료:</span>{" "}
                 {consentSetting.totalFee.toLocaleString()}원
               </div>
               {consentSetting.specialTerms && (
                 <div className="md:col-span-2">
-                  <span className="text-muted">특약사항:</span> {consentSetting.specialTerms}
+                  <span className="text-slate">특약사항:</span> {consentSetting.specialTerms}
                 </div>
               )}
               <div className="md:col-span-2">
-                <span className="text-muted">동의서 링크:</span>{" "}
-                <code className="text-gold text-[1rem]">
+                <span className="text-slate">동의서 링크:</span>{" "}
+                <code className="text-ink text-caption font-mono bg-[#f3f3f3] px-2 py-0.5 rounded-lg">
                   {window.location.origin}/consent/{consentSetting.token}
                 </code>
               </div>
             </div>
 
             {consentSignature ? (
-              <div className="mt-4 pt-4 border-t border-white/[0.06] flex items-center justify-between">
-                <p className="text-green-400 text-[1rem]">
+              <div className="mt-4 pt-4 border-t border-[#e2e2e2] flex items-center justify-between">
+                <p className="text-ink text-[1rem] font-medium">
                   서명 완료: {consentSignature.signedName} ({new Date(consentSignature.signedAt).toLocaleDateString("ko-KR")})
                 </p>
                 <a
@@ -414,17 +419,17 @@ export default function InstructorDetailPage({
                         URL.revokeObjectURL(url);
                       });
                   }}
-                  className="px-4 py-2 border border-gold/30 text-gold hover:bg-gold/10 transition-colors text-[1rem] rounded-[12px]"
+                  className="px-4 py-2 border border-ink text-ink hover:bg-[#e2e2e2] transition-colors text-[1rem] rounded-full"
                 >
                   PDF 다운로드
                 </a>
               </div>
             ) : (
-              <div className="mt-4 pt-4 border-t border-white/[0.06]">
+              <div className="mt-4 pt-4 border-t border-[#e2e2e2]">
                 {actionResult && (
-                  <div className={`mb-4 p-3 text-[13px] rounded border ${
+                  <div className={`mb-4 p-3 text-caption rounded border ${
                     actionResult.includes("재발송") || actionResult.includes("초기화")
-                      ? "bg-green-500/10 border-green-500/20 text-green-400"
+                      ? "bg-[#efefef] border-[#e2e2e2] text-ink"
                       : "bg-red-500/10 border-red-500/20 text-red-400"
                   }`}>
                     {actionResult}
@@ -434,14 +439,14 @@ export default function InstructorDetailPage({
                   <button
                     onClick={handleResend}
                     disabled={isResending || isResetting}
-                    className="px-5 py-2 bg-gold text-white font-semibold text-[13px] rounded-[12px] hover:bg-gold-dark transition-colors disabled:opacity-50 shadow-airtable"
+                    className="px-5 py-2 bg-gold text-white font-semibold text-caption rounded-full hover:bg-gold-light transition-colors disabled:opacity-50 shadow-airtable"
                   >
                     {isResending ? "발송 중..." : "이메일 재발송"}
                   </button>
                   <button
                     onClick={handleReset}
                     disabled={isResending || isResetting}
-                    className="px-5 py-2 border border-red-500/30 text-red-400 text-[13px] rounded-[12px] hover:bg-red-500/10 transition-colors disabled:opacity-50"
+                    className="px-5 py-2 border border-red-500/30 text-red-400 text-caption rounded-full hover:bg-red-500/10 transition-colors disabled:opacity-50"
                   >
                     {isResetting ? "처리 중..." : "초기화"}
                   </button>
@@ -450,13 +455,13 @@ export default function InstructorDetailPage({
             )}
           </div>
         ) : instructor.status === "applied" ? (
-          <div className="bg-ink-mid border border-white/[0.06] p-6 rounded mb-6">
+          <div className="bg-white border border-[#e2e2e2] shadow-airtable-soft p-6 rounded-xl mb-6">
             <h3 className="font-heading text-[18px] font-bold mb-6">동의서 세팅</h3>
 
             {sendResult && (
               <div className={`mb-4 p-4 text-[1rem] rounded border ${
                 sendResult.includes("생성되었습니다")
-                  ? "bg-green-500/10 border-green-500/20 text-green-400"
+                  ? "bg-[#efefef] border-[#e2e2e2] text-ink"
                   : "bg-red-500/10 border-red-500/20 text-red-400"
               }`}>
                 {sendResult}
@@ -465,8 +470,8 @@ export default function InstructorDetailPage({
 
             <form onSubmit={handleConsentSubmit} className="space-y-4">
               <div>
-                <label className="block text-[1rem] text-cream/70 mb-2">
-                  강의 주제 <span className="text-gold">*</span>
+                <label className="block text-[1rem] text-slate mb-2">
+                  강의 주제 <span className="text-ink">*</span>
                 </label>
                 <input
                   type="text"
@@ -474,12 +479,12 @@ export default function InstructorDetailPage({
                   onChange={(e) => setLectureTopic(e.target.value)}
                   placeholder="예시: 형사 수사 대응 실무 등"
                   required
-                  className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/50 focus:outline-none transition-colors rounded-[12px]"
+                  className="w-full bg-white border border-ink px-4 py-3 text-[1.05rem] text-ink placeholder:text-slate-light focus:ring-2 focus:ring-ink/20 focus:border-ink focus:outline-none transition-colors rounded-lg"
                 />
               </div>
               <div>
-                <label className="block text-[1rem] text-cream/70 mb-2">
-                  총 강의횟수 <span className="text-gold">*</span>
+                <label className="block text-[1rem] text-slate mb-2">
+                  총 강의횟수 <span className="text-ink">*</span>
                 </label>
                 <input
                   type="number"
@@ -488,13 +493,13 @@ export default function InstructorDetailPage({
                   placeholder="예: 2"
                   required
                   min="1"
-                  className="w-full md:w-1/4 bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/50 focus:outline-none transition-colors rounded-[12px]"
+                  className="w-full md:w-1/4 bg-white border border-ink px-4 py-3 text-[1.05rem] text-ink placeholder:text-slate-light focus:ring-2 focus:ring-ink/20 focus:border-ink focus:outline-none transition-colors rounded-lg"
                 />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[1rem] text-cream/70 mb-2">
-                    강사료 (원/1회당) <span className="text-gold">*</span>
+                  <label className="block text-[1rem] text-slate mb-2">
+                    강사료 (원/1회당) <span className="text-ink">*</span>
                   </label>
                   <input
                     type="number"
@@ -503,20 +508,20 @@ export default function InstructorDetailPage({
                     placeholder="500000"
                     required
                     min="1"
-                    className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/50 focus:outline-none transition-colors rounded-[12px]"
+                    className="w-full bg-white border border-ink px-4 py-3 text-[1.05rem] text-ink placeholder:text-slate-light focus:ring-2 focus:ring-ink/20 focus:border-ink focus:outline-none transition-colors rounded-lg"
                   />
                 </div>
                 <div>
-                  <label className="block text-[1rem] text-cream/70 mb-2">
+                  <label className="block text-[1rem] text-slate mb-2">
                     총 강사료
                   </label>
-                  <div className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream/60">
+                  <div className="w-full bg-white border border-ink px-4 py-3 text-[1.05rem] text-slate">
                     {totalFee > 0 ? `${totalFee.toLocaleString()}원` : "-"}
                   </div>
                 </div>
               </div>
               <div>
-                <label className="block text-[1rem] text-cream/70 mb-2">
+                <label className="block text-[1rem] text-slate mb-2">
                   특약사항 (선택)
                 </label>
                 <textarea
@@ -524,13 +529,13 @@ export default function InstructorDetailPage({
                   onChange={(e) => setSpecialTerms(e.target.value)}
                   placeholder="특별 조건이 있으면 기재해 주세요"
                   rows={3}
-                  className="w-full bg-ink border border-white/[0.08] px-4 py-3 text-[1.05rem] text-cream placeholder:text-cream/20 focus:border-gold/50 focus:outline-none transition-colors resize-y rounded-[12px]"
+                  className="w-full bg-white border border-ink px-4 py-3 text-[1.05rem] text-ink placeholder:text-slate-light focus:ring-2 focus:ring-ink/20 focus:border-ink focus:outline-none transition-colors resize-y rounded-lg"
                 />
               </div>
               <button
                 type="submit"
                 disabled={isSending}
-                className="px-6 py-3 bg-gold text-white font-semibold text-[1.05rem] rounded-[12px] hover:bg-gold-light transition-colors disabled:opacity-50 shadow-airtable"
+                className="px-6 py-3 bg-gold text-white font-semibold text-[1.05rem] rounded-full hover:bg-gold-light transition-colors disabled:opacity-50 shadow-airtable"
               >
                 {isSending ? "처리 중..." : "동의서 세팅 + 링크 생성"}
               </button>

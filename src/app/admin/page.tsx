@@ -43,72 +43,74 @@ export default function AdminDashboardPage() {
 
   const cards = data
     ? [
-        { label: "신규 신청", value: data.applied, color: "text-gold" },
-        { label: "동의서 발송", value: data.consentSent, color: "text-blue-400" },
-        { label: "서명 완료", value: data.consented, color: "text-green-400" },
+        { label: "신규 신청", value: data.applied, color: "text-ink" },
+        { label: "동의서 발송", value: data.consentSent, color: "text-slate" },
+        { label: "서명 완료", value: data.consented, color: "text-ink" },
       ]
     : [];
 
   return (
-    <div className="min-h-screen bg-ink text-cream ">
-      {/* 헤더 */}
-      <header className="border-b border-white/[0.06] px-5 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+    <div className="min-h-screen bg-cream text-ink">
+      <header className="border-b border-[#e2e2e2] bg-white px-5 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="flex items-center justify-between">
-          <h1 className="font-logo text-[18px] font-semibold">
-            LegalCrew <span className="italic">Admin</span>
-          </h1>
+          <h1 className="font-heading text-[1.125rem] font-bold">LegalCrew Admin</h1>
           <button
+            type="button"
             onClick={handleLogout}
-            className="sm:hidden text-[1rem] text-muted hover:text-cream transition-colors"
+            className="sm:hidden text-[1rem] text-slate hover:text-ink transition-colors"
           >
             로그아웃
           </button>
         </div>
-        <nav className="flex gap-3 text-[1rem] overflow-x-auto">
-          <Link href="/admin" className="text-gold whitespace-nowrap">대시보드</Link>
-          <Link href="/admin/instructors" className="text-muted hover:text-cream transition-colors whitespace-nowrap">강사 관리</Link>
-          <Link href="/admin/notices" className="text-muted hover:text-cream transition-colors whitespace-nowrap">안내사항 전달</Link>
+        <nav className="flex gap-4 text-sm font-medium overflow-x-auto">
+          <Link href="/admin" className="text-ink whitespace-nowrap underline underline-offset-4">
+            대시보드
+          </Link>
+          <Link href="/admin/instructors" className="text-slate hover:text-ink whitespace-nowrap transition-colors">
+            강사 관리
+          </Link>
+          <Link href="/admin/notices" className="text-slate hover:text-ink whitespace-nowrap transition-colors">
+            안내사항 전달
+          </Link>
         </nav>
         <button
+          type="button"
           onClick={handleLogout}
-          className="hidden sm:block text-[1rem] text-muted hover:text-cream transition-colors"
+          className="hidden sm:block text-[1rem] text-slate hover:text-ink transition-colors"
         >
           로그아웃
         </button>
       </header>
 
-      {/* 콘텐츠 */}
-      <main className="max-w-[960px] mx-auto px-6 py-10">
-        <h2 className="font-heading text-[24px] font-bold mb-8">대시보드</h2>
+      <main className="max-w-[1136px] mx-auto px-6 py-10">
+        <h2 className="font-heading text-[1.5rem] mb-8">대시보드</h2>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-400 text-[1rem] rounded">
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-[1rem] rounded-lg">
             {error}
           </div>
         )}
 
         {data ? (
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {cards.map((card) => (
               <div
                 key={card.label}
-                className="bg-ink-mid border border-white/[0.06] p-6 rounded"
+                className="bg-white border border-[#e2e2e2] p-6 rounded-xl shadow-airtable-soft"
               >
-                <p className="text-[1rem] text-muted mb-2">{card.label}</p>
-                <p className={`font-number text-[36px] font-bold ${card.color}`}>
-                  {card.value}
-                </p>
+                <p className="text-caption text-slate mb-2">{card.label}</p>
+                <p className={`text-[2.25rem] font-bold leading-none ${card.color}`}>{card.value}</p>
               </div>
             ))}
           </div>
         ) : (
-          !error && <p className="text-muted text-[1.05rem]">불러오는 중...</p>
+          !error && <p className="text-slate text-[1rem]">불러오는 중...</p>
         )}
 
         <div className="mt-10">
           <Link
             href="/admin/instructors"
-            className="inline-block px-6 py-3 border border-gold/30 text-gold hover:bg-gold/10 transition-colors text-[1.05rem] rounded-[12px] font-medium tracking-[0.08px]"
+            className="inline-flex items-center min-h-[44px] px-5 py-2.5 border border-ink text-ink hover:bg-[#e2e2e2] transition-colors text-[1rem] rounded-full font-medium"
           >
             강사 목록 보기 &rarr;
           </Link>

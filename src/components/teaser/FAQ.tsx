@@ -82,9 +82,9 @@ export default function FAQ() {
           {/* 문의처 */}
           <div className="mt-12 pt-10 border-t border-cream-dark">
             <p className="text-[1rem] font-medium tracking-[0.12px] uppercase text-gold mb-3.5">
-              문의
+              부트캠프 & 운영 문의
             </p>
-            <p className="text-[1.1rem] font-medium text-ink mb-1">강선민 기획이사</p>
+            <p className="text-[1.1rem] font-medium text-ink mb-1">리걸크루 강선민 이사</p>
             <p className="text-[1.05rem] text-slate font-light leading-[1.8]">
               contact@legalcrew.co.kr
               <br />

@@ -44,7 +44,7 @@ export async function generateConsentPdf(data: PdfData): Promise<Uint8Array> {
   const { height } = page.getSize();
   const black = rgb(0, 0, 0);
   const gray = rgb(0.4, 0.4, 0.4);
-  const accent = rgb(0.106, 0.38, 0.788); /* #1b61c9 */
+  const accent = rgb(0, 0, 0);
 
   let y = height - 60;
   const leftMargin = 50;
@@ -54,7 +54,7 @@ export async function generateConsentPdf(data: PdfData): Promise<Uint8Array> {
   page.drawText("리걸크루 변호사 실전 압축 부트캠프", {
     x: leftMargin,
     y,
-    size: 11,
+    size: 12,
     font,
     color: gray,
   });
@@ -105,14 +105,14 @@ export async function generateConsentPdf(data: PdfData): Promise<Uint8Array> {
     page.drawText(`${label}:`, {
       x: leftMargin + 10,
       y,
-      size: 10,
+      size: 12,
       font,
       color: gray,
     });
     page.drawText(value, {
       x: leftMargin + 80,
       y,
-      size: 10,
+      size: 12,
       font,
       color: black,
     });
@@ -133,14 +133,14 @@ export async function generateConsentPdf(data: PdfData): Promise<Uint8Array> {
   page.drawText("강의 주제:", {
     x: leftMargin + 10,
     y,
-    size: 10,
+    size: 12,
     font,
     color: gray,
   });
   page.drawText(data.setting.lectureTopic, {
     x: leftMargin + 80,
     y,
-    size: 10,
+    size: 12,
     font,
     color: black,
   });
@@ -149,14 +149,14 @@ export async function generateConsentPdf(data: PdfData): Promise<Uint8Array> {
   page.drawText("강사료:", {
     x: leftMargin + 10,
     y,
-    size: 10,
+    size: 12,
     font,
     color: gray,
   });
   page.drawText(`${data.setting.feeAmount.toLocaleString()}원`, {
     x: leftMargin + 80,
     y,
-    size: 10,
+    size: 12,
     font,
     color: black,
   });
@@ -166,14 +166,14 @@ export async function generateConsentPdf(data: PdfData): Promise<Uint8Array> {
     page.drawText("특약사항:", {
       x: leftMargin + 10,
       y,
-      size: 10,
+      size: 12,
       font,
       color: gray,
     });
     page.drawText(data.setting.specialTerms, {
       x: leftMargin + 80,
       y,
-      size: 10,
+      size: 12,
       font,
       color: black,
     });
@@ -204,7 +204,7 @@ export async function generateConsentPdf(data: PdfData): Promise<Uint8Array> {
     page.drawText(`${mark} ${label}${suffix}`, {
       x: leftMargin + 10,
       y,
-      size: 10,
+      size: 12,
       font,
       color: checked ? black : gray,
     });
@@ -233,7 +233,7 @@ export async function generateConsentPdf(data: PdfData): Promise<Uint8Array> {
   page.drawText(`서명인: ${data.signature.signedName}`, {
     x: leftMargin + 10,
     y,
-    size: 11,
+    size: 12,
     font,
     color: black,
   });
@@ -249,7 +249,7 @@ export async function generateConsentPdf(data: PdfData): Promise<Uint8Array> {
   page.drawText(`서명일시: ${signedDate}`, {
     x: leftMargin + 10,
     y,
-    size: 10,
+    size: 12,
     font,
     color: gray,
   });
@@ -265,7 +265,7 @@ export async function generateConsentPdf(data: PdfData): Promise<Uint8Array> {
   page.drawText(`문서번호: ${data.documentId}`, {
     x: leftMargin,
     y: y - 5,
-    size: 8,
+    size: 12,
     font,
     color: gray,
   });
@@ -274,7 +274,7 @@ export async function generateConsentPdf(data: PdfData): Promise<Uint8Array> {
   page.drawText(`생성일: ${genDate}`, {
     x: leftMargin + contentWidth - 100,
     y: y - 5,
-    size: 8,
+    size: 12,
     font,
     color: gray,
   });

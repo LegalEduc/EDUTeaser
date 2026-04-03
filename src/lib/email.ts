@@ -52,13 +52,13 @@ export async function sendConsentLink(
       <h2>${name}님, 안녕하세요.</h2>
       <p>리걸크루 변호사 실전 압축 부트캠프의 강의 조건을 확인하고 동의서에 서명해 주세요.</p>
       <p style="margin: 24px 0;">
-        <a href="${link}" style="display:inline-block;padding:12px 24px;background:#1b61c9;color:#ffffff;text-decoration:none;font-weight:bold;border-radius:12px;">
+        <a href="${link}" style="display:inline-block;padding:12px 24px;background:#000000;color:#ffffff;text-decoration:none;font-weight:600;border-radius:999px;">
           동의서 확인하기
         </a>
       </p>
-      <p style="color:#666;font-size:13px;">위 버튼이 작동하지 않으면 아래 링크를 브라우저에 복사해 주세요:<br>${link}</p>
+      <p style="color:#666;font-size:12pt;">위 버튼이 작동하지 않으면 아래 링크를 브라우저에 복사해 주세요:<br>${link}</p>
       <hr style="margin:24px 0;border:none;border-top:1px solid #eee;">
-      <p style="color:#999;font-size:12px;">LegalCrew Academy | cs@legalcrew.co.kr</p>
+      <p style="color:#999;font-size:12pt;">LegalCrew Academy | cs@legalcrew.co.kr</p>
     `,
   });
 }
@@ -97,7 +97,7 @@ export async function sendNotice(
           <h2>${title}</h2>
           <div style="white-space:pre-wrap;line-height:1.8;">${body}</div>
           <hr style="margin:24px 0;border:none;border-top:1px solid #eee;">
-          <p style="color:#999;font-size:12px;">LegalCrew Academy | cs@legalcrew.co.kr</p>
+          <p style="color:#999;font-size:12pt;">LegalCrew Academy | cs@legalcrew.co.kr</p>
         `,
       });
       sentCount++;
