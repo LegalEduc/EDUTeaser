@@ -10,29 +10,37 @@ function toCsvValue(v: unknown): string {
   return `"${s.replace(/"/g, '""')}"`;
 }
 
-export async function GET(request: NextRequest) {
-  const token = getTokenFromRequest(request);
-  if (!token || !(await verifyToken(token))) {
-    return NextResponse.json({ message: "인증이 필요합니다." }, { status: 401 });
-  }
-
-  const adminPassword = request.headers.get("x-admin-password");
-  if (!adminPassword) {
-    return NextResponse.json(
-      { message: "엑셀 다운로드를 위해 2차 인증 비밀번호를 입력해 주세요." },
-      { status: 400 }
-    );
-  }
-
-  const valid = await verifyPassword(adminPassword);
-  if (!valid) {
-    return NextResponse.json(
-      { message: "2차 인증 비밀번호가 일치하지 않습니다." },
-      { status: 401 }
-    );
-  }
-
+function safeDecrypt(value: string): string {
   try {
+    return decrypt(value);
+  } catch {
+    return "";
+  }
+}
+
+export async function GET(request: NextRequest) {
+  try {
+    const token = getTokenFromRequest(request);
+    if (!token || !(await verifyToken(token))) {
+      return NextResponse.json({ message: "인증이 필요합니다." }, { status: 401 });
+    }
+
+    const adminPassword = request.headers.get("x-admin-password");
+    if (!adminPassword) {
+      return NextResponse.json(
+        { message: "엑셀 다운로드를 위해 2차 인증 비밀번호를 입력해 주세요." },
+        { status: 400 }
+      );
+    }
+
+    const valid = await verifyPassword(adminPassword);
+    if (!valid) {
+      return NextResponse.json(
+        { message: "2차 인증 비밀번호가 일치하지 않습니다." },
+        { status: 401 }
+      );
+    }
+
     const db = getDb();
     const rows = await db
       .select({
@@ -97,8 +105,8 @@ export async function GET(request: NextRequest) {
 
     const lines = [header.map(toCsvValue).join(",")];
     for (const row of rows) {
-      const residentNumber = decrypt(row.residentNumberEnc);
-      const accountNumber = decrypt(row.accountNumberEnc);
+      const residentNumber = safeDecrypt(row.residentNumberEnc);
+      const accountNumber = safeDecrypt(row.accountNumberEnc);
       lines.push(
         [
           row.id,
@@ -142,8 +150,12 @@ export async function GET(request: NextRequest) {
     });
   } catch (err) {
     console.error("Instructors export error:", err);
+    const message =
+      err instanceof Error && err.message.includes("ENCRYPTION_KEY")
+        ? "서버 보안 키 설정(ENCRYPTION_KEY)이 누락되어 엑셀 다운로드를 진행할 수 없습니다."
+        : "엑셀 다운로드 중 오류가 발생했습니다.";
     return NextResponse.json(
-      { message: "엑셀 다운로드 중 오류가 발생했습니다." },
+      { message },
       { status: 500 }
     );
   }

@@ -34,6 +34,17 @@ function formatDate(dateStr: string | null) {
   return new Date(dateStr).toLocaleDateString("ko-KR");
 }
 
+function formatPhone(phone: string) {
+  const digits = phone.replace(/\D/g, "");
+  if (digits.length === 11) {
+    return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+  }
+  if (digits.length === 10) {
+    return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
+  }
+  return phone;
+}
+
 export default function InstructorsPage() {
   const router = useRouter();
   const [instructors, setInstructors] = useState<Instructor[]>([]);
@@ -81,8 +92,15 @@ export default function InstructorsPage() {
       });
 
       if (!res.ok) {
-        const data = await res.json().catch(() => null);
-        alert(data?.message || "엑셀 다운로드에 실패했습니다.");
+        const text = await res.text();
+        let message = "엑셀 다운로드에 실패했습니다.";
+        try {
+          const data = JSON.parse(text) as { message?: string };
+          if (data?.message) message = data.message;
+        } catch {
+          if (text) message = text;
+        }
+        alert(message);
         return;
       }
 
@@ -196,7 +214,7 @@ export default function InstructorsPage() {
                   <div className="mt-2 flex flex-col sm:flex-row gap-1 sm:gap-4 text-[1rem] text-slate">
                     <span>{BAR_LABEL[inst.barExamType]} {inst.barExamDetail}</span>
                     <span>{inst.email}</span>
-                    <span>{inst.phone}</span>
+                    <span>{formatPhone(inst.phone)}</span>
                   </div>
                   {/* 날짜 타임라인 */}
                   <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-[1rem]">

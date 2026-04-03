@@ -110,7 +110,7 @@ export async function POST(request: NextRequest) {
     const encryptedAccount = encrypt(body.accountNumber);
 
     // DB 저장
-    await db.insert(instructors).values({
+    const [inserted] = await db.insert(instructors).values({
       programName: body.programName?.trim() || "리걸크루 변호사 실전 압축 부트캠프 1기",
       name: body.name.trim(),
       residentNumber: encryptedResident,
@@ -126,7 +126,7 @@ export async function POST(request: NextRequest) {
       carNumber: body.parkingNeeded ? body.carNumber?.trim() : null,
       feeLimit: body.feeLimit?.trim() || null,
       feeDocNeeded: body.feeDocNeeded ?? null,
-    });
+    }).returning({ id: instructors.id });
 
     // 어드민에게 신규 신청 알림 (비동기, 실패해도 신청은 성공)
     sendApplyNotification({
@@ -135,7 +135,7 @@ export async function POST(request: NextRequest) {
     }).catch((err) => console.error("Apply notification email error:", err));
 
     return NextResponse.json(
-      { success: true, message: "신청이 접수되었습니다." },
+      { success: true, id: inserted.id, message: "신청이 접수되었습니다." },
       { status: 201 }
     );
   } catch (err) {

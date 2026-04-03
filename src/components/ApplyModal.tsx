@@ -76,6 +76,8 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
   const [error, setError] = useState("");
   const [toast, setToast] = useState("");
   const [consentPopup, setConsentPopup] = useState<string | null>(null);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const MAX_IMAGE_SIZE = 20 * 1024 * 1024; // 20MB
 
   // ESC 키로 닫기
   useEffect(() => {
@@ -169,7 +171,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
           accountHolder: form.accountHolder,
           parkingNeeded: form.parkingNeeded === "yes",
           carNumber: form.carNumber || undefined,
-          feeLimit: form.feeLimit || undefined,
+          feeLimit: form.feeLimit ? form.feeLimit.replace(/,/g, "") : undefined,
           feeDocNeeded: form.feeDocNeeded === "yes" ? true : form.feeDocNeeded === "no" ? false : undefined,
           privacyAgreed: form.privacyAgreed,
           residentIdAgreed: form.residentIdAgreed,
@@ -184,6 +186,19 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
         setError(msg);
         showToast(msg);
         return;
+      }
+
+      if (data.id && photoFile) {
+        try {
+          const fd = new FormData();
+          fd.append("file", photoFile);
+          await fetch(`/api/instructors/${data.id}/photo`, {
+            method: "POST",
+            body: fd,
+          });
+        } catch {
+          showToast("사진 업로드에 실패했지만 신청은 정상 접수되었습니다.");
+        }
       }
 
       setStep("success");
@@ -243,15 +258,16 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
   };
 
   const handleFeeLimitChange = (value: string) => {
-    if (value === "") {
+    const digits = value.replace(/,/g, "");
+    if (digits === "") {
       updateField("feeLimit", "");
       return;
     }
-    if (!/^\d*$/.test(value)) {
+    if (!/^\d*$/.test(digits)) {
       showToast("숫자만 입력해주세요");
       return;
     }
-    updateField("feeLimit", value);
+    updateField("feeLimit", Number(digits).toLocaleString("ko-KR"));
   };
 
   const barDetailLabel =
@@ -303,7 +319,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
               사전 정보가 접수되었습니다
             </h3>
             <p className="text-[1.05rem] text-slate font-light leading-relaxed">
-              검토 후 강의 조건이 포함된 동의서 링크를 이메일로 보내드립니다.
+              운영진 확인 후, 강의 조건이 포함된 동의서 링크를 이메일로 보내드릴게요!
             </p>
             <button
               onClick={onClose}
@@ -450,6 +466,43 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                     />
                     <p className="text-[1rem] text-slate-light mt-1.5 font-light">
                       동의서 링크 발송용
+                    </p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-md:!grid-cols-1">
+                  <div>
+                    <label className={labelClass}>
+                      프로필 사진 (선택)
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/png,image/jpeg,image/jpg,image/webp"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0] || null;
+                        if (!file) {
+                          setPhotoFile(null);
+                          return;
+                        }
+                        const ext = file.name.toLowerCase().slice(file.name.lastIndexOf("."));
+                        const allowed = [".jpg", ".jpeg", ".png", ".webp"];
+                        if (!allowed.includes(ext)) {
+                          showToast("이미지 파일(jpg, jpeg, png, webp)만 업로드할 수 있습니다.");
+                          e.target.value = "";
+                          setPhotoFile(null);
+                          return;
+                        }
+                        if (file.size > MAX_IMAGE_SIZE) {
+                          showToast("이미지 파일은 20MB 이하만 업로드할 수 있습니다.");
+                          e.target.value = "";
+                          setPhotoFile(null);
+                          return;
+                        }
+                        setPhotoFile(file);
+                      }}
+                      className="w-full text-[0.95rem] text-slate file:mr-3 file:rounded-full file:border file:border-ink file:bg-white file:px-3 file:py-1.5 file:text-[0.9rem] file:font-medium file:text-ink hover:file:bg-[#e2e2e2]"
+                    />
+                    <p className="text-[1rem] text-slate-light mt-1.5 font-light">
+                      홍보 자료 및 어드민 확인용으로 사용됩니다. (선택)
                     </p>
                   </div>
                 </div>
@@ -635,7 +688,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                       inputMode="numeric"
                       value={form.feeLimit}
                       onChange={(e) => handleFeeLimitChange(e.target.value)}
-                      placeholder="00만원 (1회당)"
+                      placeholder="예: 1,000,000"
                       className={inputClass}
                     />
                   </div>

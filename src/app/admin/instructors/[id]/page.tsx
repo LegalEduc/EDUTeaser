@@ -3,6 +3,7 @@
 import { useEffect, useState, FormEvent, use } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { curriculum } from "@/data/curriculum";
 
 interface InstructorDetail {
   id: string;
@@ -50,6 +51,17 @@ const BAR_LABEL: Record<string, string> = {
   bar_exam: "변호사시험",
 };
 
+function formatPhone(phone: string) {
+  const digits = phone.replace(/\D/g, "");
+  if (digits.length === 11) {
+    return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+  }
+  if (digits.length === 10) {
+    return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
+  }
+  return phone;
+}
+
 export default function InstructorDetailPage({
   params,
 }: {
@@ -69,8 +81,9 @@ export default function InstructorDetailPage({
   const [feeAmount, setFeeAmount] = useState("");
   const [specialTerms, setSpecialTerms] = useState("");
 
-  const totalFee = Number(lectureCount) > 0 && Number(feeAmount) > 0
-    ? Number(lectureCount) * Number(feeAmount)
+  const feeAmountNumber = Number(feeAmount.replace(/,/g, ""));
+  const totalFee = Number(lectureCount) > 0 && feeAmountNumber > 0
+    ? Number(lectureCount) * feeAmountNumber
     : 0;
   const [isSending, setIsSending] = useState(false);
   const [sendResult, setSendResult] = useState("");
@@ -79,6 +92,46 @@ export default function InstructorDetailPage({
   const [isRejecting, setIsRejecting] = useState(false);
   const [actionResult, setActionResult] = useState("");
   const [isRevealingSensitive, setIsRevealingSensitive] = useState(false);
+
+  const matchedLectures = (() => {
+    if (!instructor?.name) return [];
+    const input = instructor.name.trim();
+    if (input.length < 2) return [];
+    const inputNorm = input.replace(/\s+/g, "");
+    const getNoNum = (no: string) => {
+      const n = parseInt(no.replace(/[^0-9]/g, ""), 10);
+      return Number.isNaN(n) ? 0 : n;
+    };
+
+    return curriculum
+      .filter((item) => {
+        if (!item.instructor || item.instructor === "—") return false;
+        const instructorText = item.instructor;
+        const baseName = instructorText.split("(")[0].trim();
+        const baseNorm = baseName.replace(/\s+/g, "");
+        const instructorNorm = instructorText.replace(/\s+/g, "");
+        return (
+          baseName.includes(input) ||
+          instructorText.includes(input) ||
+          baseNorm.includes(inputNorm) ||
+          instructorNorm.includes(inputNorm)
+        );
+      })
+      .sort((a, b) => getNoNum(a.no) - getNoNum(b.no));
+  })();
+
+  useEffect(() => {
+    // 이미 세팅된 동의서가 있으면 자동 덮어쓰기 금지
+    if (consentSetting) return;
+    // 사용자가 수동 입력을 시작한 경우 덮어쓰기 금지
+    if (lectureTopic || lectureCount) return;
+    if (matchedLectures.length === 0) return;
+
+    setLectureCount(String(matchedLectures.length));
+    const first = matchedLectures[0];
+    const last = matchedLectures[matchedLectures.length - 1];
+    setLectureTopic(`담당 배정 강의 (${first.no}~${last.no})`);
+  }, [consentSetting, lectureTopic, lectureCount, matchedLectures]);
 
   useEffect(() => {
     const token = localStorage.getItem("admin_token");
@@ -126,7 +179,7 @@ export default function InstructorDetailPage({
         body: JSON.stringify({
           lectureTopic,
           lectureCount: Number(lectureCount),
-          feeAmount: Number(feeAmount),
+          feeAmount: feeAmountNumber,
           totalFee,
           specialTerms: specialTerms || undefined,
         }),
@@ -158,6 +211,16 @@ export default function InstructorDetailPage({
     } finally {
       setIsSending(false);
     }
+  };
+
+  const handleFeeAmountChange = (value: string) => {
+    const digits = value.replace(/,/g, "");
+    if (digits === "") {
+      setFeeAmount("");
+      return;
+    }
+    if (!/^\d+$/.test(digits)) return;
+    setFeeAmount(Number(digits).toLocaleString("ko-KR"));
   };
 
   const handleResend = async () => {
@@ -324,7 +387,7 @@ export default function InstructorDetailPage({
               <span className="text-slate">이메일:</span> {instructor.email}
             </div>
             <div>
-              <span className="text-slate">전화:</span> {instructor.phone}
+              <span className="text-slate">전화:</span> {formatPhone(instructor.phone)}
             </div>
             <div>
               <span className="text-slate">은행:</span> {instructor.bankName} ({instructor.accountHolder})
@@ -527,6 +590,11 @@ export default function InstructorDetailPage({
                   required
                   className="w-full bg-white border border-ink px-4 py-3 text-[1.05rem] text-ink placeholder:text-slate-light focus:ring-2 focus:ring-ink/20 focus:border-ink focus:outline-none transition-colors rounded-lg"
                 />
+                {matchedLectures.length > 0 && (
+                  <p className="mt-2 text-caption text-slate">
+                    배정 강의 {matchedLectures.length}개가 자동 매칭되어 기본값을 채웠습니다.
+                  </p>
+                )}
               </div>
               <div>
                 <label className="block text-[1rem] text-slate mb-2">
@@ -548,12 +616,12 @@ export default function InstructorDetailPage({
                     강사료 (원/1회당) <span className="text-ink">*</span>
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     value={feeAmount}
-                    onChange={(e) => setFeeAmount(e.target.value)}
-                    placeholder="500000"
+                    onChange={(e) => handleFeeAmountChange(e.target.value)}
+                    placeholder="500,000"
                     required
-                    min="1"
+                    inputMode="numeric"
                     className="w-full bg-white border border-ink px-4 py-3 text-[1.05rem] text-ink placeholder:text-slate-light focus:ring-2 focus:ring-ink/20 focus:border-ink focus:outline-none transition-colors rounded-lg"
                   />
                 </div>
