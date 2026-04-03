@@ -20,6 +20,7 @@ interface InstructorDetail {
   carNumber: string | null;
   status: string;
   appliedAt: string;
+  sensitiveRevealed?: boolean;
 }
 
 interface ConsentSetting {
@@ -77,6 +78,7 @@ export default function InstructorDetailPage({
   const [isResetting, setIsResetting] = useState(false);
   const [isRejecting, setIsRejecting] = useState(false);
   const [actionResult, setActionResult] = useState("");
+  const [isRevealingSensitive, setIsRevealingSensitive] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("admin_token");
@@ -238,6 +240,35 @@ export default function InstructorDetailPage({
     }
   };
 
+  const handleRevealSensitive = async () => {
+    const password = window.prompt("2차 인증을 위해 관리자 비밀번호를 입력해 주세요.");
+    if (!password) return;
+    const token = localStorage.getItem("admin_token");
+    if (!token) return;
+
+    setIsRevealingSensitive(true);
+    try {
+      const res = await fetch(`/api/admin/instructors/${id}?includeSensitive=1`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-admin-password": password,
+        },
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        alert(data?.message || "민감정보 조회에 실패했습니다.");
+        return;
+      }
+      setInstructor(data.instructor);
+      setConsentSetting(data.consentSetting);
+      setConsentSignature(data.consentSignature);
+    } catch {
+      alert("네트워크 오류가 발생했습니다.");
+    } finally {
+      setIsRevealingSensitive(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-cream flex items-center justify-center">
@@ -308,6 +339,21 @@ export default function InstructorDetailPage({
               <span className="text-slate">주차:</span>{" "}
               {instructor.parkingNeeded ? `필요 (${instructor.carNumber})` : "불필요"}
             </div>
+          </div>
+          <div className="mt-4 pt-4 border-t border-[#e2e2e2] flex items-center gap-3">
+            <button
+              type="button"
+              onClick={handleRevealSensitive}
+              disabled={isRevealingSensitive}
+              className="px-4 py-2 border border-ink text-ink hover:bg-[#e2e2e2] transition-colors text-caption rounded-full disabled:opacity-50"
+            >
+              {isRevealingSensitive ? "확인 중..." : "2차 인증 후 원문 보기"}
+            </button>
+            {instructor.sensitiveRevealed ? (
+              <span className="text-caption text-slate">원문이 표시 중입니다.</span>
+            ) : (
+              <span className="text-caption text-slate">기본값은 마스킹 처리됩니다.</span>
+            )}
           </div>
           {/* 진행 날짜 */}
           <div className="mt-4 pt-4 border-t border-[#e2e2e2] flex flex-wrap gap-x-6 gap-y-2 text-[1rem]">

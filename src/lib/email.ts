@@ -41,24 +41,25 @@ export async function sendConsentLink(
   token: string
 ) {
   const transporter = getTransporter();
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:3000";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://master.legalcrew.co.kr";
   const link = `${baseUrl}/consent/${token}`;
 
   await transporter.sendMail({
     from: EMAIL_FROM,
     to,
-    subject: "[리걸크루 아카데미] 강의 동의서 확인 요청",
+    subject: "[리걸크루 실전 압축 부트캠프] 강의 동의서 확인 요청",
     html: `
-      <h2>${name}님, 안녕하세요.</h2>
-      <p>리걸크루 변호사 실전 압축 부트캠프의 강의 조건을 확인하고 동의서에 서명해 주세요.</p>
+      <h2 style="font-size:14pt;font-weight:700;line-height:1.5;margin:0 0 12px 0;">${name}님, 안녕하세요.</h2>
+      <p style="font-size:14pt;line-height:1.7;margin:0 0 8px 0;">리걸크루 변호사 실전 압축 부트캠프 마스터 등록이 완료됐습니다.</p>
+      <p style="font-size:14pt;line-height:1.7;margin:0 0 18px 0;">하단 버튼 클릭 후 상세 강의 조건을 확인해주세요.</p>
       <p style="margin: 24px 0;">
-        <a href="${link}" style="display:inline-block;padding:12px 24px;background:#000000;color:#ffffff;text-decoration:none;font-weight:600;border-radius:999px;">
-          동의서 확인하기
+        <a href="${link}" style="display:inline-block;padding:12px 24px;background:#000000;color:#ffffff;text-decoration:none;font-size:14pt;font-weight:600;line-height:1.2;border-radius:999px;">
+          강의 조건 확인하기
         </a>
       </p>
-      <p style="color:#666;font-size:12pt;">위 버튼이 작동하지 않으면 아래 링크를 브라우저에 복사해 주세요:<br>${link}</p>
+      <p style="color:#666;font-size:14pt;line-height:1.7;margin:0 0 12px 0;">위 버튼이 작동하지 않으면 아래 링크를 브라우저에 복사해 주세요:<br>${link}</p>
       <hr style="margin:24px 0;border:none;border-top:1px solid #eee;">
-      <p style="color:#999;font-size:12pt;">LegalCrew Academy | cs@legalcrew.co.kr</p>
+      <p style="color:#999;font-size:14pt;line-height:1.7;margin:0;">LegalCrew 실전 압축 부트캠프 | contact@legalcrew.co.kr</p>
     `,
   });
 }

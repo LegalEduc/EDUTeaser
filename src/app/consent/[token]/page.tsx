@@ -57,10 +57,11 @@ export default function ConsentPage({
     <div className="min-h-screen bg-cream text-ink">
       <div className="max-w-[640px] mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <div className="text-center mb-8 sm:mb-10">
-          <p className="font-logo text-[1.15rem] mb-6 text-ink">
-            LegalCrew <span className="italic">Academy</span>
-          </p>
-          <p className="text-caption font-medium text-slate mb-4">동의서</p>
+          <img
+            src="/legalcrew-logo.png"
+            alt="LegalCrew"
+            className="h-11 sm:h-12 w-auto object-contain mx-auto mb-6"
+          />
           <h1 className="font-heading text-[22px] sm:text-[26px] font-bold mb-3">강의 동의서</h1>
           <p className="text-[1.05rem] text-slate">리걸크루 변호사 실전 압축 부트캠프</p>
         </div>

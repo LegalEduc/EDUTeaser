@@ -116,7 +116,7 @@ export default function ConsentForm({ instructor, setting, token }: ConsentFormP
             className="mt-0.5 accent-ink"
           />
           <span className="text-[1rem] text-ink">
-            위 강의 주제 및 일정을 확인하였습니다{" "}
+            위 강의 주제를 확인하였습니다{" "}
             <span className="text-slate-light ml-1">필수</span>
           </span>
         </label>

@@ -39,6 +39,7 @@ export default function InstructorsPage() {
   const [instructors, setInstructors] = useState<Instructor[]>([]);
   const [filter, setFilter] = useState("");
   const [loading, setLoading] = useState(true);
+  const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("admin_token");
@@ -63,6 +64,39 @@ export default function InstructorsPage() {
       .catch(() => {})
       .finally(() => setLoading(false));
   }, [filter, router]);
+
+  const handleExport = async () => {
+    const password = window.prompt("2차 인증을 위해 관리자 비밀번호를 입력해 주세요.");
+    if (!password) return;
+    const token = localStorage.getItem("admin_token");
+    if (!token) return;
+
+    setIsExporting(true);
+    try {
+      const res = await fetch("/api/admin/instructors/export", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-admin-password": password,
+        },
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        alert(data?.message || "엑셀 다운로드에 실패했습니다.");
+        return;
+      }
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `instructors-${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-cream text-ink">
@@ -107,6 +141,14 @@ export default function InstructorsPage() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <h2 className="font-heading text-[1.5rem]">강사 관리</h2>
           <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={handleExport}
+              disabled={isExporting}
+              className="px-4 py-2 text-caption font-medium rounded-full border border-ink bg-white text-ink hover:bg-[#e2e2e2] transition-colors disabled:opacity-50"
+            >
+              {isExporting ? "다운로드 중..." : "엑셀 다운로드"}
+            </button>
             {[
               { value: "", label: "전체" },
               { value: "applied", label: "신청" },

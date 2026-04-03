@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     "법조계의 새로운 실무 표준을 정립할 마스터를 모십니다. 리걸크루 변호사 실전 압축 부트캠프 1기.",
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_BASE_URL || "https://academy.legalcrew.co.kr"
+    process.env.NEXT_PUBLIC_BASE_URL || "https://master.legalcrew.co.kr"
   ),
   alternates: {
     canonical: "/",

@@ -3,7 +3,8 @@ import { getDb } from "@/lib/db";
 import { instructors, consentSettings, consentSignatures } from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { getTokenFromRequest, verifyToken } from "@/lib/auth";
-import { maskResident, maskAccount } from "@/lib/encrypt";
+import { maskResident, maskAccount, decrypt } from "@/lib/encrypt";
+import { verifyPassword } from "@/lib/auth";
 
 export async function GET(
   request: NextRequest,
@@ -15,6 +16,10 @@ export async function GET(
   }
 
   try {
+    const { searchParams } = new URL(request.url);
+    const includeSensitive = searchParams.get("includeSensitive") === "1";
+    const adminPassword = request.headers.get("x-admin-password");
+
     const { id } = await params;
     const db = getDb();
 
@@ -46,11 +51,33 @@ export async function GET(
       consentSignature = sig || null;
     }
 
+    let residentNumber = maskResident(instructor.residentNumber);
+    let accountNumber = maskAccount(instructor.accountNumber);
+
+    if (includeSensitive) {
+      if (!adminPassword) {
+        return NextResponse.json(
+          { message: "2차 인증 비밀번호를 입력해 주세요." },
+          { status: 400 }
+        );
+      }
+      const valid = await verifyPassword(adminPassword);
+      if (!valid) {
+        return NextResponse.json(
+          { message: "2차 인증 비밀번호가 일치하지 않습니다." },
+          { status: 401 }
+        );
+      }
+      residentNumber = decrypt(instructor.residentNumber);
+      accountNumber = decrypt(instructor.accountNumber);
+    }
+
     return NextResponse.json({
       instructor: {
         ...instructor,
-        residentNumber: maskResident(instructor.residentNumber),
-        accountNumber: maskAccount(instructor.accountNumber),
+        residentNumber,
+        accountNumber,
+        sensitiveRevealed: includeSensitive,
       },
       consentSetting: consentSetting || null,
       consentSignature: consentSignature,
