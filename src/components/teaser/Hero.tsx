@@ -10,8 +10,8 @@ export default function Hero({ onApplyClick }: { onApplyClick: () => void }) {
           className="font-heading text-[clamp(2rem,5vw,3.25rem)] text-ink leading-[1.23] mb-6"
           style={{ animation: "fadeUp 1s cubic-bezier(0.22,1,0.36,1) 0.5s both" }}
         >
-          법조계의 새로운 실무 표준을 정립할
-          <br />
+          법조계의<br />
+          새로운 실무 표준을 정립할<br />
           마스터를 모십니다
         </h1>
 
@@ -23,13 +23,11 @@ export default function Hero({ onApplyClick }: { onApplyClick: () => void }) {
         </p>
 
         <div
-          className="text-left max-w-[640px] mx-auto text-[1rem] text-slate leading-[1.5] space-y-4 mb-10"
+          className="text-center max-w-[640px] mx-auto text-[1rem] text-slate leading-[1.5] space-y-4 mb-10"
           style={{ animation: "fadeUp 0.9s ease 1s both" }}
         >
-          <p>변호사님을 리걸크루 변호사 실전 압축 부트캠프 마스터로 정중히 모십니다.</p>
-          <p>
-            본 과정을 통해 신규 변호사들이 실무 투입 즉시 성과를 창출하는 ‘완성형 에이스’로 양성될 수 있도록
-            현장에서 축적해오신 실무 경험과 통찰을 나눠주세요!
+          <p>신규 변호사들이 시험형 사고에서 실무형 사고로 거듭나도록<br />
+            마스터님께서 현장에서 축적해오신 경험과 통찰을 나눠주세요!
           </p>
         </div>
 
@@ -43,10 +41,10 @@ export default function Hero({ onApplyClick }: { onApplyClick: () => void }) {
           style={{ animation: "fadeUp 0.9s ease 1.25s both" }}
         >
           {[
-            { strong: "24강", text: "확정 커리큘럼" },
             { strong: "12주", text: "집중 과정" },
             { strong: "1기 50명", text: "제한" },
-            { strong: null, text: "화·목 저녁 오프라인" },
+            { strong: "실무 최적화", text: "커리큘럼" },
+            { strong: "매주 화·목", text: "19:00~21:00" },
           ].map((chip, i) => (
             <span
               key={i}

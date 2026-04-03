@@ -23,6 +23,7 @@ interface FormData {
   carNumber: string;
   feeLimit: string;
   feeDocNeeded: "" | "yes" | "no";
+  feeLimitCheckNeeded: "" | "yes" | "no";
   privacyAgreed: boolean;
   residentIdAgreed: boolean;
   promotionAgreed: boolean;
@@ -43,23 +44,13 @@ const initialForm: FormData = {
   carNumber: "",
   feeLimit: "",
   feeDocNeeded: "",
+  feeLimitCheckNeeded: "",
   privacyAgreed: false,
   residentIdAgreed: false,
   promotionAgreed: false,
 };
 
 const PROGRAM_NAME = "리걸크루 변호사 실전 압축 부트캠프 1기";
-
-const PROGRAM_INFO = [
-  { label: "프로그램명", value: PROGRAM_NAME },
-  { label: "연수 기간", value: "2026. 5. 12.(화) ~ 2026. 7. 30.(목)" },
-  { label: "교육 시간", value: "매주 화·목 19:00~21:00, 회당 2시간 (총 24강)" },
-  { label: "강의 방식", value: "오프라인 교육<br>부트캠프장 주도 1:1 실무 워크숍" },
-  { label: "강의 장소", value: "드림플러스 강남 (서울특별시 서초구 강남대로 311)" },
-  { label: "수강 인원", value: "1기 50명 제한" },
-  { label: "관련문의", value: "contact@legalcrew.co.kr" },
-];
-
 
 // 공통 입력 스타일 (Uber: 입력 8px radius, 1px 검정 보더)
 const inputClass =
@@ -171,7 +162,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
           accountHolder: form.accountHolder,
           parkingNeeded: form.parkingNeeded === "yes",
           carNumber: form.carNumber || undefined,
-          feeLimit: form.feeLimit ? form.feeLimit.replace(/,/g, "") : undefined,
+          feeLimit: form.feeLimit ? form.feeLimit.replace(/\D/g, "") : undefined,
           feeDocNeeded: form.feeDocNeeded === "yes" ? true : form.feeDocNeeded === "no" ? false : undefined,
           privacyAgreed: form.privacyAgreed,
           residentIdAgreed: form.residentIdAgreed,
@@ -258,7 +249,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
   };
 
   const handleFeeLimitChange = (value: string) => {
-    const digits = value.replace(/,/g, "");
+    const digits = value.replace(/\D/g, "");
     if (digits === "") {
       updateField("feeLimit", "");
       return;
@@ -267,7 +258,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
       showToast("숫자만 입력해주세요");
       return;
     }
-    updateField("feeLimit", Number(digits).toLocaleString("ko-KR"));
+    updateField("feeLimit", `${Number(digits).toLocaleString("ko-KR")}원`);
   };
 
   const barDetailLabel =
@@ -340,26 +331,6 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
               </p>
             </div>
 
-            {/* 프로그램 기본 정보 (읽기전용) */}
-            <div className="mb-8 p-5 bg-[#f3f3f3] border border-[#e2e2e2] rounded-xl">
-              <p className={sectionLabelClass}>프로그램 정보</p>
-              <dl className="space-y-2 text-sm">
-                {PROGRAM_INFO.map(({ label, value }) => (
-                  <div key={label} className="flex flex-col gap-1.5 sm:flex-row sm:gap-3">
-                    <dt className="text-ink/50 font-medium sm:whitespace-nowrap sm:min-w-[80px]">{label}</dt>
-                    <dd className="text-ink font-light break-all">
-                      {value.split("<br>").map((line, idx, arr) => (
-                        <span key={`${label}-${idx}`}>
-                          {line}
-                          {idx < arr.length - 1 ? <br /> : null}
-                        </span>
-                      ))}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-
             {error && (
               <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-[1rem] rounded-lg">
                 {error}
@@ -430,10 +401,8 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                       required
                       className={inputClass}
                     />
-                    <p className="text-[1rem] text-slate-light mt-1.5 font-light">
-                      주민등록번호는 강사료 원천징수 신고를 위해 수집되는 정보입니다.
-                      <br />
-                      해당 정보는 암호화 저장되며, 목적 달성 후 파기됩니다.
+                    <p className="text-[0.9rem] text-slate-light mt-1.5 font-light">
+                      * 강사료 원천징수용 / 암호화 저장 / 목적 달성 후 파기
                     </p>
                   </div>
                 </div>
@@ -464,15 +433,15 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                       required
                       className={inputClass}
                     />
-                    <p className="text-[1rem] text-slate-light mt-1.5 font-light">
-                      동의서 링크 발송용
+                    <p className="text-[0.9rem] text-slate-light mt-1.5 font-light">
+                      * 동의서 링크 발송용
                     </p>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-md:!grid-cols-1">
                   <div>
                     <label className={labelClass}>
-                      프로필 사진 (선택)
+                      프로필 사진 (변경 희망시)
                     </label>
                     <input
                       type="file"
@@ -558,11 +527,8 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                 <legend className={sectionLabelClass}>주요 이력</legend>
                 <div>
                   <label className={labelClass}>
-                    이력 사항 <span className="text-gold ml-0.5">*</span>
+                    프로필에 들어갈 세부 이력을 입력해 주세요. <span className="text-gold ml-0.5">*</span>
                   </label>
-                  <p className="text-[1rem] text-slate-light mt-1.5 font-light">
-                    입력하신 이력은 홍보 자료 및 수강생 안내에 활용됩니다.
-                  </p>
                   <textarea
                     value={form.bio}
                     onChange={(e) => updateField("bio", e.target.value)}
@@ -624,13 +590,10 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                 </div>
               </fieldset>
 
-              {/* 주차 안내 */}
+              {/* 주차 필요 여부 */}
               <fieldset className="space-y-6">
-                <legend className={sectionLabelClass}>주차 안내</legend>
+                <legend className={sectionLabelClass}>주차 필요 여부 <span className="text-gold ml-0.5">*</span></legend>
                 <div>
-                  <label className={labelClass}>
-                    주차 필요 여부 <span className="text-gold ml-0.5">*</span>
-                  </label>
                   <div className="flex gap-6 mt-1">
                     <label className="flex items-center gap-2 text-[1.05rem] font-light text-ink cursor-pointer">
                       <input
@@ -673,25 +636,19 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
 
               {/* 강사료 및 정산 관련 확인 */}
               <fieldset className="space-y-6">
-                <legend className={sectionLabelClass}>강사료 및 정산 관련 확인</legend>
+                <legend className={`${sectionLabelClass} flex items-center gap-2`}>
+                  <span className="inline-flex items-center rounded-full bg-[#eef3ff] px-2.5 py-1 text-[0.8125rem] font-semibold text-gold">
+                    선택사항
+                  </span>
+                  <span>공무원 또는 공공기관 재직자 대상</span>
+                </legend>
                 <p className="text-sm text-slate font-light leading-relaxed -mt-1">
-                  공공기관 재직자 등 내부 규정상 강사료 한도 확인이 필요한 경우에만 작성해 주시기 바랍니다.
+                  내부 규정상 출강 요청 공문, 강사료 한도 확인이 필요하신 경우 작성해 주시기 바랍니다.
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-md:!grid-cols-1">
+                <div className="space-y-5">
                   <div>
-                    <label className={labelClass}>강사료 한도</label>
-                    <input
-                      type="text"
-                      inputMode="numeric"
-                      value={form.feeLimit}
-                      onChange={(e) => handleFeeLimitChange(e.target.value)}
-                      placeholder="예: 1,000,000"
-                      className={inputClass}
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>강사료 내역 공문</label>
-                    <div className="flex gap-6 mt-1">
+                    <label className={labelClass}>• 출강 요청 공문</label>
+                    <div className="ml-3 mt-1 flex flex-col gap-2">
                       <label className="flex items-center gap-2 text-[1.05rem] font-light text-ink cursor-pointer">
                         <input
                           type="radio"
@@ -713,6 +670,42 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                         불필요
                       </label>
                     </div>
+                  </div>
+                  <div>
+                    <label className={labelClass}>• 강사료 한도 확인 공문</label>
+                    <div className="ml-3 mt-1 flex flex-col gap-2">
+                      <label className="flex items-center gap-2 text-[1.05rem] font-light text-ink cursor-pointer">
+                        <input
+                          type="radio"
+                          name="feeLimitCheckNeeded"
+                          checked={form.feeLimitCheckNeeded === "yes"}
+                          onChange={() => updateField("feeLimitCheckNeeded", "yes")}
+                          className="accent-gold"
+                        />
+                        필요
+                      </label>
+                      <label className="flex items-center gap-2 text-[1.05rem] font-light text-ink cursor-pointer">
+                        <input
+                          type="radio"
+                          name="feeLimitCheckNeeded"
+                          checked={form.feeLimitCheckNeeded === "no"}
+                          onChange={() => updateField("feeLimitCheckNeeded", "no")}
+                          className="accent-gold"
+                        />
+                        불필요
+                      </label>
+                    </div>
+                  </div>
+                  <div>
+                    <label className={labelClass}>강사료 한도 입력</label>
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      value={form.feeLimit}
+                      onChange={(e) => handleFeeLimitChange(e.target.value)}
+                      placeholder="예: 1,000,000"
+                      className={`${inputClass} md:w-1/2`}
+                    />
                   </div>
                 </div>
               </fieldset>
@@ -819,12 +812,12 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
                         </h3>
                         <div className="space-y-4 text-sm text-ink/80 leading-relaxed">
                           <div className="p-4 bg-white rounded-lg border border-[#e2e2e2]">
-                            <p className="font-semibold text-ink mb-1">1. 홍보 콘텐츠 게재</p>
-                            <p>강의 내용 일부를 리걸크루의 기사, 블로그, 홈페이지, SNS, 브로슈어 등 프로그램 안내&middot;홍보 콘텐츠에 게재</p>
+                            <p className="font-semibold text-ink mb-1">1. 콘텐츠 게재</p>
+                            <p>강의 내용 일부를 홈페이지, SNS, 언론보도 등 &middot;홍보 콘텐츠로 게재</p>
                           </div>
                           <div className="p-4 bg-white rounded-lg border border-[#e2e2e2]">
-                            <p className="font-semibold text-ink mb-1">2. 교재/자료집 제작 및 배부</p>
-                            <p>본 프로그램을 목적으로 본인이 작성한 강의안과 다른 강의안을 함께 교재 또는 자료집으로 제작하여 수강생에게 배부하고, 잔여 수량은 프로그램 운영 범위 내에서 활용</p>
+                            <p className="font-semibold text-ink mb-1">2. 자료집 제작 및 배부</p>
+                            <p>본 프로그램을 목적으로 제공된 강의안을 교재 또는 자료집으로 제작하여 수강생에게 배부하고, 잔여 수량은 프로그램 운영 범위 내에서 활용</p>
                           </div>
                           <div className="p-4 bg-white rounded-lg border border-[#e2e2e2]">
                             <p className="font-semibold text-ink mb-1">3. 발표 자료 공유</p>
@@ -850,7 +843,7 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full min-h-[48px] py-3 bg-gold text-white font-semibold text-[1rem] rounded-full cursor-pointer transition-colors duration-200 hover:bg-gold-light shadow-airtable disabled:opacity-50 disabled:cursor-not-allowed"
+                className="-mt-3 w-full min-h-[48px] py-3 bg-gold text-white font-semibold text-[1rem] rounded-full cursor-pointer transition-colors duration-200 hover:bg-gold-light shadow-airtable disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? "처리 중..." : "마스터 사전 정보 등록하기"}
               </button>
