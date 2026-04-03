@@ -1,11 +1,14 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "리걸크루 변호사 실전 압축 부트캠프 — 마스터 초빙";
+export const alt = "리걸크루 변호사 실전 압축 부트캠프 마스터 등록";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default function Image() {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://master.legalcrew.co.kr";
+  const logoUrl = `${baseUrl}/legalcrew-logo.png`;
+
   return new ImageResponse(
     (
       <div
@@ -18,26 +21,49 @@ export default function Image() {
           justifyContent: "center",
           backgroundColor: "#ffffff",
           color: "#181d26",
-          padding: 48,
+          padding: "64px 72px",
         }}
       >
-        <div style={{ fontSize: 42, fontWeight: 700, textAlign: "center", lineHeight: 1.25 }}>
-          리걸크루
-        </div>
-        <div style={{ fontSize: 26, fontWeight: 600, color: "#000000", marginTop: 16, textAlign: "center" }}>
+        <img
+          src={logoUrl}
+          width={360}
+          height={112}
+          alt="리걸크루 로고"
+          style={{ objectFit: "contain" }}
+        />
+        <div
+          style={{
+            width: 420,
+            height: 1,
+            backgroundColor: "rgba(72,116,247,0.35)",
+            marginTop: 34,
+            marginBottom: 34,
+          }}
+        />
+        <div
+          style={{
+            fontSize: 52,
+            fontWeight: 700,
+            color: "#151517",
+            textAlign: "center",
+            lineHeight: 1.2,
+            letterSpacing: -1,
+          }}
+        >
           변호사 실전 압축 부트캠프
         </div>
         <div
           style={{
-            width: 360,
-            height: 1,
-            backgroundColor: "rgba(27,97,201,0.35)",
-            marginTop: 28,
-            marginBottom: 28,
+            fontSize: 52,
+            fontWeight: 700,
+            color: "#4874F7",
+            textAlign: "center",
+            lineHeight: 1.2,
+            letterSpacing: -1,
+            marginTop: 6,
           }}
-        />
-        <div style={{ fontSize: 24, color: "rgba(24,29,38,0.65)", textAlign: "center" }}>
-          마스터 초빙
+        >
+          마스터 등록
         </div>
       </div>
     ),
