@@ -18,10 +18,10 @@ export const metadata: Metadata = {
     siteName: "LegalCrew",
     images: [
       {
-        url: "/og-image.png?v=20260403",
+        url: "/og-image.png?v=20260404-legalcrew-ci",
         width: 1024,
         height: 535,
-        alt: "리걸크루 변호사 실전 압축 부트캠프 마스터 등록",
+        alt: "LegalCrew",
       },
     ],
   },
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description: "실무 표준을 함께 세울 마스터를 모십니다.",
     images: [
       {
-        url: "/og-image.png?v=20260403",
+        url: "/og-image.png?v=20260404-legalcrew-ci",
         width: 1024,
         height: 535,
       },
