@@ -44,6 +44,8 @@ export const instructors = pgTable("instructors", {
   carNumber: varchar("car_number", { length: 20 }),
   feeLimit: varchar("fee_limit", { length: 20 }),
   feeDocNeeded: boolean("fee_doc_needed"),
+  /** 신청 폼: 강사료 한도 확인 공문 필요 여부 */
+  feeLimitCheckNeeded: boolean("fee_limit_check_needed"),
   status: instructorStatusEnum("status").notNull().default("applied"),
   appliedAt: timestamp("applied_at").notNull().defaultNow(),
   createdAt: timestamp("created_at").notNull().defaultNow(),

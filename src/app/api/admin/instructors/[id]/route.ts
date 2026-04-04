@@ -69,8 +69,18 @@ export async function GET(
           { status: 401 }
         );
       }
-      residentNumber = decrypt(instructor.residentNumber);
-      accountNumber = decrypt(instructor.accountNumber);
+      try {
+        residentNumber = decrypt(instructor.residentNumber);
+      } catch {
+        residentNumber =
+          "(복호화 실패 — 저장 시점 암호화 키와 현재 ENCRYPTION_KEY가 다를 수 있습니다)";
+      }
+      try {
+        accountNumber = decrypt(instructor.accountNumber);
+      } catch {
+        accountNumber =
+          "(복호화 실패 — 저장 시점 암호화 키와 현재 ENCRYPTION_KEY가 다를 수 있습니다)";
+      }
     }
 
     return NextResponse.json({
@@ -92,7 +102,7 @@ export async function GET(
   }
 }
 
-// PATCH: 강사 상태 변경 (거절 등)
+// PATCH: 강사 상태 변경(거절) · 공문 여부 보정(구버전 미저장 분)
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -106,6 +116,44 @@ export async function PATCH(
     const { id } = await params;
     const db = getDb();
     const body = await request.json();
+
+    const docPatch: {
+      feeDocNeeded?: boolean | null;
+      feeLimitCheckNeeded?: boolean | null;
+    } = {};
+    if ("feeDocNeeded" in body) {
+      const v = body.feeDocNeeded;
+      if (v !== null && typeof v !== "boolean") {
+        return NextResponse.json(
+          { message: "feeDocNeeded는 true, false 또는 null만 허용됩니다." },
+          { status: 400 }
+        );
+      }
+      docPatch.feeDocNeeded = v;
+    }
+    if ("feeLimitCheckNeeded" in body) {
+      const v = body.feeLimitCheckNeeded;
+      if (v !== null && typeof v !== "boolean") {
+        return NextResponse.json(
+          { message: "feeLimitCheckNeeded는 true, false 또는 null만 허용됩니다." },
+          { status: 400 }
+        );
+      }
+      docPatch.feeLimitCheckNeeded = v;
+    }
+
+    if (Object.keys(docPatch).length > 0) {
+      const [row] = await db
+        .select({ id: instructors.id })
+        .from(instructors)
+        .where(eq(instructors.id, id))
+        .limit(1);
+      if (!row) {
+        return NextResponse.json({ message: "강사를 찾을 수 없습니다." }, { status: 404 });
+      }
+      await db.update(instructors).set(docPatch).where(eq(instructors.id, id));
+      return NextResponse.json({ success: true, message: "공문 여부가 저장되었습니다." });
+    }
 
     if (body.status === "rejected") {
       const [instructor] = await db

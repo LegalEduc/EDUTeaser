@@ -25,6 +25,9 @@ export async function GET(request: NextRequest) {
         barExamDetail: instructors.barExamDetail,
         status: instructors.status,
         appliedAt: instructors.appliedAt,
+        feeLimit: instructors.feeLimit,
+        feeDocNeeded: instructors.feeDocNeeded,
+        feeLimitCheckNeeded: instructors.feeLimitCheckNeeded,
         sentAt: consentSettings.sentAt,
         signedAt: consentSignatures.signedAt,
       })

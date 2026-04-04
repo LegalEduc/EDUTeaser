@@ -13,9 +13,24 @@ interface Notice {
   createdAt: string;
 }
 
+interface InstructorRow {
+  id: string;
+  name: string;
+  email: string;
+  status: string;
+}
+
 const TARGET_LABEL: Record<string, string> = {
   all: "전체",
   consented_only: "동의완료만",
+  specific: "특정 강사",
+};
+
+const STATUS_LABEL: Record<string, string> = {
+  applied: "신청",
+  consent_sent: "동의서 발송",
+  consented: "서명 완료",
+  rejected: "거절",
 };
 
 export default function NoticesPage() {
@@ -25,7 +40,9 @@ export default function NoticesPage() {
 
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [target, setTarget] = useState<"all" | "consented_only">("all");
+  const [target, setTarget] = useState<"all" | "consented_only" | "specific">("all");
+  const [instructorRows, setInstructorRows] = useState<InstructorRow[]>([]);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set());
   const [isSending, setIsSending] = useState(false);
   const [formResult, setFormResult] = useState("");
 
@@ -55,6 +72,37 @@ export default function NoticesPage() {
     fetchNotices();
   }, [router]);
 
+  useEffect(() => {
+    const token = localStorage.getItem("admin_token");
+    if (!token) return;
+
+    fetch("/api/admin/instructors", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((d) => {
+        if (!d?.instructors?.length) {
+          setInstructorRows([]);
+          return;
+        }
+        const seen = new Set<string>();
+        const rows: InstructorRow[] = [];
+        for (const r of d.instructors as InstructorRow[]) {
+          if (seen.has(r.id)) continue;
+          seen.add(r.id);
+          rows.push({
+            id: r.id,
+            name: r.name,
+            email: r.email,
+            status: r.status,
+          });
+        }
+        rows.sort((a, b) => a.name.localeCompare(b.name, "ko"));
+        setInstructorRows(rows);
+      })
+      .catch(() => setInstructorRows([]));
+  }, [router]);
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsSending(true);
@@ -64,13 +112,26 @@ export default function NoticesPage() {
     if (!token) return;
 
     try {
+      if (target === "specific" && selectedIds.size === 0) {
+        setFormResult("특정 강사를 한 명 이상 선택해 주세요.");
+        setIsSending(false);
+        return;
+      }
+
       const res = await fetch("/api/admin/notices", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ title, body, target }),
+        body: JSON.stringify({
+          title,
+          body,
+          target,
+          ...(target === "specific"
+            ? { instructorIds: [...selectedIds] }
+            : {}),
+        }),
       });
 
       const data = await res.json();
@@ -84,6 +145,7 @@ export default function NoticesPage() {
       setTitle("");
       setBody("");
       setTarget("all");
+      setSelectedIds(new Set());
       fetchNotices();
     } catch {
       setFormResult("네트워크 오류가 발생했습니다.");
@@ -191,25 +253,98 @@ export default function NoticesPage() {
               <label className="block text-[1rem] text-slate mb-3">
                 발송 대상 <span className="text-ink">*</span>
               </label>
-              <div className="flex gap-6">
-                <label className="flex items-center gap-2 text-[1.05rem] cursor-pointer">
-                  <input
-                    type="radio"
-                    checked={target === "all"}
-                    onChange={() => setTarget("all")}
-                    className="accent-ink"
-                  />
-                  전체 강사
-                </label>
-                <label className="flex items-center gap-2 text-[1.05rem] cursor-pointer">
-                  <input
-                    type="radio"
-                    checked={target === "consented_only"}
-                    onChange={() => setTarget("consented_only")}
-                    className="accent-ink"
-                  />
-                  동의 완료 강사만
-                </label>
+              <div className="flex flex-col gap-3">
+                <div className="flex flex-wrap gap-6">
+                  <label className="flex items-center gap-2 text-[1.05rem] cursor-pointer">
+                    <input
+                      type="radio"
+                      checked={target === "all"}
+                      onChange={() => {
+                        setTarget("all");
+                        setSelectedIds(new Set());
+                      }}
+                      className="accent-ink"
+                    />
+                    전체 강사
+                  </label>
+                  <label className="flex items-center gap-2 text-[1.05rem] cursor-pointer">
+                    <input
+                      type="radio"
+                      checked={target === "consented_only"}
+                      onChange={() => {
+                        setTarget("consented_only");
+                        setSelectedIds(new Set());
+                      }}
+                      className="accent-ink"
+                    />
+                    동의 완료 강사만
+                  </label>
+                  <label className="flex items-center gap-2 text-[1.05rem] cursor-pointer">
+                    <input
+                      type="radio"
+                      checked={target === "specific"}
+                      onChange={() => setTarget("specific")}
+                      className="accent-ink"
+                    />
+                    특정 강사 선택
+                  </label>
+                </div>
+                {target === "specific" && (
+                  <div className="mt-2 border border-[#e2e2e2] rounded-lg p-4 max-h-[280px] overflow-y-auto">
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                      <span className="text-caption text-slate">
+                        {selectedIds.size}명 선택됨
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (selectedIds.size === instructorRows.length) {
+                            setSelectedIds(new Set());
+                          } else {
+                            setSelectedIds(new Set(instructorRows.map((r) => r.id)));
+                          }
+                        }}
+                        className="text-caption text-ink underline underline-offset-2"
+                      >
+                        {selectedIds.size === instructorRows.length
+                          ? "전체 해제"
+                          : "전체 선택"}
+                      </button>
+                    </div>
+                    {instructorRows.length === 0 ? (
+                      <p className="text-caption text-slate">강사 목록을 불러오는 중이거나 없습니다.</p>
+                    ) : (
+                      <ul className="space-y-2">
+                        {instructorRows.map((row) => (
+                          <li key={row.id}>
+                            <label className="flex items-start gap-2 text-[1rem] cursor-pointer">
+                              <input
+                                type="checkbox"
+                                checked={selectedIds.has(row.id)}
+                                onChange={() => {
+                                  setSelectedIds((prev) => {
+                                    const n = new Set(prev);
+                                    if (n.has(row.id)) n.delete(row.id);
+                                    else n.add(row.id);
+                                    return n;
+                                  });
+                                }}
+                                className="accent-ink mt-1 shrink-0"
+                              />
+                              <span>
+                                <span className="font-medium text-ink">{row.name}</span>
+                                <span className="text-slate"> · {row.email}</span>
+                                <span className="text-slate-light text-caption ml-1">
+                                  ({STATUS_LABEL[row.status] || row.status})
+                                </span>
+                              </span>
+                            </label>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
             <button
@@ -217,7 +352,11 @@ export default function NoticesPage() {
               disabled={isSending}
               className="px-6 py-3 bg-gold text-white font-semibold text-[1.05rem] rounded-full hover:bg-gold-light transition-colors disabled:opacity-50 shadow-airtable"
             >
-              {isSending ? "등록 중..." : "공지 등록"}
+              {isSending
+                ? "등록 중..."
+                : target === "specific"
+                  ? `선택한 ${selectedIds.size}명에게 공지 등록`
+                  : "공지 등록"}
             </button>
           </form>
         </div>

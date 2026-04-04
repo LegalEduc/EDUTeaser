@@ -164,6 +164,12 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
           carNumber: form.carNumber || undefined,
           feeLimit: form.feeLimit ? form.feeLimit.replace(/\D/g, "") : undefined,
           feeDocNeeded: form.feeDocNeeded === "yes" ? true : form.feeDocNeeded === "no" ? false : undefined,
+          feeLimitCheckNeeded:
+            form.feeLimitCheckNeeded === "yes"
+              ? true
+              : form.feeLimitCheckNeeded === "no"
+                ? false
+                : undefined,
           privacyAgreed: form.privacyAgreed,
           residentIdAgreed: form.residentIdAgreed,
           promotionAgreed: form.promotionAgreed,

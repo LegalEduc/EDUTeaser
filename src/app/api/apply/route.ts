@@ -41,6 +41,7 @@ interface ApplyBody {
   carNumber?: string;
   feeLimit?: string;
   feeDocNeeded?: boolean;
+  feeLimitCheckNeeded?: boolean;
   privacyAgreed: boolean;
   residentIdAgreed: boolean;
 }
@@ -114,6 +115,21 @@ export async function POST(request: NextRequest) {
     const encryptedResident = encrypt(body.residentNumber);
     const encryptedAccount = encrypt(body.accountNumber);
 
+    const feeLimitTrimmed = body.feeLimit?.trim() || null;
+    const hasFeeLimit = Boolean(feeLimitTrimmed);
+    const answeredFeeDoc = body.feeDocNeeded !== undefined;
+    const answeredFeeLimitCheck = body.feeLimitCheckNeeded !== undefined;
+    const optionalFinanceTouched =
+      answeredFeeDoc || answeredFeeLimitCheck || hasFeeLimit;
+
+    // 공문/한도 선택 섹션을 전혀 건드리지 않은 신청: 한도 확인 공문 = 불필요(false)
+    // 일부만 입력(출강공문만·한도만 등)인데 한도공문 미전송 → null (수동 보정)
+    const feeLimitCheckNeeded = answeredFeeLimitCheck
+      ? body.feeLimitCheckNeeded ?? null
+      : optionalFinanceTouched
+        ? null
+        : false;
+
     // DB 저장
     const [inserted] = await db.insert(instructors).values({
       programName: body.programName?.trim() || "리걸크루 변호사 실전 압축 부트캠프 1기",
@@ -129,8 +145,9 @@ export async function POST(request: NextRequest) {
       accountHolder: body.accountHolder.trim(),
       parkingNeeded: body.parkingNeeded,
       carNumber: body.parkingNeeded ? body.carNumber?.trim() : null,
-      feeLimit: body.feeLimit?.trim() || null,
+      feeLimit: feeLimitTrimmed,
       feeDocNeeded: body.feeDocNeeded ?? null,
+      feeLimitCheckNeeded,
     }).returning({ id: instructors.id });
 
     // 어드민에게 신규 신청 알림 (비동기, 실패해도 신청은 성공)

@@ -19,6 +19,9 @@ interface InstructorDetail {
   accountNumber: string;
   parkingNeeded: boolean;
   carNumber: string | null;
+  feeLimit: string | null;
+  feeDocNeeded: boolean | null;
+  feeLimitCheckNeeded: boolean | null;
   status: string;
   appliedAt: string;
   sensitiveRevealed?: boolean;
@@ -96,6 +99,12 @@ export default function InstructorDetailPage() {
   const [actionResult, setActionResult] = useState("");
   const [isRevealingSensitive, setIsRevealingSensitive] = useState(false);
 
+  /** 공문 보정용: "" = 미기록(null), yes/no → boolean */
+  const [feeDocSel, setFeeDocSel] = useState<"" | "yes" | "no">("");
+  const [feeLimitCheckSel, setFeeLimitCheckSel] = useState<"" | "yes" | "no">("");
+  const [docFlagSaving, setDocFlagSaving] = useState(false);
+  const [docFlagMessage, setDocFlagMessage] = useState("");
+
   const matchedLectures = (() => {
     if (!instructor?.name) return [];
     const input = instructor.name.trim();
@@ -171,6 +180,60 @@ export default function InstructorDetailPage() {
       .catch(() => setError("데이터를 불러올 수 없습니다."))
       .finally(() => setLoading(false));
   }, [id, router]);
+
+  useEffect(() => {
+    if (!instructor) return;
+    setFeeDocSel(
+      instructor.feeDocNeeded === null ? "" : instructor.feeDocNeeded ? "yes" : "no"
+    );
+    {
+      const lim = instructor.feeLimitCheckNeeded;
+      const noFinanceSection =
+        instructor.feeDocNeeded === null && !instructor.feeLimit?.trim();
+      if (lim === null && noFinanceSection) {
+        setFeeLimitCheckSel("no");
+      } else if (lim === null) {
+        setFeeLimitCheckSel("");
+      } else {
+        setFeeLimitCheckSel(lim ? "yes" : "no");
+      }
+    }
+    setDocFlagMessage("");
+  }, [instructor]);
+
+  const handleSaveDocFlags = async () => {
+    const token = localStorage.getItem("admin_token");
+    if (!token || !id) return;
+    setDocFlagSaving(true);
+    setDocFlagMessage("");
+    const feeDocNeeded = feeDocSel === "" ? null : feeDocSel === "yes";
+    const feeLimitCheckNeeded = feeLimitCheckSel === "" ? null : feeLimitCheckSel === "yes";
+    try {
+      const res = await fetch(`/api/admin/instructors/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ feeDocNeeded, feeLimitCheckNeeded }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setDocFlagMessage(data.message || "저장에 실패했습니다.");
+        return;
+      }
+      setInstructor((prev) =>
+        prev
+          ? { ...prev, feeDocNeeded, feeLimitCheckNeeded }
+          : prev
+      );
+      setDocFlagMessage(data.message || "저장되었습니다.");
+    } catch {
+      setDocFlagMessage("네트워크 오류가 발생했습니다.");
+    } finally {
+      setDocFlagSaving(false);
+    }
+  };
 
   const handleConsentSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -412,6 +475,72 @@ export default function InstructorDetailPage() {
             <div>
               <span className="text-slate">주차:</span>{" "}
               {instructor.parkingNeeded ? `필요 (${instructor.carNumber})` : "불필요"}
+            </div>
+            <div>
+              <span className="text-slate">강사료 한도:</span>{" "}
+              {instructor.feeLimit?.trim()
+                ? (() => {
+                    const digits = instructor.feeLimit!.replace(/\D/g, "");
+                    const n = Number(digits);
+                    return Number.isNaN(n) ? instructor.feeLimit : `${n.toLocaleString("ko-KR")}원`;
+                  })()
+                : "—"}
+            </div>
+            <div className="md:col-span-2 rounded-xl border border-amber-200 bg-amber-50/40 p-4 space-y-3">
+              <p className="text-caption text-ink leading-relaxed">
+                <strong className="font-semibold">공문 응답</strong>
+                {" · "}
+                공문·한도 칸을 전혀 쓰지 않은 신청은 한도 확인 공문을 <strong>불필요</strong>로
+                분류합니다. 과거에 출강공문·한도만 적고 한도공문이 빠진 건 <strong>미기록</strong>일
+                수 있으니 강사 확인 후 보정하세요.
+              </p>
+              <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:items-end">
+                <div className="flex flex-col gap-1">
+                  <label htmlFor="fee-doc-sel" className="text-caption text-slate">
+                    출강 요청 공문
+                  </label>
+                  <select
+                    id="fee-doc-sel"
+                    value={feeDocSel}
+                    onChange={(e) =>
+                      setFeeDocSel(e.target.value as "" | "yes" | "no")
+                    }
+                    className="min-h-[44px] rounded-lg border border-ink bg-white px-3 py-2 text-[1rem] text-ink"
+                  >
+                    <option value="">미기록</option>
+                    <option value="yes">필요</option>
+                    <option value="no">불필요</option>
+                  </select>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <label htmlFor="fee-limit-doc-sel" className="text-caption text-slate">
+                    강사료 한도 확인 공문
+                  </label>
+                  <select
+                    id="fee-limit-doc-sel"
+                    value={feeLimitCheckSel}
+                    onChange={(e) =>
+                      setFeeLimitCheckSel(e.target.value as "" | "yes" | "no")
+                    }
+                    className="min-h-[44px] rounded-lg border border-ink bg-white px-3 py-2 text-[1rem] text-ink"
+                  >
+                    <option value="">미기록 (구버전 미저장 가능)</option>
+                    <option value="yes">필요</option>
+                    <option value="no">불필요</option>
+                  </select>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleSaveDocFlags}
+                  disabled={docFlagSaving}
+                  className="min-h-[44px] px-5 py-2 rounded-full border border-ink bg-ink text-white text-caption font-medium hover:bg-ink/90 disabled:opacity-50"
+                >
+                  {docFlagSaving ? "저장 중…" : "공문 응답 저장"}
+                </button>
+              </div>
+              {docFlagMessage && (
+                <p className="text-caption text-slate">{docFlagMessage}</p>
+              )}
             </div>
           </div>
           <div className="mt-4 pt-4 border-t border-[#e2e2e2] flex items-center gap-3">

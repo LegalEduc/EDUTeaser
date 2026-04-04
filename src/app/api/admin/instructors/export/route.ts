@@ -66,6 +66,7 @@ export async function GET(request: NextRequest) {
         carNumber: instructors.carNumber,
         feeLimit: instructors.feeLimit,
         feeDocNeeded: instructors.feeDocNeeded,
+        feeLimitCheckNeeded: instructors.feeLimitCheckNeeded,
         status: instructors.status,
         appliedAt: instructors.appliedAt,
         lectureTopic: consentSettings.lectureTopic,
@@ -97,7 +98,8 @@ export async function GET(request: NextRequest) {
       "주차필요",
       "차량번호",
       "강사료한도",
-      "강사료내역공문필요",
+      "출강요청공문필요",
+      "한도확인공문필요",
       "상태",
       "신청일",
       "강의주제",
@@ -131,6 +133,11 @@ export async function GET(request: NextRequest) {
           row.carNumber || "",
           row.feeLimit || "",
           row.feeDocNeeded === null ? "" : row.feeDocNeeded ? "Y" : "N",
+          row.feeLimitCheckNeeded === null
+            ? ""
+            : row.feeLimitCheckNeeded
+              ? "Y"
+              : "N",
           row.status,
           row.appliedAt ? new Date(row.appliedAt).toISOString() : "",
           row.lectureTopic || "",

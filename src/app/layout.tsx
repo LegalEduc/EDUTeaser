@@ -1,6 +1,24 @@
 import type { Metadata } from "next";
+import { DM_Sans, Inter } from "next/font/google";
+import "@fontsource/noto-sans-kr/400.css";
+import "@fontsource/noto-sans-kr/500.css";
+import "@fontsource/noto-sans-kr/700.css";
 import "./globals.css";
 import { getBaseUrl } from "@/lib/base-url";
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-dm-sans",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "리걸크루 변호사 실전 압축 부트캠프 — 마스터 초빙",
@@ -49,7 +67,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko">
+    <html lang="ko" className={`${dmSans.variable} ${inter.variable}`}>
       <body>{children}</body>
     </html>
   );

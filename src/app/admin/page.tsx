@@ -43,9 +43,24 @@ export default function AdminDashboardPage() {
 
   const cards = data
     ? [
-        { label: "신규 신청", value: data.applied, color: "text-ink" },
-        { label: "동의서 발송", value: data.consentSent, color: "text-slate" },
-        { label: "서명 완료", value: data.consented, color: "text-ink" },
+        {
+          label: "신규 신청",
+          value: data.applied,
+          color: "text-ink",
+          href: "/admin/instructors?status=applied",
+        },
+        {
+          label: "동의서 발송",
+          value: data.consentSent,
+          color: "text-slate",
+          href: "/admin/instructors?status=consent_sent",
+        },
+        {
+          label: "서명 완료",
+          value: data.consented,
+          color: "text-ink",
+          href: "/admin/instructors?status=consented",
+        },
       ]
     : [];
 
@@ -94,27 +109,19 @@ export default function AdminDashboardPage() {
         {data ? (
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {cards.map((card) => (
-              <div
+              <Link
                 key={card.label}
-                className="bg-white border border-[#e2e2e2] p-6 rounded-xl shadow-airtable-soft"
+                href={card.href}
+                className="block bg-white border border-[#e2e2e2] p-6 rounded-xl shadow-airtable-soft hover:border-ink/30 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ink/20"
               >
                 <p className="text-caption text-slate mb-2">{card.label}</p>
                 <p className={`text-[2.25rem] font-bold leading-none ${card.color}`}>{card.value}</p>
-              </div>
+              </Link>
             ))}
           </div>
         ) : (
           !error && <p className="text-slate text-[1rem]">불러오는 중...</p>
         )}
-
-        <div className="mt-10">
-          <Link
-            href="/admin/instructors"
-            className="inline-flex items-center min-h-[44px] px-5 py-2.5 border border-ink text-ink hover:bg-[#e2e2e2] transition-colors text-[1rem] rounded-full font-medium"
-          >
-            강사 목록 보기 &rarr;
-          </Link>
-        </div>
       </main>
     </div>
   );

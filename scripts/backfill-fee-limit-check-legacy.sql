@@ -1,0 +1,9 @@
+-- (참고) 출강공문과 한도공문을 항상 같이 답했다고 확정할 때만 검토.
+-- 기본 분류는 backfill-fee-limit-check-default-unneeded.sql 을 사용하세요.
+--
+-- BEGIN;
+-- UPDATE instructors
+-- SET fee_limit_check_needed = fee_doc_needed
+-- WHERE fee_limit_check_needed IS NULL
+--   AND fee_doc_needed IS NOT NULL;
+-- COMMIT;

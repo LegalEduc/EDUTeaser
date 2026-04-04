@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface Instructor {
   id: string;
@@ -13,8 +13,35 @@ interface Instructor {
   barExamDetail: string;
   status: "applied" | "consent_sent" | "consented";
   appliedAt: string;
+  feeLimit: string | null;
+  feeDocNeeded: boolean | null;
+  feeLimitCheckNeeded: boolean | null;
   sentAt: string | null;
   signedAt: string | null;
+}
+
+function docYnOut(v: boolean | null): string {
+  if (v === null) return "미기록";
+  return v ? "필요" : "불필요";
+}
+
+/** 한도공문: 값 있으면 그대로. null이어도 공문/한도 섹션을 전혀 안 쓴 사람은 불필요로 간주 */
+function docYnLimitCheck(inst: Instructor): string {
+  const v = inst.feeLimitCheckNeeded;
+  if (v !== null) return v ? "필요" : "불필요";
+  const noFinanceSection =
+    inst.feeDocNeeded === null && !inst.feeLimit?.trim();
+  if (noFinanceSection) return "불필요";
+  return "미저장";
+}
+
+function formatFeeLimitShort(raw: string | null): string {
+  if (!raw?.trim()) return "—";
+  const digits = raw.replace(/\D/g, "");
+  if (!digits) return raw;
+  const n = Number(digits);
+  if (Number.isNaN(n)) return raw;
+  return `${n.toLocaleString("ko-KR")}원`;
 }
 
 const STATUS_LABEL: Record<string, { text: string; color: string }> = {
@@ -45,12 +72,26 @@ function formatPhone(phone: string) {
   return phone;
 }
 
+const STATUS_FILTERS = ["", "applied", "consent_sent", "consented"] as const;
+
 export default function InstructorsPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [instructors, setInstructors] = useState<Instructor[]>([]);
   const [filter, setFilter] = useState("");
   const [loading, setLoading] = useState(true);
   const [isExporting, setIsExporting] = useState(false);
+
+  useEffect(() => {
+    const q = searchParams.get("status") || "";
+    if (q === "") {
+      setFilter("");
+      return;
+    }
+    if (STATUS_FILTERS.includes(q as (typeof STATUS_FILTERS)[number])) {
+      setFilter(q);
+    }
+  }, [searchParams]);
 
   const fetchInstructors = () => {
     const token = localStorage.getItem("admin_token");
@@ -202,7 +243,16 @@ export default function InstructorsPage() {
               <button
                 type="button"
                 key={f.value}
-                onClick={() => setFilter(f.value)}
+                onClick={() => {
+                  setFilter(f.value);
+                  if (f.value) {
+                    router.replace(`/admin/instructors?status=${f.value}`, {
+                      scroll: false,
+                    });
+                  } else {
+                    router.replace("/admin/instructors", { scroll: false });
+                  }
+                }}
                 className={`px-4 py-2 text-caption font-medium rounded-full border transition-colors ${
                   filter === f.value
                     ? "border-ink bg-ink text-white"
@@ -249,6 +299,20 @@ export default function InstructorsPage() {
                     <span>{BAR_LABEL[inst.barExamType]} {inst.barExamDetail}</span>
                     <span>{inst.email}</span>
                     <span>{formatPhone(inst.phone)}</span>
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-caption text-ink">
+                    <span>
+                      <span className="text-slate">한도 </span>
+                      {formatFeeLimitShort(inst.feeLimit)}
+                    </span>
+                    <span>
+                      <span className="text-slate">출강공문 </span>
+                      {docYnOut(inst.feeDocNeeded)}
+                    </span>
+                    <span>
+                      <span className="text-slate">한도공문 </span>
+                      {docYnLimitCheck(inst)}
+                    </span>
                   </div>
                   {/* 날짜 타임라인 */}
                   <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-[1rem]">

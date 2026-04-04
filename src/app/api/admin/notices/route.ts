@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
 import { notices, instructors } from "@/lib/schema";
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, inArray } from "drizzle-orm";
 import { sendNotice } from "@/lib/email";
 import { getTokenFromRequest, verifyToken } from "@/lib/auth";
 
@@ -60,8 +60,32 @@ export async function POST(request: NextRequest) {
     if (!body.body?.trim()) {
       return NextResponse.json({ message: "내용을 입력해 주세요." }, { status: 400 });
     }
-    if (!["all", "consented_only"].includes(body.target)) {
+    if (!["all", "consented_only", "specific"].includes(body.target)) {
       return NextResponse.json({ message: "대상을 선택해 주세요." }, { status: 400 });
+    }
+
+    const uuidLike =
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    let specificInstructorIds: string[] | null = null;
+    if (body.target === "specific") {
+      const ids: unknown = body.instructorIds;
+      if (!Array.isArray(ids) || ids.length === 0) {
+        return NextResponse.json(
+          { message: "특정 강사를 한 명 이상 선택해 주세요." },
+          { status: 400 }
+        );
+      }
+      specificInstructorIds = [
+        ...new Set(
+          ids.filter((id) => typeof id === "string" && uuidLike.test(id)) as string[]
+        ),
+      ];
+      if (specificInstructorIds.length === 0) {
+        return NextResponse.json(
+          { message: "유효한 강사를 선택해 주세요." },
+          { status: 400 }
+        );
+      }
     }
 
     // 대상 강사 이메일 조회
@@ -72,6 +96,8 @@ export async function POST(request: NextRequest) {
 
     if (body.target === "consented_only") {
       targetQuery = targetQuery.where(eq(instructors.status, "consented"));
+    } else if (body.target === "specific" && specificInstructorIds) {
+      targetQuery = targetQuery.where(inArray(instructors.id, specificInstructorIds));
     }
 
     const targets = await targetQuery;
