@@ -4,6 +4,11 @@ import { instructors, consentSettings, consentSignatures } from "@/lib/schema";
 import { eq, desc } from "drizzle-orm";
 import { getTokenFromRequest, verifyToken, verifyPassword } from "@/lib/auth";
 import { decrypt } from "@/lib/encrypt";
+import {
+  instructorsExportJoinSelectFull,
+  instructorsExportJoinSelectLegacy,
+  isMissingFeeLimitCheckColumnError,
+} from "@/lib/instructor-db-compat";
 
 function toCsvValue(v: unknown): string {
   const s = String(v ?? "");
@@ -49,39 +54,52 @@ export async function GET(request: NextRequest) {
     }
 
     const db = getDb();
-    const rows = await db
-      .select({
-        id: instructors.id,
-        name: instructors.name,
-        email: instructors.email,
-        phone: instructors.phone,
-        residentNumberEnc: instructors.residentNumber,
-        barExamType: instructors.barExamType,
-        barExamDetail: instructors.barExamDetail,
-        bio: instructors.bio,
-        bankName: instructors.bankName,
-        accountNumberEnc: instructors.accountNumber,
-        accountHolder: instructors.accountHolder,
-        parkingNeeded: instructors.parkingNeeded,
-        carNumber: instructors.carNumber,
-        feeLimit: instructors.feeLimit,
-        feeDocNeeded: instructors.feeDocNeeded,
-        feeLimitCheckNeeded: instructors.feeLimitCheckNeeded,
-        status: instructors.status,
-        appliedAt: instructors.appliedAt,
-        lectureTopic: consentSettings.lectureTopic,
-        lectureCount: consentSettings.lectureCount,
-        feeAmount: consentSettings.feeAmount,
-        totalFee: consentSettings.totalFee,
-        specialTerms: consentSettings.specialTerms,
-        sentAt: consentSettings.sentAt,
-        signedName: consentSignatures.signedName,
-        signedAt: consentSignatures.signedAt,
-      })
-      .from(instructors)
-      .leftJoin(consentSettings, eq(consentSettings.instructorId, instructors.id))
-      .leftJoin(consentSignatures, eq(consentSignatures.instructorId, instructors.id))
-      .orderBy(desc(instructors.appliedAt));
+    let rows: Array<{
+      feeLimitCheckNeeded: boolean | null;
+      id: string;
+      name: string;
+      email: string;
+      phone: string;
+      residentNumberEnc: string;
+      barExamType: string;
+      barExamDetail: string;
+      bio: string;
+      bankName: string;
+      accountNumberEnc: string;
+      accountHolder: string;
+      parkingNeeded: boolean;
+      carNumber: string | null;
+      feeLimit: string | null;
+      feeDocNeeded: boolean | null;
+      status: string;
+      appliedAt: Date | null;
+      lectureTopic: string | null;
+      lectureCount: number | null;
+      feeAmount: number | null;
+      totalFee: number | null;
+      specialTerms: string | null;
+      sentAt: Date | null;
+      signedName: string | null;
+      signedAt: Date | null;
+    }>;
+    try {
+      rows = await db
+        .select(instructorsExportJoinSelectFull)
+        .from(instructors)
+        .leftJoin(consentSettings, eq(consentSettings.instructorId, instructors.id))
+        .leftJoin(consentSignatures, eq(consentSignatures.instructorId, instructors.id))
+        .orderBy(desc(instructors.appliedAt));
+    } catch (err) {
+      if (!isMissingFeeLimitCheckColumnError(err)) throw err;
+      console.warn("export: fee_limit_check_needed 없음 — 구 컬럼만 조회");
+      const legacy = await db
+        .select(instructorsExportJoinSelectLegacy)
+        .from(instructors)
+        .leftJoin(consentSettings, eq(consentSettings.instructorId, instructors.id))
+        .leftJoin(consentSignatures, eq(consentSignatures.instructorId, instructors.id))
+        .orderBy(desc(instructors.appliedAt));
+      rows = legacy.map((r) => ({ ...r, feeLimitCheckNeeded: null }));
+    }
 
     const header = [
       "ID",

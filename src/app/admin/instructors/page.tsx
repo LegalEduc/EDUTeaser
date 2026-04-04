@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -72,31 +72,31 @@ function formatPhone(phone: string) {
   return phone;
 }
 
-const STATUS_FILTERS = ["", "applied", "consent_sent", "consented"] as const;
+const VALID_STATUS_FILTERS = ["applied", "consent_sent", "consented"] as const;
 
 export default function InstructorsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [instructors, setInstructors] = useState<Instructor[]>([]);
-  const [filter, setFilter] = useState("");
   const [loading, setLoading] = useState(true);
+  const [listError, setListError] = useState("");
   const [isExporting, setIsExporting] = useState(false);
 
-  useEffect(() => {
+  const filter = useMemo(() => {
     const q = searchParams.get("status") || "";
-    if (q === "") {
-      setFilter("");
-      return;
-    }
-    if (STATUS_FILTERS.includes(q as (typeof STATUS_FILTERS)[number])) {
-      setFilter(q);
-    }
+    return VALID_STATUS_FILTERS.includes(q as (typeof VALID_STATUS_FILTERS)[number])
+      ? q
+      : "";
   }, [searchParams]);
 
-  const fetchInstructors = () => {
+  const fetchInstructors = useCallback(() => {
     const token = localStorage.getItem("admin_token");
-    if (!token) return;
+    if (!token) {
+      setLoading(false);
+      return;
+    }
 
+    setListError("");
     const url = filter
       ? `/api/admin/instructors?status=${filter}`
       : "/api/admin/instructors";
@@ -108,18 +108,33 @@ export default function InstructorsPage() {
           router.replace("/admin/login");
           return null;
         }
-        return res.json();
+        return res.json().then((data) => ({ ok: res.ok, status: res.status, data }));
       })
-      .then((d) => {
-        if (d?.instructors) setInstructors(d.instructors);
+      .then((pack) => {
+        if (!pack) return;
+        if (!pack.ok) {
+          setInstructors([]);
+          setListError(
+            pack.data?.message ||
+              (pack.status >= 500
+                ? "서버 오류로 목록을 불러오지 못했습니다. DB 연결·환경 변수를 확인해 주세요."
+                : "목록을 불러오지 못했습니다.")
+          );
+          return;
+        }
+        setInstructors(Array.isArray(pack.data?.instructors) ? pack.data.instructors : []);
       })
-      .catch(() => {})
+      .catch(() => {
+        setInstructors([]);
+        setListError("네트워크 오류로 목록을 불러오지 못했습니다.");
+      })
       .finally(() => setLoading(false));
-  };
+  }, [filter, router]);
 
   useEffect(() => {
+    setLoading(true);
     fetchInstructors();
-  }, [filter, router]);
+  }, [fetchInstructors]);
 
   const handleDeleteInstructor = async (id: string, name: string) => {
     const ok = window.confirm(
@@ -244,7 +259,6 @@ export default function InstructorsPage() {
                 type="button"
                 key={f.value}
                 onClick={() => {
-                  setFilter(f.value);
                   if (f.value) {
                     router.replace(`/admin/instructors?status=${f.value}`, {
                       scroll: false,
@@ -265,11 +279,15 @@ export default function InstructorsPage() {
           </div>
         </div>
 
+        {listError && (
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-[1rem] rounded-lg">
+            {listError}
+          </div>
+        )}
+
         {loading ? (
           <p className="text-slate text-[1rem]">불러오는 중...</p>
-        ) : instructors.length === 0 ? (
-          <p className="text-slate text-[1rem]">등록된 강사가 없습니다.</p>
-        ) : (
+        ) : instructors.length > 0 ? (
           <div className="space-y-3">
             {instructors.map((inst) => {
               const statusInfo = STATUS_LABEL[inst.status];
@@ -324,7 +342,27 @@ export default function InstructorsPage() {
               );
             })}
           </div>
-        )}
+        ) : !listError ? (
+          <div className="text-slate text-[1rem] space-y-2">
+            {filter ? (
+              <>
+                <p>
+                  현재 보기(<strong>{filter === "applied" ? "신청" : filter === "consent_sent" ? "발송" : "완료"}</strong>
+                  )에 해당하는 강사가 없습니다. 데이터가 사라진 것이 아니라, 모두 다른 단계로 넘어갔을 수 있습니다.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => router.replace("/admin/instructors", { scroll: false })}
+                  className="text-ink underline underline-offset-4 font-medium"
+                >
+                  전체 목록 보기
+                </button>
+              </>
+            ) : (
+              <p>등록된 강사가 없습니다. 신청이 접수되면 여기에 표시됩니다.</p>
+            )}
+          </div>
+        ) : null}
       </main>
     </div>
   );

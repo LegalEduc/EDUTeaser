@@ -3,6 +3,11 @@ import { getDb } from "@/lib/db";
 import { instructors, consentSettings, consentSignatures } from "@/lib/schema";
 import { eq, desc } from "drizzle-orm";
 import { getTokenFromRequest, verifyToken } from "@/lib/auth";
+import {
+  instructorsListSelectFull,
+  instructorsListSelectLegacy,
+  isMissingFeeLimitCheckColumnError,
+} from "@/lib/instructor-db-compat";
 
 export async function GET(request: NextRequest) {
   const token = getTokenFromRequest(request);
@@ -14,36 +19,47 @@ export async function GET(request: NextRequest) {
     const db = getDb();
     const { searchParams } = new URL(request.url);
     const status = searchParams.get("status");
+    const statusFilter =
+      status && ["applied", "consent_sent", "consented"].includes(status)
+        ? status
+        : null;
 
-    let query = db
-      .select({
-        id: instructors.id,
-        name: instructors.name,
-        email: instructors.email,
-        phone: instructors.phone,
-        barExamType: instructors.barExamType,
-        barExamDetail: instructors.barExamDetail,
-        status: instructors.status,
-        appliedAt: instructors.appliedAt,
-        feeLimit: instructors.feeLimit,
-        feeDocNeeded: instructors.feeDocNeeded,
-        feeLimitCheckNeeded: instructors.feeLimitCheckNeeded,
-        sentAt: consentSettings.sentAt,
-        signedAt: consentSignatures.signedAt,
-      })
-      .from(instructors)
-      .leftJoin(consentSettings, eq(consentSettings.instructorId, instructors.id))
-      .leftJoin(consentSignatures, eq(consentSignatures.instructorId, instructors.id))
-      .orderBy(desc(instructors.appliedAt))
-      .$dynamic();
+    const buildQuery = (legacy: boolean) => {
+      const shape = legacy ? instructorsListSelectLegacy : instructorsListSelectFull;
+      let query = db
+        .select(shape)
+        .from(instructors)
+        .leftJoin(consentSettings, eq(consentSettings.instructorId, instructors.id))
+        .leftJoin(consentSignatures, eq(consentSignatures.instructorId, instructors.id))
+        .orderBy(desc(instructors.appliedAt))
+        .$dynamic();
 
-    if (status && ["applied", "consent_sent", "consented"].includes(status)) {
-      query = query.where(
-        eq(instructors.status, status as "applied" | "consent_sent" | "consented")
+      if (statusFilter) {
+        query = query.where(
+          eq(
+            instructors.status,
+            statusFilter as "applied" | "consent_sent" | "consented"
+          )
+        );
+      }
+      return query;
+    };
+
+    let result;
+    try {
+      result = await buildQuery(false);
+    } catch (err) {
+      if (!isMissingFeeLimitCheckColumnError(err)) throw err;
+      console.warn(
+        "instructors list: fee_limit_check_needed 컬럼 없음 — 구 스키마로 재조회합니다. DB에 컬럼을 추가하세요:",
+        "scripts/ensure-fee-limit-check-column.sql"
       );
+      const legacyRows = await buildQuery(true);
+      result = legacyRows.map((row) => ({
+        ...row,
+        feeLimitCheckNeeded: null as boolean | null,
+      }));
     }
-
-    const result = await query;
 
     return NextResponse.json({ instructors: result });
   } catch (err) {

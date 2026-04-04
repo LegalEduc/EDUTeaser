@@ -4,6 +4,7 @@ import { instructors } from "@/lib/schema";
 import { encrypt } from "@/lib/encrypt";
 import { sendApplyNotification } from "@/lib/email";
 import { and, eq, ne } from "drizzle-orm";
+import { isMissingFeeLimitCheckColumnError } from "@/lib/instructor-db-compat";
 
 // IP 기반 Rate Limiting (인메모리, 서버리스 인스턴스 단위)
 const RATE_LIMIT_WINDOW = 60 * 1000; // 1분
@@ -130,8 +131,7 @@ export async function POST(request: NextRequest) {
         ? null
         : false;
 
-    // DB 저장
-    const [inserted] = await db.insert(instructors).values({
+    const insertBase = {
       programName: body.programName?.trim() || "리걸크루 변호사 실전 압축 부트캠프 1기",
       name: body.name.trim(),
       residentNumber: encryptedResident,
@@ -147,8 +147,24 @@ export async function POST(request: NextRequest) {
       carNumber: body.parkingNeeded ? body.carNumber?.trim() : null,
       feeLimit: feeLimitTrimmed,
       feeDocNeeded: body.feeDocNeeded ?? null,
-      feeLimitCheckNeeded,
-    }).returning({ id: instructors.id });
+    };
+
+    let inserted: { id: string };
+    try {
+      const [row] = await db
+        .insert(instructors)
+        .values({ ...insertBase, feeLimitCheckNeeded })
+        .returning({ id: instructors.id });
+      inserted = row;
+    } catch (err) {
+      if (!isMissingFeeLimitCheckColumnError(err)) throw err;
+      console.warn("apply: fee_limit_check_needed 컬럼 없음 — 해당 필드 없이 저장");
+      const [row] = await db
+        .insert(instructors)
+        .values(insertBase)
+        .returning({ id: instructors.id });
+      inserted = row;
+    }
 
     // 어드민에게 신규 신청 알림 (비동기, 실패해도 신청은 성공)
     sendApplyNotification({

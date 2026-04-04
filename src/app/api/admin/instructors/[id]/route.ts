@@ -2,9 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
 import { instructors, consentSettings, consentSignatures } from "@/lib/schema";
 import { desc, eq } from "drizzle-orm";
+import type { InferSelectModel } from "drizzle-orm";
 import { getTokenFromRequest, verifyToken } from "@/lib/auth";
 import { maskResident, maskAccount, decrypt } from "@/lib/encrypt";
 import { verifyPassword } from "@/lib/auth";
+import {
+  instructorSelectWithoutFeeLimitCheck,
+  isMissingFeeLimitCheckColumnError,
+} from "@/lib/instructor-db-compat";
 
 export async function GET(
   request: NextRequest,
@@ -23,11 +28,28 @@ export async function GET(
     const { id } = await params;
     const db = getDb();
 
-    const [instructor] = await db
-      .select()
-      .from(instructors)
-      .where(eq(instructors.id, id))
-      .limit(1);
+    let instructor: InferSelectModel<typeof instructors> | undefined;
+    try {
+      const [row] = await db
+        .select()
+        .from(instructors)
+        .where(eq(instructors.id, id))
+        .limit(1);
+      instructor = row;
+    } catch (err) {
+      if (!isMissingFeeLimitCheckColumnError(err)) throw err;
+      console.warn(
+        "instructor detail: fee_limit_check_needed 없음 — 구 컬럼만 조회. scripts/ensure-fee-limit-check-column.sql 실행 권장."
+      );
+      const [row] = await db
+        .select(instructorSelectWithoutFeeLimitCheck)
+        .from(instructors)
+        .where(eq(instructors.id, id))
+        .limit(1);
+      instructor = row
+        ? ({ ...row, feeLimitCheckNeeded: null } as InferSelectModel<typeof instructors>)
+        : undefined;
+    }
 
     if (!instructor) {
       return NextResponse.json({ message: "강사를 찾을 수 없습니다." }, { status: 404 });
@@ -151,7 +173,32 @@ export async function PATCH(
       if (!row) {
         return NextResponse.json({ message: "강사를 찾을 수 없습니다." }, { status: 404 });
       }
-      await db.update(instructors).set(docPatch).where(eq(instructors.id, id));
+      try {
+        await db.update(instructors).set(docPatch).where(eq(instructors.id, id));
+      } catch (err) {
+        if (
+          docPatch.feeLimitCheckNeeded !== undefined &&
+          isMissingFeeLimitCheckColumnError(err)
+        ) {
+          const { feeLimitCheckNeeded: _omit, ...withoutFeeLimitCheck } = docPatch;
+          if (Object.keys(withoutFeeLimitCheck).length === 0) {
+            return NextResponse.json(
+              {
+                message:
+                  "한도 확인 공문 필드는 DB에 컬럼 추가 후 저장할 수 있습니다. scripts/ensure-fee-limit-check-column.sql 참고.",
+              },
+              { status: 503 }
+            );
+          }
+          console.warn("PATCH: fee_limit_check_needed 없음 — 해당 필드 제외 후 저장");
+          await db
+            .update(instructors)
+            .set(withoutFeeLimitCheck)
+            .where(eq(instructors.id, id));
+        } else {
+          throw err;
+        }
+      }
       return NextResponse.json({ success: true, message: "공문 여부가 저장되었습니다." });
     }
 
