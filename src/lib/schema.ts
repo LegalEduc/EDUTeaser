@@ -23,6 +23,7 @@ export const instructorStatusEnum = pgEnum("instructor_status", [
 export const noticeTargetEnum = pgEnum("notice_target", [
   "all",
   "consented_only",
+  "specific",
 ]);
 
 // instructors
