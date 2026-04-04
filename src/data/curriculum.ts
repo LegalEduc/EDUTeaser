@@ -163,7 +163,7 @@ export const curriculum: CurriculumItem[] = [
   },
   {
     no: "23강",
-    date: "7/23 (목)",
+    date: "7/28 (화)",
     part: "커리어 컨설팅",
     desc: "자기소개서 및 주요 실무 서면 첨삭, 커리어 관련 자료 고도화 방법 등",
     instructor: "리걸크루 자문변호사단",
