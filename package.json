@@ -10,7 +10,10 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
-    "script:reencrypt-sensitive": "tsx scripts/reencrypt-instructor-sensitive.ts"
+    "script:reencrypt-sensitive": "tsx scripts/reencrypt-instructor-sensitive.ts",
+    "script:verify-old-key": "tsx scripts/verify-decrypt-old-key.ts",
+    "db:reencrypt-sensitive:dry-run": "tsx scripts/reencrypt-instructor-sensitive.ts --dry-run",
+    "db:reencrypt-sensitive:apply": "tsx scripts/reencrypt-instructor-sensitive.ts"
   },
   "dependencies": {
     "@fontsource/noto-sans-kr": "^5.2.9",
@@ -34,6 +37,7 @@
     "@types/nodemailer": "^7.0.11",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "dotenv": "^17.4.0",
     "drizzle-kit": "^0.31.10",
     "eslint": "^9",
     "eslint-config-next": "^15.1.0",

@@ -4,13 +4,19 @@
  *
  * 사전 준비: Neon 백업 권장.
  *
- * 사용 예 (프로젝트 루트, .env.local에 DATABASE_URL·ENCRYPTION_KEY=현재키):
+ * 환경 변수: 루트의 .env.local + .env.reencrypt.local 자동 로드(dotenv).
+ * 예시 파일: scripts/reencrypt.env.example → .env.reencrypt.local 로 복사 후 수정.
+ *
+ * CLI 예시:
  *
  *   OLD_ENCRYPTION_KEY=<64자리hex> \
+ *   ENCRYPTION_KEY=<Netlify에_올라간_현재_64자리hex> \
  *   REENCRYPT_NAMES="채다은,현승진,서성민" \
  *   npx tsx scripts/reencrypt-instructor-sensitive.ts --dry-run
  *
- *   # 문제 없으면 --dry-run 제거 후 재실행
+ *   이름 대신 UUID만 쓰려면 REENCRYPT_IDS="uuid1,uuid2" (REENCRYPT_NAMES 불필요)
+ *
+ *   # 문제 없으면 --dry-run 제거 후 재실행 → 실제 UPDATE
  *
  * 연결 문자열: DATABASE_URL 또는 NETLIFY_DATABASE_URL
  */
@@ -24,13 +30,29 @@ import {
   decryptWithKey,
   encryptWithKey,
 } from "../src/lib/encrypt";
+import { loadDotenvLocal } from "./loadDotenvLocal";
 
-function parseArgs() {
+loadDotenvLocal();
+
+function parseArgs(): {
+  dryRun: boolean;
+  names?: string[];
+  ids?: string[];
+} {
   const dryRun = process.argv.includes("--dry-run");
+  const idsEnv = process.env.REENCRYPT_IDS?.trim();
+  if (idsEnv) {
+    const ids = idsEnv.split(",").map((s) => s.trim()).filter(Boolean);
+    if (ids.length === 0) {
+      console.error("REENCRYPT_IDS에 유효한 UUID가 없습니다.");
+      process.exit(1);
+    }
+    return { dryRun, ids };
+  }
   const namesEnv = process.env.REENCRYPT_NAMES?.trim();
   if (!namesEnv) {
     console.error(
-      "REENCRYPT_NAMES 환경 변수에 쉼표로 구분된 이름을 넣으세요. 예: REENCRYPT_NAMES=\"채다은,현승진,서성민\""
+      "REENCRYPT_NAMES 또는 REENCRYPT_IDS(쉼표 구분)가 필요합니다."
     );
     process.exit(1);
   }
@@ -66,7 +88,7 @@ function reencryptField(
 }
 
 async function main() {
-  const { dryRun, names } = parseArgs();
+  const { dryRun, names, ids } = parseArgs();
 
   const oldHex = process.env.OLD_ENCRYPTION_KEY?.trim();
   const newHex =
@@ -107,20 +129,26 @@ async function main() {
       accountNumber: instructors.accountNumber,
     })
     .from(instructors)
-    .where(inArray(instructors.name, names));
+    .where(
+      ids
+        ? inArray(instructors.id, ids)
+        : inArray(instructors.name, names!)
+    );
 
   if (rows.length === 0) {
     console.error(
-      `이름 일치 행이 없습니다: ${names.join(", ")} (DB의 name과 정확히 같은지 확인)`
+      ids
+        ? `REENCRYPT_IDS에 해당하는 행이 없습니다: ${ids.join(", ")}`
+        : `이름 일치 행이 없습니다: ${names!.join(", ")} (DB의 name과 정확히 같은지 확인)`
     );
     process.exit(1);
   }
 
-  const missing = names.filter(
-    (n) => !rows.some((r) => r.name === n)
-  );
-  if (missing.length > 0) {
-    console.warn("경고: 다음 이름은 조회되지 않았습니다:", missing.join(", "));
+  if (names) {
+    const missing = names.filter((n) => !rows.some((r) => r.name === n));
+    if (missing.length > 0) {
+      console.warn("경고: 다음 이름은 조회되지 않았습니다:", missing.join(", "));
+    }
   }
 
   for (const row of rows) {
