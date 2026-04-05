@@ -3,8 +3,9 @@ import { getStore } from "@netlify/blobs";
 import { getDb } from "@/lib/db";
 import { instructors } from "@/lib/schema";
 import { eq } from "drizzle-orm";
+import { INSTRUCTOR_PHOTO_EXTENSIONS } from "@/lib/instructor-photo";
 
-const ALLOWED_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp"];
+const ALLOWED_EXTENSIONS: string[] = [...INSTRUCTOR_PHOTO_EXTENSIONS];
 const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
 
 function getPhotoStore() {

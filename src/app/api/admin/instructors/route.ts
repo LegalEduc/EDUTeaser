@@ -8,6 +8,7 @@ import {
   instructorsListSelectLegacy,
   isMissingFeeLimitCheckColumnError,
 } from "@/lib/instructor-db-compat";
+import { instructorHasProfilePhoto } from "@/lib/instructor-photo";
 
 export async function GET(request: NextRequest) {
   const token = getTokenFromRequest(request);
@@ -61,7 +62,14 @@ export async function GET(request: NextRequest) {
       }));
     }
 
-    return NextResponse.json({ instructors: result });
+    const instructorsWithPhoto = await Promise.all(
+      result.map(async (row) => ({
+        ...row,
+        hasProfilePhoto: await instructorHasProfilePhoto(row.id),
+      }))
+    );
+
+    return NextResponse.json({ instructors: instructorsWithPhoto });
   } catch (err) {
     console.error("Instructors list error:", err);
     return NextResponse.json(

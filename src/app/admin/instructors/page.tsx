@@ -18,6 +18,8 @@ interface Instructor {
   feeLimitCheckNeeded: boolean | null;
   sentAt: string | null;
   signedAt: string | null;
+  /** Netlify Blobs 프로필 사진 존재 여부 */
+  hasProfilePhoto?: boolean;
 }
 
 function docYnOut(v: boolean | null): string {
@@ -330,6 +332,14 @@ export default function InstructorsPage() {
                     <span>
                       <span className="text-slate">한도공문 </span>
                       {docYnLimitCheck(inst)}
+                    </span>
+                    <span>
+                      <span className="text-slate">프로필 사진 </span>
+                      {inst.hasProfilePhoto === true
+                        ? "있음"
+                        : inst.hasProfilePhoto === false
+                          ? "없음"
+                          : "—"}
                     </span>
                   </div>
                   {/* 날짜 타임라인 */}

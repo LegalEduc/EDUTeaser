@@ -25,6 +25,7 @@ interface InstructorDetail {
   status: string;
   appliedAt: string;
   sensitiveRevealed?: boolean;
+  hasProfilePhoto?: boolean;
 }
 
 interface ConsentSetting {
@@ -575,6 +576,26 @@ export default function InstructorDetailPage() {
                 <span className="text-slate">최종 서명일:</span>{" "}
                 <span className="text-ink font-medium">{new Date(consentSignature.signedAt).toLocaleDateString("ko-KR")}</span>
               </div>
+            )}
+          </div>
+          <div className="mt-4 pt-4 border-t border-[#e2e2e2] text-[1rem]">
+            <span className="text-slate">프로필 사진 (신청 시 선택):</span>{" "}
+            {instructor.hasProfilePhoto === true ? (
+              <>
+                <span className="text-ink font-medium">업로드됨</span>
+                <a
+                  href={`/api/instructors/${id}/photo`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ml-3 text-caption text-ink underline underline-offset-4"
+                >
+                  새 탭에서 보기
+                </a>
+              </>
+            ) : instructor.hasProfilePhoto === false ? (
+              <span className="text-ink font-medium">없음 (미업로드)</span>
+            ) : (
+              <span className="text-slate">확인 불가</span>
             )}
           </div>
           {instructor.bio && (

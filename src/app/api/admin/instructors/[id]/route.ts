@@ -10,6 +10,7 @@ import {
   instructorSelectWithoutFeeLimitCheck,
   isMissingFeeLimitCheckColumnError,
 } from "@/lib/instructor-db-compat";
+import { instructorHasProfilePhoto } from "@/lib/instructor-photo";
 
 export async function GET(
   request: NextRequest,
@@ -105,12 +106,15 @@ export async function GET(
       }
     }
 
+    const hasProfilePhoto = await instructorHasProfilePhoto(id);
+
     return NextResponse.json({
       instructor: {
         ...instructor,
         residentNumber,
         accountNumber,
         sensitiveRevealed: includeSensitive,
+        hasProfilePhoto,
       },
       consentSetting: consentSetting || null,
       consentSignature: consentSignature,
